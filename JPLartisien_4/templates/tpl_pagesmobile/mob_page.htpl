@@ -1,0 +1,38 @@
+{% include 'entete.htpl' %}
+<head>
+<title>{{ PAGE.title }}</title>
+<meta charset="{{ twig.param.charset }}" />
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+</head>
+{% for fcss in ext.CSS %}<link rel="stylesheet" href="{{ fcss }}">
+{% endfor %}
+{% for fjs in ext.JS %}<script src="{{ fjs }}"></script>
+{% endfor %}
+<body>
+<div data-role="page" data-theme="b">
+	<div data-role="header">
+		<h1>VERSION MOBILE</h1>
+	</div><!-- /header -->
+	<div data-role="content">	
+	</div><!-- /content -->
+	<ul data-role="listview" data-inset="true" data-filter="false" style="margin:0px 10px;">
+		<li><a href="#">Acura</a></li>
+		<li><a href="#">Audi</a></li>
+		<li><a href="#">BMW</a></li>
+		<li><a href="#">Cadillac</a></li>
+		<li><a href="#">Ferrari</a></li>
+	</ul>
+	<form style="text-align:center;margin:0px 10px;">
+		<label for="slider-0">Choisir par vitesse maximale</label>
+		<input type="range" name="slider" id="slider-0" value="280" min="0" max="400"  />
+	</form>
+	<div data-role="footer">
+		<h1>Quitter</h1>
+	</div><!-- /footer -->
+</div>
+</body>
+</html>
+{% include "ALLJS.htpl" %}

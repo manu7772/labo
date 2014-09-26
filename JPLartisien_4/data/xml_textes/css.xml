@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CSS name="fichiers CSS du site">
+	<!-- plateformes commun -->
+	<fichier actif="on" plateforme="all">styles_common.css</fichier>
+	<fichier actif="on" plateforme="all">jquery-ui.css</fichier>
+	<fichier actif="on" plateforme="all">dev.css</fichier>
+	<!-- plateforme wide -->
+	<fichier actif="on" plateforme="wide">jquery-ui-1.10.3.custom.css</fichier>
+	<fichier actif="on" plateforme="wide">styles_admin.css</fichier>
+	<fichier actif="on" plateforme="wide" option="diaporama">galleriffic-2.css</fichier>
+	<!-- Jquery Mobile -->
+	<fichier actif="on" plateforme="little">jquery.mobile.structure-1.3.1.css</fichier>
+</CSS>

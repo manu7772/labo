@@ -1,0 +1,1 @@
+{{ arrayprint(SQL.readIP.data)|raw }}

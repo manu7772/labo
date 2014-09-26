@@ -1,0 +1,28 @@
+{% include 'entete.htpl' %}
+<head>
+<title>{{ PAGE.title }}</title>
+<meta charset="{{ twigparam.options.charset }}" />
+</head>
+{% for fcss in ext.CSS %}<link rel="stylesheet" href="{{ fcss }}">
+{% endfor %}
+{% for fjs in ext.JS %}<script src="{{ fjs }}"></script>
+{% endfor %}
+<body>
+{% if DEV.devmode == 'on' %}<div id="devbar">{% include "barredev.htpl" ignore missing %}</div>{% endif %}
+{% include "connect.htpl" %}
+<div id="BIG">
+	<div id="colg">
+		<h1>AequaRENDER PAGE ADMIN</h1>
+		{% include pageactuelle.menus.top_public.val ignore missing %}
+	</div>
+	<div id="corpsppal">
+		<h2>{{ pageactuelle.h1 }}</h2>
+		{% include pageactuelle.options[0] ignore missing %}
+	</div>
+</div>
+
+{% include pageactuelle.menus.foot_public.val ignore missing %}
+
+{% include "ALLJS.htpl" %}
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% if USER.membre_prefs.P1posx is defined %}
+{% set posmenu = " style='left:" ~ USER.membre_prefs.P1posx ~ ";top:" ~ USER.membre_prefs.P1posy ~ "'" %}
+{% elseif TMPprefs.P1posx is defined %}
+{% set posmenu = " style='left:" ~ TMPprefs.P1posx ~ ";top:" ~ TMPprefs.P1posy ~ "'" %}
+{% else %}
+{% set posmenu = "" %}
+{% endif %}
+<div id="menuPpal"{{ posmenu|raw }}>
+	<div id="menucontainer">
+		<div id="menutop"></div>
+		<ul id="contenumenu">
+			{% for item in menus.top_public -%}
+			<li><a href="{{ URL }}index.php?page={{ item.page }}" title="{{ item.title }}">{{ item.nom }}</a></li>{%- endfor %}
+		</ul>
+	</div>
+	<div id="menubottom"></div>
+</div>

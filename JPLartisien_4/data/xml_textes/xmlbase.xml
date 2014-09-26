@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xmldata>
+	<session>
+		<name>JPLartisien-site</name> <!-- Doit contenir au moins 4 caractères !! -->
+	</session>
+	<general>
+		<charset>utf-8</charset>
+		<language>fr</language>
+	</general>
+	<twigparam>
+		<dosstwig>templates</dosstwig>
+		<dosstwig>templates/tpl_admin</dosstwig>
+		<dosstwig>templates/tpl_pages</dosstwig>
+		<dosstwig>templates/tpl_pagesmobile</dosstwig>
+		<dosstwig>templates/tpl_modals</dosstwig>
+		<dosstwig>templates/tpl_forms</dosstwig>
+		<dosstwig>templates/tpl_js</dosstwig>
+		<dosstwig>templates/tpl_css</dosstwig>
+		<dosstwig>templates/tpl_littlethings</dosstwig>
+		<dosstwig>templates/tpl_dev</dosstwig>
+		<twigpath>Twig-1.12.2/lib/Twig/Autoloader.php</twigpath>
+		<cache>false</cache> <!-- Valable uniquement si en "localhost" (prod), sinon est forcé sur "true" si sur serveur en ligne (public) -->
+	</twigparam>
+	<dossiers>
+		<data>data</data>
+		<css>css</css>
+		<js>js</js>
+	</dossiers>
+	<acces>
+		<user name='Interdit'>00000000</user>					<!-- aucun -->
+		<user name='Visiteur' defaut='defaut'>00000001</user>	<!-- non connecté -->
+		<user name='Inscrit'>00000011</user>					<!-- utilisateur normal -->
+		<user name='presse'>00000111</user>						<!-- Membres de la presse -->
+		<user name='Membre'>00001011</user>						<!-- Membre joueur du club / exclut données presse -->
+		<user name='Administrateur'>00111111</user>				<!-- administrateur -->
+		<user name='Super-administrateur'>01111111</user>		<!-- super admin -->
+		<user name='Webmaster'>11111111</user>					<!-- ALL GRANTED -->
+		<admin name='admindev'>11000000</admin>					<!-- Affichage de certaines informations pour les admin -->
+	</acces>
+</xmldata>

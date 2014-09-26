@@ -1,0 +1,73 @@
+{% if "diaporama" in pageactuelle.extJSCSS %}
+<script>
+jQuery(document).ready(function($) {
+
+	// Initialize Advanced Galleriffic Gallery
+	gallery = $('#thumbs').galleriffic({
+		onSlideChange: function(prevIndex, nextIndex) {
+			// 'this' refers to the gallery, which is an extension of $('#thumbs')
+			this.find('ul.thumbs').children()
+				.eq(prevIndex).fadeTo('fast', onMouseOutOpacity).end()
+				.eq(nextIndex).fadeTo('fast', 1.0);
+		},
+		onPageTransitionOut: function(callback) {
+			this.fadeTo('fast', 0.0, callback);
+		},
+		onPageTransitionIn: function() {
+			this.fadeTo('fast', 1.0);
+		}
+	});
+
+	//////////////////////////////////////
+	// Menu barre haut (barrehaut.htpl) //
+	//////////////////////////////////////
+	// Initialise le bouton stop/play du diaporama
+	function ActualizeIcons() {
+		if(!gallery.isSlideshowRunning) {
+			$('#showdiap').html('<img src="data/CSS/show16x16.png" alt="play" title="Lancer le diaporama" />');
+		} else {
+			$('#showdiap').html('<img src="data/CSS/stopshow16x16.png" alt="stop" title="Arrêter le diaporama" />');
+		}
+	}
+	ActualizeIcons();
+	// Gestion du bouton stop/play du diaporama
+	$("#interrupt").on("mouseenter", function() {ActualizeIcons();$("#barrehaut").show("fade", 300);});
+	$('#showdiap').click(function(e) {
+		gallery.toggleSlideshow();
+		ActualizeIcons();
+		e.preventDefault();
+	});
+	$('#serieprev').click(function(e) {gallery.previousPage();ActualizeIcons();e.preventDefault();});
+	$('#imgprev').click(function(e) {gallery.previous();ActualizeIcons();e.preventDefault();});
+	$('#imgnext').click(function(e) {gallery.next();ActualizeIcons();e.preventDefault();});
+	$('#serienext').click(function(e) {gallery.nextPage();ActualizeIcons();e.preventDefault();});
+
+	//////////////////////////////////////
+	// SLIDESHOW                        //
+	//////////////////////////////////////
+	// We only want these styles applied when javascript is enabled
+	$('div.navigation').css({
+		'clear' : 'both',
+		'display' : 'block',
+		'margin' : '0px auto'
+	});
+	$('div.content').css({
+		'display' : 'block',
+		'height' : '25px',
+		'border' : 'none'
+	});
+
+
+	// Initially set opacity on thumbs and add
+	// additional styling for hover effect on thumbs
+	var onMouseOutOpacity = 0.67;
+	$('#thumbs ul.thumbs li').opacityrollover({
+		mouseOutOpacity:   onMouseOutOpacity,
+		mouseOverOpacity:  1.0,
+		fadeSpeed:         'fast',
+		exemptionSelector: '.selected'
+	});
+	
+});
+</script>
+{% endif %}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<KEYS>
+	<langue langue="fr">
+		<mot>test1_fr</mot>
+		<mot>test2_fr</mot>
+		<mot>test3_fr</mot>
+	</langue>
+	<langue langue="en">
+		<mot>test1_en</mot>
+		<mot>test2_en</mot>
+	</langue>
+</KEYS>

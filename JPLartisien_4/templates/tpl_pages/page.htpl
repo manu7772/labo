@@ -1,0 +1,27 @@
+{% include 'entete.htpl' ignore missing %}
+<head>
+<title>JP Lartisien - {{ pageactuelle.title }} - Le savoir Fer</title>
+<meta charset="{{ twigparam.options.charset }}" />
+{% for fcss in ext.CSS %}<link rel="stylesheet" href="{{ fcss }}">
+{% endfor %}
+{% for fjs in ext.JS %}<script src="{{ fjs }}"></script>
+{% endfor %}
+</head>
+<body>
+<div id="big">
+	{% if USER.membre_prefs.P3posx is defined %}
+	{% set posmenu = " style='left:" ~ USER.membre_prefs.P3posx ~ ";top:" ~ USER.membre_prefs.P3posy ~ "'" %}
+	{% elseif TMPprefs.P3posx is defined %}
+	{% set posmenu = " style='left:" ~ TMPprefs.P3posx ~ ";top:" ~ TMPprefs.P3posy ~ "'" %}
+	{% else %}
+	{% set posmenu = "" %}
+	{% endif %}
+	<div id="signature"{{ posmenu|raw }}></div>
+	{% include pageactuelle.options.0 ignore missing %}
+</div>
+<div id="palettes">
+	{% include pageactuelle.Pmenus.top_public.val ignore missing %}
+</div>
+{% include "ALLJS.htpl" ignore missing %}
+</body>
+</html>

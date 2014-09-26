@@ -1,0 +1,385 @@
+{% include "diaporamaJS.htpl" ignore missing %}
+
+{% if USER.membre_ID == null %}
+<div id="login" title="Connexion...">
+	<form id="FORMlogin" name="FORMlogin" method="post" action="" enctype="multipart/form-data">
+		<div id="cont">
+			<p id="errn">Entrées erronnées...</p>
+			<div><p>Utilisateur</p>&nbsp;<input id="usr" name="user" type="text" value="" maxlength='50' /></div>
+			<div><p>Mot de passe</p>&nbsp;<input id="pwd" name="pswrd" type="password" value="" maxlength='50' /></div>
+			<input name="LOGIN" type="hidden" value="login" />
+		</div>
+	</form>
+</div>
+{% else %}
+<div id="login" title="Déconnexion de votre compte...">
+	<form id="FORMlogout" name="FORMlogout" method="post" action="" enctype="multipart/form-data">
+		<div id="cont">
+			<p>Voulez-vous vous déconnecter ?</p>
+			<input id="LOGOUT" name="LOGOUT" type="hidden" value="logout" />
+		</div>
+	</form>
+</div>
+{% endif %}
+
+{% if messages.count > 0 %}
+{% for mess in messages.liste %}
+<div class="messages" title="Message...">
+	<p>{{ mess }}</p>
+</div>
+{% endfor %}
+{% endif %}
+{% if alertes.count > 0 %}
+{% for alert in alertes.liste %}
+<div class="alertes" title="Alerte...">
+	<p>{{ alert }}</p>
+</div>
+{% endfor %}
+{% endif %}
+
+<script>
+jQuery(document).ready(function($) {
+
+	////////////////////////////////
+	// Barre nav (barrehaut.htpl) //
+	////////////////////////////////
+	// Déploiement de la barre
+	// Draggable
+	$("#signature").draggable({
+		containment: "document",
+		scroll: false,
+		drag: function() {
+			posx = $("#signature").css("left");
+			posy = $("#signature").css("top");
+		},
+		stop: function() {
+			posx = $("#signature").css("left");
+			posy = $("#signature").css("top");
+			$.ajax({
+				type: "POST",
+				url: "saveUSERprefs.php",
+				data: {Prefs_P3posx: posx, Prefs_P3posy: posy, Prefs_plateforme: "{{ Plateforme }}", USER: "{{ USER.membre_ID }}"}
+			}).done( function(html) {});
+		}
+	});
+
+	////////////////////////////////
+	// Menu principal (menu.htpl) //
+	////////////////////////////////
+	// Menu draggable
+	
+	$("#menuPpal").draggable({
+		containment: "document",
+		scroll: false,
+		cancel: "#contenumenu",
+		drag: function() {
+			posx = $("#menuPpal").css("left");
+			posy = $("#menuPpal").css("top");
+		},
+		stop: function() {
+			posx = $("#menuPpal").css("left");
+			posy = $("#menuPpal").css("top");
+			$.ajax({
+				type: "POST",
+				url: "saveUSERprefs.php",
+				data: {Prefs_P1posx: posx, Prefs_P1posy: posy, Prefs_plateforme: "{{ Plateforme }}", USER: "{{ USER.membre_ID }}"}
+			}).done( function(html) {});
+		}
+	});
+
+	////////////////////////////////
+	// Statistiques Tracker       //
+	////////////////////////////////
+	function AEtracker(code, prov) {
+		// code = page ou code pour une zone
+		$.ajax({
+			type: "POST",
+			url: "AEtracker.php",
+			data: { code: code, prov: prov}
+		});
+	}
+	AEtracker("page#{{ pageactuelle.id }}", null);
+	// Pose un tracker sur tous les éléments de classe AEtracker
+	$(".AEtracker").each( function() {
+		$(this)
+		.on("mouseenter", function() {
+			AEtracker($(this).attr("id"), "enter");
+		})
+		.on("mouseleave", function() {
+			AEtracker($(this).attr("id"), "exit");
+		})
+	});
+
+	////////////////////////////////
+	// Photos/diaporama           //
+	////////////////////////////////
+	if($("#albumscontainer").html()) {
+		big = 64;
+		lit = 32;
+		// Attribution des styles
+		function PhotosStyles(elem) {
+			elem.css("display", "block");
+			elem.css("float", "left");
+			elem.css("width", big+"px");
+			elem.css("height", big+"px");
+			elem.css("line-height", big+"px");
+			elem.css("background-color", "#666");
+			elem.css("text-align", "center");
+			elem.css("font-size", "24px");
+			elem.css("cursor", "move");
+			elem.css("color", "white");
+			elem.css("margin", "2px");
+			elem.css("padding", "0px");
+		}
+		function CorbelStyles(elem) {
+			elem.css("display", "block");
+			elem.css("float", "left");
+			elem.css("width", lit+"px");
+			elem.css("height", lit+"px");
+			elem.css("line-height", lit+"px");
+			elem.css("background-color", "#333");
+			elem.css("text-align", "center");
+			elem.css("font-size", "18px");
+			elem.css("cursor", "move");
+			elem.css("color", "#bbb");
+			elem.css("margin", "2px");
+			elem.css("padding", "0px");
+		}
+		function DiaposStyles(elem) {
+			elem.css("display", "block");
+			elem.css("float", "left");
+			elem.css("width", lit+"px");
+			elem.css("height", lit+"px");
+			elem.css("line-height", lit+"px");
+			elem.css("background-color", "#333");
+			elem.css("text-align", "center");
+			elem.css("font-size", "18px");
+			elem.css("cursor", "move");
+			elem.css("color", "white");
+			elem.css("margin", "2px");
+			elem.css("padding", "0px");
+		}
+		// Grands containers
+		$photos = $("#photos", this);
+		$corbel = $("#corbeille", this);
+		$diapos = $(".cadrephototh", this);
+		// Containers photos
+		$Cphotos = $("#photocontainer", $photos);
+		$Ccorbel = $("#corbeillecontainer", $corbel);
+		$Cdiapos = $(".pcalbum", $diapos);
+		// Attribution des styles
+		function initstyles() {
+			$(".photoframe", $Cphotos).each( function () {
+				PhotosStyles($(this));
+			});
+			$(".photoframe", $Ccorbel).each( function () {
+				CorbelStyles($(this));
+			});
+			$diapos.each( function() {
+				$(".photoframe", this).each( function () {
+					DiaposStyles($(this));
+				});
+			});
+		};
+		// Renvoie la liste des photos
+		function listphotos(list) {
+			return list.html();
+		}
+		// Envoie les données en Ajax
+		function SendAlbum() {
+			$.ajax({
+				type: "POST",
+				url: "index.php",
+				data: {
+					ajaxcall: "triphotos",
+					html: listphotos($("#albumscontainer")),
+					nopage: "nopage"
+				},
+				error: function() {
+					alert("Une erreur s'est produite")
+				},
+				success: function(data) {
+					alert(data);
+				}
+			}).done( function(html) {
+				// alert(html);
+			});
+		}
+		initstyles();
+		// Sortable
+		$Cphotos.sortable({
+			containment: "document",
+			connectWith: ".pcalbum, .pccorbel",
+			cursor: "move",
+			cursorAt: { top: big/2, left: big/2 },
+			stop : function(event, ui) {
+				initstyles();
+				SendAlbum();
+			}
+		});
+		$Ccorbel.sortable({
+			containment: "document",
+			connectWith: ".pcphoto",
+			cursor: "move",
+			cursorAt: { top: big/2, left: big/2 },
+			stop : function(event, ui) {
+				initstyles();
+				SendAlbum();
+			}
+		});
+		$Cdiapos.each( function() {
+			$(this).sortable({
+				containment: "document",
+				connectWith: ".pcalbum, .pcphoto",
+				cursor: "move",
+				cursorAt: { top: lit/2, left: lit/2 },
+				stop : function(event, ui) {
+					initstyles();
+					SendAlbum();
+				}
+			});
+		});
+	}
+	
+
+	////////////////////////////////
+	// MESSAGES                   //
+	////////////////////////////////
+	{% if messages.count > 0 %}
+	$(".messages").each( function() {
+		$(this).dialog({
+			// show: "fade",
+			// hide: "fade",
+			autoOpen: true,
+			width: 380,
+			height: 160,
+			modal: true,
+			closeText: 'Fermer',
+			draggable: true,
+			resizable: false,
+			position: ["center", 250],
+			buttons: {
+				"Fermer": function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+	});
+	{% endif %}
+
+	////////////////////////////////
+	// ALERTES                    //
+	////////////////////////////////
+	{% if alertes.count > 0 %}
+	$(".alertes").each( function() {
+		$(this).dialog({
+			// show: "fade",
+			// hide: "fade",
+			autoOpen: true,
+			width: 380,
+			height: 160,
+			modal: true,
+			closeText: 'Fermer',
+			draggable: true,
+			resizable: false,
+			position: ["center", 250],
+			buttons: {
+				"Fermer": function() {$(this).dialog("close");}
+				}
+		});
+	});
+	{% endif %}
+});
+</script>
+
+<span id="script_container">
+<script>
+		// Aspect des boutons / title / ...
+		$(function() {
+			$(document).tooltip({
+				track: true
+			});
+			$("input[type=submit], button")
+				.button()
+				.click(function(event) {
+					event.preventDefault();
+				});
+		});
+
+		// Aspect boîte de connexion LOGIN
+		$(document).ready(function() {
+			$("#FORMlogin>input").css("border", "0px solid #444");
+			$("#FORMlogin>input").css("background-color", "#777");
+			$("#FORMlogin>input").css("color", "#fff");
+		});
+
+		$("#login").dialog({
+			show: "fade",
+			hide: "fade",
+			autoOpen: false,
+			width: 280,
+			height: 156,
+			modal: true,
+			closeText: 'Annuler',
+			draggable: true,
+			resizable: false,
+			position: ["center", 250],
+			buttons: {
+				"Annuler": function() {$(this).dialog("close");},
+				"Valider": function() {
+					if($("#LOGOUT").val() == "logout") {
+						$("#FORMlogout").submit();
+					} else if($("#pwd").val() == "" || $("#usr").val() == "") {
+						// $(this).dialog("open");
+						$('#errn').fadeIn().delay(700).fadeOut();
+						$("#usr").val("");
+						$("#pwd").val("");
+					} else {
+						// $(this).dialog("close");
+						var codu = MD5($("#usr").val());
+						var codm = MD5($("#pwd").val());
+						var facticeSize = facticeText($("#pwd").val());$("#pwd").val(facticeSize);
+						var facticeSize = facticeText($("#usr").val());
+						$('<input id="cod" name="clef" type="hidden" value="' + codm + '" />').appendTo('form#FORMlogin');
+						$('<input id="codu" name="clefu" type="hidden" value="' + codu + '" />').appendTo('form#FORMlogin');
+						$('<input id="codumd" name="clefumd" type="hidden" value="' + facticeSize + '" />').appendTo('form#FORMlogin');
+						$("#FORMlogin").submit();
+					}
+				}
+			}
+		});
+		$(".opener").click(function() {
+			$("#usr").val("");
+			$("#pwd").val("");
+			$("#login").dialog("open");
+			return false;
+		});
+
+		// Retourne une phrase équivalente à tx en changeant tous les caractères de manière aléatoire
+		function facticeText(tx) {
+			var t = "";
+			var J = 0;
+			var l = tx.length;
+			for(var i=0; i<l; i++) {
+				n1 = Math.round(Math.random() * 100);
+				if(n1 < 33) J = 65 + Math.floor((Math.random() * 26));
+				else if(n1 > 66) J = 48 + Math.floor((Math.random() * 10));
+				else J = 97 + Math.floor((Math.random() * 10));
+				t = t + String.fromCharCode(J);
+			}
+			return t;
+		}
+
+		$("#buttontest").on("click", function(){
+			$("#changetest").html("page...");
+			$.ajax({
+				type: "POST",
+				url: "saveUSERprefs.php",
+				data: {P1posx: "100", P1posy: "150"}
+				}).done( function(html) {
+					$("#changetest").html(html);
+				});
+		});
+
+</script>
+</span>

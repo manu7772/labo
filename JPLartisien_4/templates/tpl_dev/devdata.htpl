@@ -1,0 +1,148 @@
+<script>
+	$(function() {
+		$(".divcorr").each(function() {
+			var larg = $(this).css("width");larg = larg.replace(new RegExp("(px)"), "");
+			var haut = $(this).css("height");haut = haut.replace(new RegExp("(px)"), "");
+			if(!larg || larg<200) larg = 200;
+			if(!haut || haut<200) haut = 200;
+			// alert("Largeur : "+larg+"\rHauteur : "+haut);
+			$(this).dialog({
+				closeText: "Fermer la fenêtre",
+				autoOpen: false,
+				height: haut,
+				width: larg,
+				modal: true,
+				position: ["center", 100],
+				buttons: {
+					"Fermer la fenêtre": function() {
+						$(this).dialog("close");
+					}
+				},
+				hide: "fade",
+				show: "fade"
+			});
+		});
+		$("ul#barredev>li span").on("mouseenter", function() {
+			$("ul", $(this).parent()).slideDown(100);
+		});
+		$("ul#barredev>li").on("mouseleave", function() {
+			$("ul", this).slideUp(100);
+		});
+		$(".devreact>span").click(function() {
+			$("#"+$(this).parent().attr("id")+"div").dialog("open");
+		});
+
+		$("#IPA").on("change", function() {
+			$("#affstat").text("Affichage des statistiques relatives à l'IP " + $(this).val() + " :");
+			envoiform();
+		})
+		$("#IPP").on("click", function() {
+			$("#affstat").text("Affichage des statistiques relatives à votre adresse (" + $(this).attr("name") + ")");
+			$("#IPA").val($(this).attr("name"));
+			envoiform();
+		})
+		function envoiform() {
+			$.ajax({
+				type : "POST",
+				url : "index.php",
+				data : $("#formulaireStat").serialize(),
+				error : function() {
+					$("#affstat").text("Erreur au chargement des données...");
+				}
+			}).done(function(html) {
+				$("#affstat").html(html);
+			});
+		}
+		// Empêche l'envoi du formulaire
+		$('#formulaireStat').submit(function(event) {
+			event.preventDefault();
+		});
+
+		$("#stat1>span").on("click", function() {
+			$.ajax({
+				type : "POST",
+				url : "index.php",
+				data : { AESTAT : "purge", TWIGPAGE : "barredev.htpl", NOSTAT : "true" },
+				error : function() {$("#opediv").html("<p>Erreur au chargement des données</p>").dialog("open");},
+				success : function() {$("#opediv").html("<p>Suppression des données statistiques effectué !</p>").dialog("open");}
+			}).done(function(html) {
+				$("#devbar").html(html);
+			});
+		})
+		$("#stat2>span").on("click", function() {
+			$.ajax({
+				type : "POST",
+				url : "index.php",
+				data : { AESTAT : "purgemyIP", TWIGPAGE : "barredev.htpl", NOSTAT : "true" },
+				error : function() {$("#opediv").html("<p>Erreur au chargement des données</p>").dialog("open");},
+				success : function() {$("#opediv").html("<p>Suppression de vos données IP effectué !</p>").dialog("open");}
+			}).done(function(html) {
+				$("#devbar").html(html);
+			});
+		})
+	});
+</script>
+{# import "macros.html" as rulls #}
+<div id="commentdiv" class="divcorr" title="Liste des commentaires" style="width:600px;height:300px;">
+	{% for com in DEV.comment %}
+	<p>{{ com.time|number_format(4, ',', '') }} s -> <span class="{{ com.mode }}">{{ com.comment }}</span></p>
+	{% endfor %}
+</div>
+<div id="devuserdiv" class="divcorr" title="Informations utilisateur" style="width:500px;height:300px;">
+	{% if USER %}
+	{{ arrayprint(USER)|raw }}
+	{% else %}
+	<p>Aucun utilisateur connecté</p>
+	{% endif %}
+</div>
+
+<div id="stat0div" class="divcorr" title="Données statistiques" style="width:500px;height:500px;">
+	<form name="FORM" id="formulaireStat" action="" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="TWIGPAGE" value="affDEV.htpl" />
+		<input type="hidden" name="NOSTAT" value="true" />
+		<input type="hidden" name="SQL_readIP" value="SELECT * FROM `aestat` WHERE `aestat_IP` = '#####UneIP#####' ORDER BY `aestat_time` DESC LIMIT 
+		0, 50;" />
+		<input type="text" name="UneIP" value="" id="IPA" />
+	</form>
+	<input type="button" name="{{ IP }}" value="Mon IP" id="IPP" title="Mon IP : {{ IP }}" />
+	<div id="affstat" style="border-top:1px solid #999;padding-top:8px;margin-top:8px;">
+		Indiquez l'adresse IP à afficher...
+	</div>
+</div>
+
+<div id="devextalldiv" class="divcorr" title="Liste des fichiers externes" style="width:300px;height:400px;">
+{% for key, item in ext %}
+	{{ arrayprint(item, key)|raw }}
+{% endfor %}
+</div>
+{% for key, item in ext %}
+<div id="devext{{ key }}div" class="divcorr" title="Liste des {{ key }} externes" style="width:300px;height:200px;">
+	{{ arrayprint(item, key)|raw }}
+</div>
+{% endfor %}
+<div id="postdiv" class="divcorr" title="Données POST" style="width:300px;height:400px;">
+	{{ arrayprint(DEV.post, "POST")|raw }}
+</div>
+<div id="getdiv" class="divcorr" title="Données GET" style="width:300px;height:400px;">
+	{{ arrayprint(DEV.get, "GET")|raw }}
+</div>
+<div id="postgetdiv" class="divcorr" title="Données POST et GET" style="width:300px;height:600px;">
+	{{ arrayprint(DEV.post, "POST")|raw }}
+	{{ arrayprint(DEV.get, "GET")|raw }}
+</div>
+<div id="twigDdiv" class="divcorr" title="Détail des variables twig" style="width:600px;height:700px;">
+{% for key, item in _context %}
+	{% if key == "DEV" %}<br /><p>Ces variables DEV ne sont disponibles qu'en mode développement (DEV.devmode = 'on')</p>{% endif %}
+	{% if key != "_parent" %}{{ arrayprint(item, key)|raw }}{% endif %}
+{% endfor %}
+</div>
+{% for key, item in _context %}{% if key != "_parent" %}
+<div id="twigD{{ key }}div" class="divcorr" title="Détail de la variable {{ key }}" style="width:600px;height:500px;">
+	{% if key == "DEV" %}<p>Ces variables DEV ne sont disponibles qu'en mode développement (DEV.devmode = 'on')</p>{% endif %}
+	{{ arrayprint(item, key)|raw }}
+</div>
+{% endif %}{% endfor %}
+
+<div id="opediv" class="divcorr" title="Résultat..." style="width:300px;height:60px;">
+	<p>Message</p>
+</div>

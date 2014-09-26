@@ -1,0 +1,47 @@
+ul.formnewtable {
+	list-style-type: none;
+	margin: 2px 50px;
+	padding: 8px;
+	border: 1px solid #666;
+}
+ul.formnewtable li.sgroupe {
+	font-size: 10px;
+	font-style: italic;
+	color: #999;
+	vertical-align: top;
+}
+ul.centre {
+	text-align: center;
+}
+ul.subm {
+	background-color: #222;
+}
+ul.headtable {
+	background-color: #222;
+}
+ul.formnewtable >li {
+	height: auto;
+}
+ul.formnewtable >li >ul {
+	list-style-type: none;
+	height: auto;
+}
+ul.formnewtable >li >ul >li {
+	margin: 4px 0px 4px 6px;
+	display: inline-block;
+	text-align: left;
+	width: 160px;
+	height: auto;
+}
+ul.formnewtable >li >ul >li:first-child {
+	width: 160px;
+	text-align: right;
+}
+ul.formnewtable select, ul.formnewtable input {
+	width: 160px;
+	border: 0px solid transparent;
+	margin: 0px;
+}
+ul.formnewtable input {
+	margin-left: 3px;
+}
