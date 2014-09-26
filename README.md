@@ -3,4 +3,4 @@ labo
 
 administration entities for Doctrine
 
-TEST
+TEST 2
