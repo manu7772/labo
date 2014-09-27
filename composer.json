@@ -1,19 +1,13 @@
 {
-    "name": "idci/partner-bundle",
+    "name": "labo/Testmanu-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony PartnerBundle",
-    "keywords": ["Partner application", "xml", "json", "api", "web service"],
+    "description": "Symfony TestmanuBundle",
+    "keywords": ["testmanu", "labo"],
     "license": "GPL-3.0+",
     "authors": [
         {
-            "name": "Gabriel Bondaz",
-            "email": "gabriel.bondaz@idci-consulting.fr",
-            "homepage": "http://www.idci-consulting.fr"
-        },
-        {
-            "name": "Baptiste Bouchereau",
-            "email": "baptiste.bouchereau@idci-consulting.fr",
-            "homepage": "http://www.idci-consulting.fr"
+            "name": "Emmanuel Dujardin",
+            "email": "manu7772@gmail.com",
         }
     ],
     "require": {
@@ -23,8 +17,8 @@
         "doctrine/doctrine-bundle":         "*"
     },
     "autoload": {
-        "psr-0": { "IDCI\\Bundle\\PartnerBundle": "" }
+        "psr-0": { "labo\\Bundle\\TestmanuBundle": "" }
     },
-    "target-dir": "IDCI/Bundle/PartnerBundle",
+    "target-dir": "labo/Bundle/TestmanuBundle",
     "minimum-stability": "dev"
 }
