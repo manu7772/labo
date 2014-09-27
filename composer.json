@@ -1,5 +1,5 @@
 {
-    "name": "labo/Testmanu-bundle",
+    "name": "labo/testmanu-bundle",
     "type": "symfony-bundle",
     "description": "Symfony TestmanuBundle",
     "keywords": ["testmanu", "labo"],
