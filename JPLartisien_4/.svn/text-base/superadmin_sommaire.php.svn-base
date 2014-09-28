@@ -1,1 +1,0 @@
-<?php $_GET["page"]="superadmin_sommaire";include("index.php"); ?>

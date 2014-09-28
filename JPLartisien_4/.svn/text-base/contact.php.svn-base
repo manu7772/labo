@@ -1,1 +1,0 @@
-<?php $_GET["page"]="contact";include("index.php"); ?>

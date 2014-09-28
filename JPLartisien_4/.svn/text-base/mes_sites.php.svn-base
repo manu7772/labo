@@ -1,1 +1,0 @@
-<?php $_GET["page"]="mes_sites";include("index.php"); ?>

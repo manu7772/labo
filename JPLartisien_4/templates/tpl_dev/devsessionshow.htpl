@@ -1,3 +1,0 @@
-<div style="border:blue;background-color:darkblue;color:yellow;padding:12px 16px;">
-Mode développement {{ devmode }}
-</div>
