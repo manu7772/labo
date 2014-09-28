@@ -1,8 +1,8 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
-use AcmeGroup\LaboBundle\Entity\baseRepository;
+use labo\Bundle\TestmanuBundle\Entity\baseRepository;
 
 /**
  * typeImageRepository

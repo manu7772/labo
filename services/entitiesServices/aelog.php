@@ -1,14 +1,14 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/aelog.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\entitiesServices\entitiesGeneric;
+use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 // use Symfony\Component\Form\FormFactoryInterface;
 
 class aelog extends entitiesGeneric {
@@ -124,7 +124,7 @@ class aelog extends entitiesGeneric {
 	/**
 	 * trieByDate
 	 * Trie un array de résultats Aelogs par périodes : années / mois / semaines / jours / heure…
-	 * @param array $data - array of \AcmeGroup\LaboBundle\Entity\aelog
+	 * @param array $data - array of \labo\Bundle\TestmanuBundle\Entity\aelog
 	 * @param array $tempo - affinage de tri
 	 * @return array
 	 */

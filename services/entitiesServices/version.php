@@ -1,11 +1,11 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/version.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\entitiesServices\entitiesGeneric;
+use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 // use Symfony\Component\Form\FormFactoryInterface;
 

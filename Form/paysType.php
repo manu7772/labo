@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Form;
+namespace labo\Bundle\TestmanuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -110,7 +110,7 @@ class paysType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AcmeGroup\LaboBundle\Entity\pays'
+            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\pays'
         ));
     }
 
@@ -119,6 +119,6 @@ class paysType extends AbstractType {
      */
     public function getName()
     {
-        return 'acmegroup_labobundle_pays';
+        return 'labo_testmanubundle_pays';
     }
 }

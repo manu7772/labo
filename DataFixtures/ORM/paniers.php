@@ -1,16 +1,16 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\DataFixtures\ORM;
+namespace labo\Bundle\TestmanuBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 // use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AcmeGroup\LaboBundle\Entity\panier;
+use labo\Bundle\TestmanuBundle\Entity\panier;
 
 class paniers extends AbstractFixture implements OrderedFixtureInterface {
 
-    private $entity         = "AcmeGroup\\LaboBundle\\Entity\\panier";
+    private $entity         = "labo\\Bundle\\TestmanuBundle\\Entity\\panier";
 
     public function getOrder() { return 70; } // l'ordre dans lequel les fichiers sont chargés
 

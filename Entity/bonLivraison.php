@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * bonLivraison
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\bonLivraisonRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\bonLivraisonRepository")
  */
 class bonLivraison {
 	/**

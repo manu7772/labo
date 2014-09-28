@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * typeRemise
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\typeRemiseRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\typeRemiseRepository")
  * @UniqueEntity(fields={"nom"}, message="Ce type de remise existe déjà.")
  */
 class typeRemise {

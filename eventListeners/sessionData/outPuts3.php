@@ -1,7 +1,7 @@
 <?php
 // src/AcmeGroup/LaboBundle/eventListeners/sessionData/outPuts3.php
 
-namespace AcmeGroup\LaboBundle\eventListeners\sessionData;
+namespace labo\Bundle\TestmanuBundle\eventListeners\sessionData;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -11,31 +11,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 ## entités
-use AcmeGroup\LaboBundle\Entity\article;
-use AcmeGroup\LaboBundle\Entity\bonLivraison;
-use AcmeGroup\LaboBundle\Entity\categorie;
-use AcmeGroup\LaboBundle\Entity\facture;
-use AcmeGroup\LaboBundle\Entity\image;
-use AcmeGroup\LaboBundle\Entity\marque;
-use AcmeGroup\LaboBundle\Entity\pays;
-use AcmeGroup\LaboBundle\Entity\version;
-use AcmeGroup\LaboBundle\Entity\sortable;
-use AcmeGroup\LaboBundle\Entity\statut;
-use AcmeGroup\LaboBundle\Entity\tauxTVA;
-use AcmeGroup\LaboBundle\Entity\typeRemise;
-use AcmeGroup\LaboBundle\Entity\typeImage;
+use labo\Bundle\TestmanuBundle\Entity\article;
+use labo\Bundle\TestmanuBundle\Entity\bonLivraison;
+use labo\Bundle\TestmanuBundle\Entity\categorie;
+use labo\Bundle\TestmanuBundle\Entity\facture;
+use labo\Bundle\TestmanuBundle\Entity\image;
+use labo\Bundle\TestmanuBundle\Entity\marque;
+use labo\Bundle\TestmanuBundle\Entity\pays;
+use labo\Bundle\TestmanuBundle\Entity\version;
+use labo\Bundle\TestmanuBundle\Entity\sortable;
+use labo\Bundle\TestmanuBundle\Entity\statut;
+use labo\Bundle\TestmanuBundle\Entity\tauxTVA;
+use labo\Bundle\TestmanuBundle\Entity\typeRemise;
+use labo\Bundle\TestmanuBundle\Entity\typeImage;
 use AcmeGroup\UserBundle\Entity\User;
 ## Formulaires externalisés
-use AcmeGroup\LaboBundle\Entity\articleType;
-use AcmeGroup\LaboBundle\Entity\categorieType;
-use AcmeGroup\LaboBundle\Entity\imageType;
-use AcmeGroup\LaboBundle\Entity\marqueType;
-use AcmeGroup\LaboBundle\Entity\paysType;
-use AcmeGroup\LaboBundle\Entity\versionType;
-use AcmeGroup\LaboBundle\Entity\statutType;
-use AcmeGroup\LaboBundle\Entity\tauxTVAType;
-use AcmeGroup\LaboBundle\Entity\typeRemiseType;
-use AcmeGroup\LaboBundle\Entity\typeImageType;
+use labo\Bundle\TestmanuBundle\Entity\articleType;
+use labo\Bundle\TestmanuBundle\Entity\categorieType;
+use labo\Bundle\TestmanuBundle\Entity\imageType;
+use labo\Bundle\TestmanuBundle\Entity\marqueType;
+use labo\Bundle\TestmanuBundle\Entity\paysType;
+use labo\Bundle\TestmanuBundle\Entity\versionType;
+use labo\Bundle\TestmanuBundle\Entity\statutType;
+use labo\Bundle\TestmanuBundle\Entity\tauxTVAType;
+use labo\Bundle\TestmanuBundle\Entity\typeRemiseType;
+use labo\Bundle\TestmanuBundle\Entity\typeImageType;
 
 class outPuts3 {
 
@@ -54,11 +54,11 @@ class outPuts3 {
 	protected $reservedWords = array( // clés non utilisables avec $this->addData()
 		"bundleName",		// --> AcmeGroupLaboBundle
 		"bundleNameSlash",	// --> AcmeGroup\LaboBundle
-		"baseType",			// --> AcmeGroup\LaboBundle\Form\
-		"basePath",			// --> AcmeGroup\LaboBundle\Entity\
-		"entityType",		// --> AcmeGroup\LaboBundle\Form\categorieType
-		"entityPath",		// --> AcmeGroup\LaboBundle\Entity\categorie
-		"entityRepo"		// --> AcmeGroup\LaboBundle\Entity\categorieRepository
+		"baseType",			// --> labo\Bundle\TestmanuBundle\Form\
+		"basePath",			// --> labo\Bundle\TestmanuBundle\Entity\
+		"entityType",		// --> labo\Bundle\TestmanuBundle\Form\categorieType
+		"entityPath",		// --> labo\Bundle\TestmanuBundle\Entity\categorie
+		"entityRepo"		// --> labo\Bundle\TestmanuBundle\Entity\categorieRepository
 		);
 	protected $testDefaultVals	= array("statut", "version", "tauxTVA"/*, "typeImage", "pays"*/); // entités à charger par défaut
 
@@ -234,8 +234,8 @@ class outPuts3 {
 	}
 		// "bundleName",		// --> AcmeGroupLaboBundle
 		// "bundleNameSlash",	// --> AcmeGroup\LaboBundle
-		// "baseType",			// --> AcmeGroup\LaboBundle\Form\
-		// "basePath",			// --> AcmeGroup\LaboBundle\Entity\
+		// "baseType",			// --> labo\Bundle\TestmanuBundle\Form\
+		// "basePath",			// --> labo\Bundle\TestmanuBundle\Entity\
 
 	/**
 	* setEntity
@@ -260,9 +260,9 @@ class outPuts3 {
 		}
 		return $this;
 	}
-		// "entityType",		// --> AcmeGroup\LaboBundle\Form\categorieType
-		// "entityPath",		// --> AcmeGroup\LaboBundle\Entity\categorie
-		// "entityRepo"			// --> AcmeGroup\LaboBundle\Entity\categorieRepository
+		// "entityType",		// --> labo\Bundle\TestmanuBundle\Form\categorieType
+		// "entityPath",		// --> labo\Bundle\TestmanuBundle\Entity\categorie
+		// "entityRepo"			// --> labo\Bundle\TestmanuBundle\Entity\categorieRepository
 
 	/**
 	* getEntityName

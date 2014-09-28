@@ -1,11 +1,11 @@
 <?php
 // src/AcmeGroup/services/aetools/aetools.php
 
-namespace AcmeGroup\services\aetools;
+namespace labo\Bundle\TestmanuBundle\services\aetools;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 class aetools {
 	protected $currentAeReponse = null;	// Réponse de la dernière opération

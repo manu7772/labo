@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Form;
+namespace labo\Bundle\TestmanuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,7 +46,7 @@ class articleType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => true,
                 "label"     => 'Catégories',
-                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\categorieRepository $cat) {
+                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\categorieRepository $cat) {
                     return $cat->getSelectListForArticle();
                     }
                 ))
@@ -92,7 +92,7 @@ class articleType extends AbstractType {
 				'multiple'  => false,
 				"label"     => 'Image de l\'article',
 				"required"  => false,
-				'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+				'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
 					return $i->findImageByTypes(array('Article'));
 					},
 				'empty_value' => 'Sélectionner…'
@@ -103,7 +103,7 @@ class articleType extends AbstractType {
 				'multiple'  => true,
 				"label"     => 'Autres images',
 				"required"  => false,
-				'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+				'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
 					return $i->findImageByTypes(array('Universel','Article','Ambiance'));
 					}
 				))
@@ -114,7 +114,7 @@ class articleType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de l\'article',
-                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
+                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
                     return $qb->defaultValClosure();
                     }
                 ))
@@ -247,7 +247,7 @@ class articleType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => 'AcmeGroup\LaboBundle\Entity\article'
+			'data_class' => 'labo\Bundle\TestmanuBundle\Entity\article'
 		));
 	}
 
@@ -256,6 +256,6 @@ class articleType extends AbstractType {
 	 */
 	public function getName()
 	{
-		return 'acmegroup_labobundle_article';
+		return 'labo_testmanubundle_article';
 	}
 }

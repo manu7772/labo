@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * collection
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\collectionRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\collectionRepository")
  */
 class collection {
     
@@ -43,7 +43,7 @@ class collection {
     /**
      * @var array
      *
-     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+     * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\image")
      * @ORM\JoinColumn(nullable=true, unique=false)
      */
     private $medias;
@@ -70,7 +70,7 @@ class collection {
     private $dateExpiration;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+     * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
      * @ORM\JoinColumn(nullable=false, unique=false)
      */
     private $statut;
@@ -78,7 +78,7 @@ class collection {
     /**
      * @var array
      *
-     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+     * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
      * @ORM\JoinColumn(nullable=false, unique=false)
      */
     private $versions;
@@ -174,10 +174,10 @@ class collection {
     /**
      * Add media
      *
-     * @param \AcmeGroup\LaboBundle\Entity\image $image
+     * @param \labo\Bundle\TestmanuBundle\Entity\image $image
      * @return collection
      */
-    public function addMedia(\AcmeGroup\LaboBundle\Entity\image $image) {
+    public function addMedia(\labo\Bundle\TestmanuBundle\Entity\image $image) {
         $this->medias[] = $image;
     
         return $this;
@@ -186,9 +186,9 @@ class collection {
     /**
      * Remove media
      *
-     * @param \AcmeGroup\LaboBundle\Entity\image $image
+     * @param \labo\Bundle\TestmanuBundle\Entity\image $image
      */
-    public function removeMedia(\AcmeGroup\LaboBundle\Entity\image $image) {
+    public function removeMedia(\labo\Bundle\TestmanuBundle\Entity\image $image) {
         $this->medias->removeElement($image);
     }
 
@@ -250,10 +250,10 @@ class collection {
     /**
      * Set statut
      *
-     * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+     * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
      * @return article
      */
-    public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut) {
+    public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut) {
         $this->statut = $statut;
     
         return $this;
@@ -262,7 +262,7 @@ class collection {
     /**
      * Get statut
      *
-     * @return \AcmeGroup\LaboBundle\Entity\statut 
+     * @return \labo\Bundle\TestmanuBundle\Entity\statut 
      */
     public function getStatut() {
         return $this->statut;
@@ -292,10 +292,10 @@ class collection {
     /**
      * Add versions
      *
-     * @param \AcmeGroup\LaboBundle\Entity\version $versions
+     * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
      * @return article
      */
-    public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+    public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
         $this->versions[] = $versions;
     
         return $this;
@@ -304,9 +304,9 @@ class collection {
     /**
      * Remove versions
      *
-     * @param \AcmeGroup\LaboBundle\Entity\version $versions
+     * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
      */
-    public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+    public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
         $this->versions->removeElement($versions);
     }
 

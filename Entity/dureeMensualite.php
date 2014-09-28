@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * dureeMensualite
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\dureeMensualiteRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\dureeMensualiteRepository")
  * @UniqueEntity(fields={"nom", "nbMois"}, message="Cette durée existe déjà.")
  */
 class dureeMensualite {

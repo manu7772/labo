@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * panier
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\panierRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\panierRepository")
  */
 class panier {
 
@@ -24,7 +24,7 @@ class panier {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\article")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\article")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $article;
@@ -85,10 +85,10 @@ class panier {
 	/**
 	 * Set article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @return panier
 	 */
-	public function setArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function setArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->article = $article;
 	
 		return $this;
@@ -116,7 +116,7 @@ class panier {
 	/**
 	 * Get article
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\article 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\article 
 	 */
 	public function getArticle() {
 		return $this->article;
@@ -210,10 +210,10 @@ class panier {
 	/**
 	 * Set version
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $version
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $version
 	 * @return article
 	 */
-	public function setVersion(\AcmeGroup\LaboBundle\Entity\version $version) {
+	public function setVersion(\labo\Bundle\TestmanuBundle\Entity\version $version) {
 		$this->version = $version;
 	
 		return $this;
@@ -222,7 +222,7 @@ class panier {
 	/**
 	 * Get version
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\version $version
+	 * @return \labo\Bundle\TestmanuBundle\Entity\version $version
 	 */
 	public function getVersion() {
 		return $this->version;

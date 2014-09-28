@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * image
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\imageRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\imageRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class image {
@@ -78,14 +78,14 @@ class image {
 	private $dateExpiration;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
 
 	/**
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\typeImage")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\typeImage")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $typeImages;
@@ -147,7 +147,7 @@ class image {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
 	 */
 	private $versions;
 
@@ -352,7 +352,7 @@ class image {
 	 * @param integer $statut
 	 * @return baseEntity
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut = null) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut = null) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -361,7 +361,7 @@ class image {
 	/**
 	 * Get statut
 	 *
-	 * @return AcmeGroup\LaboBundle\Entity\statut 
+	 * @return labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -370,10 +370,10 @@ class image {
 	/**
 	 * Add typeImages
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\typeImage $typeImages
+	 * @param \labo\Bundle\TestmanuBundle\Entity\typeImage $typeImages
 	 * @return images
 	 */
-	public function addTypeImage(\AcmeGroup\LaboBundle\Entity\typeImage $typeImage) {
+	public function addTypeImage(\labo\Bundle\TestmanuBundle\Entity\typeImage $typeImage) {
 		$this->typeImages[] = $typeImage;
 	
 		return $this;
@@ -382,9 +382,9 @@ class image {
 	/**
 	 * Remove typeImages
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\typeImage $typeImage
+	 * @param \labo\Bundle\TestmanuBundle\Entity\typeImage $typeImage
 	 */
-	public function removeTypeImage(\AcmeGroup\LaboBundle\Entity\typeImage $typeImage) {
+	public function removeTypeImage(\labo\Bundle\TestmanuBundle\Entity\typeImage $typeImage) {
 		$this->typeImages->removeElement($typeImage);
 	}
 
@@ -607,10 +607,10 @@ class image {
 	/**
 	 * Add versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 * @return image
 	 */
-	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions[] = $versions;
 	
 		return $this;
@@ -619,9 +619,9 @@ class image {
 	/**
 	 * Remove versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 */
-	public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions->removeElement($versions);
 	}
 

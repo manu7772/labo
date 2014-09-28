@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\DataFixtures\ORM;
+namespace labo\Bundle\TestmanuBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 // Entité
-use AcmeGroup\LaboBundle\Entity\pays;
+use labo\Bundle\TestmanuBundle\Entity\pays;
 
 class payss extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
     private $ord            = 10;          // Ordre de chargement fixtures
-    private $entity         = "AcmeGroup\\LaboBundle\\Entity\\pays";
+    private $entity         = "labo\\Bundle\\TestmanuBundle\\Entity\\pays";
     private $container;
     private $manager;
 

@@ -1,7 +1,7 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/entityListener.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Doctrine\Common\EventSubscriber; 
 use Doctrine\ORM\EntityManager;
@@ -9,37 +9,37 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 ## entités
-use AcmeGroup\LaboBundle\Entity\adresse;
-use AcmeGroup\LaboBundle\Entity\article;
-use AcmeGroup\LaboBundle\Entity\atelier;
-use AcmeGroup\LaboBundle\Entity\bonLivraison;
-use AcmeGroup\LaboBundle\Entity\categorie;
-use AcmeGroup\LaboBundle\Entity\commande;
-use AcmeGroup\LaboBundle\Entity\demandeFinancement;
-use AcmeGroup\LaboBundle\Entity\dureeMensualite;
-use AcmeGroup\LaboBundle\Entity\evenement;
-use AcmeGroup\LaboBundle\Entity\facture;
-use AcmeGroup\LaboBundle\Entity\ficheCreative;
-use AcmeGroup\LaboBundle\Entity\fichierPdf;
-use AcmeGroup\LaboBundle\Entity\fournisseur;
-use AcmeGroup\LaboBundle\Entity\image;
-use AcmeGroup\LaboBundle\Entity\magasin;
-use AcmeGroup\LaboBundle\Entity\marque;
-use AcmeGroup\LaboBundle\Entity\panier;
-use AcmeGroup\LaboBundle\Entity\pays;
-use AcmeGroup\LaboBundle\Entity\reseau;
-use AcmeGroup\LaboBundle\Entity\statut;
-use AcmeGroup\LaboBundle\Entity\tauxTVA;
-use AcmeGroup\LaboBundle\Entity\typeImage;
-use AcmeGroup\LaboBundle\Entity\typeRemise;
-use AcmeGroup\LaboBundle\Entity\typeRichtext;
-use AcmeGroup\LaboBundle\Entity\userStatus;
-use AcmeGroup\LaboBundle\Entity\version;
-use AcmeGroup\LaboBundle\Entity\video;
-use AcmeGroup\LaboBundle\Entity\villesFrance;
-use AcmeGroup\LaboBundle\Entity\visite;
-use AcmeGroup\LaboBundle\Entity\voteArticle;
-use AcmeGroup\LaboBundle\Entity\voteArticleBlack;
+use labo\Bundle\TestmanuBundle\Entity\adresse;
+use labo\Bundle\TestmanuBundle\Entity\article;
+use labo\Bundle\TestmanuBundle\Entity\atelier;
+use labo\Bundle\TestmanuBundle\Entity\bonLivraison;
+use labo\Bundle\TestmanuBundle\Entity\categorie;
+use labo\Bundle\TestmanuBundle\Entity\commande;
+use labo\Bundle\TestmanuBundle\Entity\demandeFinancement;
+use labo\Bundle\TestmanuBundle\Entity\dureeMensualite;
+use labo\Bundle\TestmanuBundle\Entity\evenement;
+use labo\Bundle\TestmanuBundle\Entity\facture;
+use labo\Bundle\TestmanuBundle\Entity\ficheCreative;
+use labo\Bundle\TestmanuBundle\Entity\fichierPdf;
+use labo\Bundle\TestmanuBundle\Entity\fournisseur;
+use labo\Bundle\TestmanuBundle\Entity\image;
+use labo\Bundle\TestmanuBundle\Entity\magasin;
+use labo\Bundle\TestmanuBundle\Entity\marque;
+use labo\Bundle\TestmanuBundle\Entity\panier;
+use labo\Bundle\TestmanuBundle\Entity\pays;
+use labo\Bundle\TestmanuBundle\Entity\reseau;
+use labo\Bundle\TestmanuBundle\Entity\statut;
+use labo\Bundle\TestmanuBundle\Entity\tauxTVA;
+use labo\Bundle\TestmanuBundle\Entity\typeImage;
+use labo\Bundle\TestmanuBundle\Entity\typeRemise;
+use labo\Bundle\TestmanuBundle\Entity\typeRichtext;
+use labo\Bundle\TestmanuBundle\Entity\userStatus;
+use labo\Bundle\TestmanuBundle\Entity\version;
+use labo\Bundle\TestmanuBundle\Entity\video;
+use labo\Bundle\TestmanuBundle\Entity\villesFrance;
+use labo\Bundle\TestmanuBundle\Entity\visite;
+use labo\Bundle\TestmanuBundle\Entity\voteArticle;
+use labo\Bundle\TestmanuBundle\Entity\voteArticleBlack;
 use AcmeGroup\UserBundle\Entity\User; // !!! UserBundle !!!
 
 class entityListener implements EventSubscriber {

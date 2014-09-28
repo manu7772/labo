@@ -303,7 +303,7 @@ jQuery(document).ready(function($) {
 	});
 
 	// TEST MDP POPUP
-	$('body').on("Change", "#acmegroup_labobundle_tempuser_mdp2", function() {
+	$('body').on("Change", "#labo_testmanubundle_tempuser_mdp2", function() {
 		alert("Mot de passe 2 changé !");
 	});
 

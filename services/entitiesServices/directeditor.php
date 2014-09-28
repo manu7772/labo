@@ -1,7 +1,7 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/directeditor.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

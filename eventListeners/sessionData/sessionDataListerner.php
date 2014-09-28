@@ -1,7 +1,7 @@
 <?php
 // src/AcmeGroup/LaboBundle/eventListeners/sessionData/sessionDataListerner.php
 
-namespace AcmeGroup\LaboBundle\eventListeners\sessionData;
+namespace labo\Bundle\TestmanuBundle\eventListeners\sessionData;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;

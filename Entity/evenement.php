@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * evenement
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\evenementRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\evenementRepository")
  */
 class evenement {
 	
@@ -34,13 +34,13 @@ class evenement {
 	private $nom;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\typeEvenement")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\typeEvenement")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $typeEvenement;
@@ -96,7 +96,7 @@ class evenement {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image")
 	 * @ORM\JoinColumn(unique=false, nullable=true)
 	 */
 	private $image;
@@ -104,7 +104,7 @@ class evenement {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
 	 */
 	private $versions;
 
@@ -160,10 +160,10 @@ class evenement {
 	/**
 	 * Set statut
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+	 * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
 	 * @return evenement
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -172,7 +172,7 @@ class evenement {
 	/**
 	 * Get statut
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\statut 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -201,10 +201,10 @@ class evenement {
 	/**
 	 * Set typeEvenement
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\typeEvenement $typeEvenement
+	 * @param \labo\Bundle\TestmanuBundle\Entity\typeEvenement $typeEvenement
 	 * @return evenement
 	 */
-	public function setTypeEvenement(\AcmeGroup\LaboBundle\Entity\typeEvenement $typeEvenement) {
+	public function setTypeEvenement(\labo\Bundle\TestmanuBundle\Entity\typeEvenement $typeEvenement) {
 		$this->typeEvenement = $typeEvenement;
 	
 		return $this;
@@ -213,7 +213,7 @@ class evenement {
 	/**
 	 * Get typeEvenement
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\typeEvenement 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\typeEvenement 
 	 */
 	public function getTypeEvenement() {
 		return $this->typeEvenement;
@@ -348,10 +348,10 @@ class evenement {
 	/**
 	 * Set image
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $image
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $image
 	 * @return evenement
 	 */
-	public function setImage(\AcmeGroup\LaboBundle\Entity\image $image = null) {
+	public function setImage(\labo\Bundle\TestmanuBundle\Entity\image $image = null) {
 		$this->image = $image;
 	
 		return $this;
@@ -360,7 +360,7 @@ class evenement {
 	/**
 	 * Get image
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\image 
 	 */
 	public function getImage() {
 		return $this->image;
@@ -369,10 +369,10 @@ class evenement {
 	/**
 	 * Add versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 * @return evenement
 	 */
-	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions[] = $versions;
 	
 		return $this;
@@ -381,9 +381,9 @@ class evenement {
 	/**
 	 * Remove versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 */
-	public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions->removeElement($versions);
 	}
 

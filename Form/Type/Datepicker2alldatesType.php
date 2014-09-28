@@ -1,6 +1,6 @@
 <?php
 // src/AcmeGroup/LaboBundle/Form/Type/Datepicker2alldatesType.php
-namespace AcmeGroup\LaboBundle\Form\Type;
+namespace labo\Bundle\TestmanuBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

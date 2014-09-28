@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Form;
+namespace labo\Bundle\TestmanuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,10 +42,10 @@ class imageMiniType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de l\'image',
-                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
+                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
                     return $qb->defaultValClosure();
                     }
-                // "data"      => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
+                // "data"      => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
                 //     $statut = $qb->defaultVal();
                 //     return $statut;
                 //     }
@@ -118,7 +118,7 @@ class imageMiniType extends AbstractType {
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-			'data_class' => 'AcmeGroup\LaboBundle\Entity\image'
+			'data_class' => 'labo\Bundle\TestmanuBundle\Entity\image'
 		));
 	}
 
@@ -126,7 +126,7 @@ class imageMiniType extends AbstractType {
 	 * @return string
 	 */
 	public function getName() {
-		return 'acmegroup_labobundle_imagemini';
+		return 'labo_testmanubundle_imagemini';
 	}
 
 }

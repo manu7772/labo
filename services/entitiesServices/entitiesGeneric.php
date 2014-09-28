@@ -1,7 +1,7 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/entitiesGeneric.php
 
-nameSpace AcmeGroup\services\entitiesServices;
+nameSpace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
@@ -740,7 +740,7 @@ class entitiesGeneric {
 		// foreach ($table->getColumns() as $column) $cpt++;
 		// $r['classEntites'][$table->getName()]["count"] = $cpt;
 		// if($table->getName() == "User") $r['classEntites'][$table->getName()]["bundleEntite"] = "AcmeGroup\\UserBundle\\Entity\\".$table->getName();
-		// 		else $r['classEntites'][$table->getName()]["bundleEntite"] = "AcmeGroup\\LaboBundle\\Entity\\".$table->getName();
+		// 		else $r['classEntites'][$table->getName()]["bundleEntite"] = "labo\\Bundle\\TestmanuBundle\\Entity\\".$table->getName();
 		// }
 		$entitiesNameSpaces = $this->em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
 		foreach($entitiesNameSpaces as $ENS) {
@@ -853,7 +853,7 @@ class entitiesGeneric {
 			} else if($info['Association'] == "single") {
 				// relation One
 				switch("fieldTargetClass") {
-					// case "AcmeGroup\LaboBundle\Entity\statut" :
+					// case "labo\Bundle\TestmanuBundle\Entity\statut" :
 					// 	$r[$nom]['colbloc'] = "col_statut";
 					// 	$r[$nom]['libelle'] = $nomL;
 					// 	break;

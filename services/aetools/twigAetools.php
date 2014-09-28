@@ -1,7 +1,7 @@
 <?php
 // src/AcmeGroup/services/aetools/twigAetools.php
 
-namespace AcmeGroup\services\aetools;
+namespace labo\Bundle\TestmanuBundle\services\aetools;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

@@ -1,13 +1,13 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/atelierCreatif.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\entitiesServices\entitiesGeneric;
+use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 // use Symfony\Component\Form\FormFactoryInterface;
 
 class atelierCreatif extends entitiesGeneric {
@@ -55,7 +55,7 @@ class atelierCreatif extends entitiesGeneric {
 	/**
 	 * getFicheBySlug
 	 * @param string $slug
-	 * @return AcmeGroup\LaboBundle\Entity\ficheCreative
+	 * @return labo\Bundle\TestmanuBundle\Entity\ficheCreative
 	 */
 	public function getFicheBySlug($slug) {
 		$r = $this->getRepo()->getFicheBySlug($slug);

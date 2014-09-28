@@ -1,13 +1,13 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/collection.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\entitiesServices\entitiesGeneric;
+use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 // use Symfony\Component\Form\FormFactoryInterface;
 
 class collection extends entitiesGeneric {
@@ -22,7 +22,7 @@ class collection extends entitiesGeneric {
 	 * getDiaporama
 	 * Renvoie la collection selon le slug
 	 * @param string $collSlug
-	 * @return AcmeGroup\services\entitiesServices\collection
+	 * @return labo\Bundle\TestmanuBundle\services\entitiesServices\collection
 	 */
 	public function getDiaporama($collSlug = null) {
 		if($collSlug === null) $collSlug = "intro";

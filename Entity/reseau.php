@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * reseau
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\reseauRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\reseauRepository")
  */
 class reseau {
 	/**
@@ -47,7 +47,7 @@ class reseau {
 	private $descriptif;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
@@ -61,7 +61,7 @@ class reseau {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\article", mappedBy="reseaus")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\article", mappedBy="reseaus")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $articles;
@@ -134,10 +134,10 @@ class reseau {
 	/**
 	 * Set statut
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+	 * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
 	 * @return article
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -146,7 +146,7 @@ class reseau {
 	/**
 	 * Get statut
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\statut 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -184,10 +184,10 @@ class reseau {
 	/**
 	 * Add article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @return reseau
 	 */
-	public function addArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function addArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->articles[] = $article;
 		$article->addBdirReseau($this);
 	
@@ -197,9 +197,9 @@ class reseau {
 	/**
 	 * Remove article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 */
-	public function removeArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function removeArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->articles->removeElement($article);
 		$article->removeBdirReseau($this);
 	}
@@ -207,10 +207,10 @@ class reseau {
 	/**
 	 * Add BdirArticle -----> pour bidirectionnel bilatéral
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @return reseau
 	 */
-	public function addBdirArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function addBdirArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->articles[] = $article;
 	
 		return $this;
@@ -219,9 +219,9 @@ class reseau {
 	/**
 	 * Remove BdirArticle -----> pour bidirectionnel bilatéral
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 */
-	public function removeBdirArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function removeBdirArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->articles->removeElement($article);
 	}
 

@@ -1,11 +1,11 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/visite.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 // use Symfony\Component\Templating\EngineInterface;
 // use Symfony\Component\DependencyInjection\ContainerInterface;
-// use AcmeGroup\services\entitiesServices\entities_generic;
+// use labo\Bundle\TestmanuBundle\services\entitiesServices\entities_generic;
 // use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,7 +17,7 @@ class visite extends Event {
 
 	public function __construct(UserInterface $user) {
 		parent::__construct($container);
-		// $this->defineEntity("AcmeGroup\\LaboBundle\\Entity\\visite");
+		// $this->defineEntity("labo\\Bundle\\TestmanuBundle\\Entity\\visite");
 		$this->user = $user;
 	}
 

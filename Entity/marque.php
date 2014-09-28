@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * marque
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\marqueRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\marqueRepository")
  * @UniqueEntity(fields={"nom"}, message="Cette marque est déjà enregistrée")
  */
 class marque {
@@ -67,7 +67,7 @@ class marque {
 	private $dateExpiration;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
@@ -75,7 +75,7 @@ class marque {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $logoImage;
@@ -206,10 +206,10 @@ class marque {
 	/**
 	 * Set statut
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+	 * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
 	 * @return baseEntity
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut = null) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut = null) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -218,7 +218,7 @@ class marque {
 	/**
 	 * Get statut
 	 *
-	 * @return AcmeGroup\LaboBundle\Entity\statut 
+	 * @return labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -227,10 +227,10 @@ class marque {
 	/**
 	 * Set logoImage
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $logoImage
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $logoImage
 	 * @return marque
 	 */
-	public function setLogoImage(\AcmeGroup\LaboBundle\Entity\image $logoImage = null) {
+	public function setLogoImage(\labo\Bundle\TestmanuBundle\Entity\image $logoImage = null) {
 		$this->logoImage = $logoImage;
 	
 		return $this;
@@ -239,7 +239,7 @@ class marque {
 	/**
 	 * Get logoImage
 	 *
-	 * @return AcmeGroup\LaboBundle\Entity\image 
+	 * @return labo\Bundle\TestmanuBundle\Entity\image 
 	 */
 	public function getLogoImage() {
 		return $this->logoImage;

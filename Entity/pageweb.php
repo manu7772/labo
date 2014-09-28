@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * pageweb
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\pagewebRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\pagewebRepository")
  */
 class pageweb {
 
@@ -82,14 +82,14 @@ class pageweb {
 
     /**
      * @var array
-     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\collection")
+     * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\collection")
      * @ORM\JoinColumn(nullable=true, unique=false)
      */
     private $diaporama;
 
     /**
      * @var array
-     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+     * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
      */
     private $versions;
 
@@ -108,14 +108,14 @@ class pageweb {
     /**
      * @var array
      *
-     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\tag", inversedBy="pagewebs")
+     * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\tag", inversedBy="pagewebs")
      */
     private $tags;
 
     /**
      * @var array
      *
-     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\richtext")
+     * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\richtext")
      */
     private $richtexts;
 
@@ -346,10 +346,10 @@ class pageweb {
     /**
      * Set diaporama
      *
-     * @param \AcmeGroup\LaboBundle\Entity\collection $diaporama
+     * @param \labo\Bundle\TestmanuBundle\Entity\collection $diaporama
      * @return baseEntity
      */
-    public function setDiaporama(\AcmeGroup\LaboBundle\Entity\collection $diaporama = null) {
+    public function setDiaporama(\labo\Bundle\TestmanuBundle\Entity\collection $diaporama = null) {
         $this->diaporama = $diaporama;
         return $this;
     }
@@ -357,7 +357,7 @@ class pageweb {
     /**
      * Get diaporama
      *
-     * @return \AcmeGroup\LaboBundle\Entity\collection
+     * @return \labo\Bundle\TestmanuBundle\Entity\collection
      */
     public function getDiaporama() {
         return $this->diaporama;
@@ -366,10 +366,10 @@ class pageweb {
     /**
      * Add versions
      *
-     * @param \AcmeGroup\LaboBundle\Entity\version $versions
+     * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
      * @return pageweb
      */
-    public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+    public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
         $this->versions[] = $versions;
     
         return $this;
@@ -378,9 +378,9 @@ class pageweb {
     /**
      * Remove versions
      *
-     * @param \AcmeGroup\LaboBundle\Entity\version $versions
+     * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
      */
-    public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+    public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
         $this->versions->removeElement($versions);
     }
 
@@ -438,10 +438,10 @@ class pageweb {
     /**
      * Add tag
      *
-     * @param \AcmeGroup\LaboBundle\Entity\tag $tag
+     * @param \labo\Bundle\TestmanuBundle\Entity\tag $tag
      * @return pageweb
      */
-    public function addTag(\AcmeGroup\LaboBundle\Entity\tag $tag) {
+    public function addTag(\labo\Bundle\TestmanuBundle\Entity\tag $tag) {
         $this->tags->add($tag);
         $tag->addPageweb($this);
     
@@ -451,9 +451,9 @@ class pageweb {
     /**
      * Remove tag
      *
-     * @param \AcmeGroup\LaboBundle\Entity\tag $tag
+     * @param \labo\Bundle\TestmanuBundle\Entity\tag $tag
      */
-    public function removeTag(\AcmeGroup\LaboBundle\Entity\tag $tag) {
+    public function removeTag(\labo\Bundle\TestmanuBundle\Entity\tag $tag) {
         $this->tags->removeElement($tag);
         $tag->removePageweb($this);
     }
@@ -470,10 +470,10 @@ class pageweb {
     /**
      * Add richtext
      *
-     * @param \AcmeGroup\LaboBundle\Entity\richtext $richtext
+     * @param \labo\Bundle\TestmanuBundle\Entity\richtext $richtext
      * @return pageweb
      */
-    public function addRichtext(\AcmeGroup\LaboBundle\Entity\richtext $richtext) {
+    public function addRichtext(\labo\Bundle\TestmanuBundle\Entity\richtext $richtext) {
         $this->richtexts->add($richtext);
     
         return $this;
@@ -482,9 +482,9 @@ class pageweb {
     /**
      * Remove richtext
      *
-     * @param \AcmeGroup\LaboBundle\Entity\tag $tag
+     * @param \labo\Bundle\TestmanuBundle\Entity\tag $tag
      */
-    public function removeRichtext(\AcmeGroup\LaboBundle\Entity\richtext $richtext) {
+    public function removeRichtext(\labo\Bundle\TestmanuBundle\Entity\richtext $richtext) {
         $this->richtexts->removeElement($richtext);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Form;
+namespace labo\Bundle\TestmanuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +30,7 @@ class magasinType extends AbstractType {
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $magasin = new \AcmeGroup\LaboBundle\Entity\magasin();
+        $magasin = new \labo\Bundle\TestmanuBundle\Entity\magasin();
 
         $builder
             ->add('nommagasin', 'text', array(
@@ -117,7 +117,7 @@ class magasinType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut du magasin',
-                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
+                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
                     return $qb->defaultValClosure();
                     }
                 ))
@@ -127,7 +127,7 @@ class magasinType extends AbstractType {
                 'multiple'  => false,
                 "label"     => 'Image de l\'article',
                 "required"  => false,
-                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('magasin'));
                     },
                 'empty_value' => '(utiliser image standard)'
@@ -190,7 +190,7 @@ class magasinType extends AbstractType {
                             'multiple'  => false,
                             "label"     => 'Image de l\'article',
                             "required"  => false,
-                            // 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                            // 'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
                             //     return $i->findImageByTypes(array('magasin'));
                             //     },
                             'empty_value' => '(utiliser image standard)'
@@ -224,7 +224,7 @@ class magasinType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AcmeGroup\LaboBundle\Entity\magasin'
+            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\magasin'
         ));
     }
 
@@ -233,6 +233,6 @@ class magasinType extends AbstractType {
      */
     public function getName()
     {
-        return 'acmegroup_labobundle_magasin';
+        return 'labo_testmanubundle_magasin';
     }
 }

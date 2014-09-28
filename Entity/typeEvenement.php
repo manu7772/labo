@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * typeEvenement
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\typeEvenementRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\typeEvenementRepository")
  */
 class typeEvenement {
 	/**
@@ -49,7 +49,7 @@ class typeEvenement {
 	/**
 	 * @var array
 	 *
-	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=true, unique=true)
 	 */
 	private $image;
@@ -136,10 +136,10 @@ class typeEvenement {
 	/**
 	 * Set image
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $image
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $image
 	 * @return ficheCreative
 	 */
-	public function setImage(\AcmeGroup\LaboBundle\Entity\image $image = null) {
+	public function setImage(\labo\Bundle\TestmanuBundle\Entity\image $image = null) {
 		$this->image = $image;
 	
 		return $this;
@@ -148,7 +148,7 @@ class typeEvenement {
 	/**
 	 * Get image
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\image 
 	 */
 	public function getImage() {
 		return $this->image;

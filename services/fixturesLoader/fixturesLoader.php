@@ -1,7 +1,7 @@
 <?php
 // src/AcmeGroup/services/fixturesLoader/fixturesLoader.php
 
-namespace AcmeGroup\services\fixturesLoader;
+namespace labo\Bundle\TestmanuBundle\services\fixturesLoader;
 
 // container
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;

@@ -1,13 +1,13 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/evenement.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\entitiesServices\entitiesGeneric;
+use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 // use Symfony\Component\Form\FormFactoryInterface;
 
 class evenement extends entitiesGeneric {
@@ -22,7 +22,7 @@ class evenement extends entitiesGeneric {
 	/**
 	 * addFindParam
 	 * ajoute un paramètre de recherche
-	 * @return AcmeGroup\services\entitiesServices\evenement
+	 * @return labo\Bundle\TestmanuBundle\services\entitiesServices\evenement
 	 */
 	public function addFindParam($champ, $valeur, $champLié = null) {
 		$this->params->addParam($champ, $valeur, $champLié);
@@ -32,7 +32,7 @@ class evenement extends entitiesGeneric {
 	/**
 	 * compilePosts
 	 * compile les données reçues en post
-	 * @return AcmeGroup\services\entitiesServices\evenement
+	 * @return labo\Bundle\TestmanuBundle\services\entitiesServices\evenement
 	 */
 	public function compilePosts($post) {
 		// $this->params->addParam($champ, $valeur, $champLié)
@@ -42,7 +42,7 @@ class evenement extends entitiesGeneric {
 	/**
 	 * findWithParams
 	 * lance la recherche en repository avec les paramètres paramForRepo
-	 * @return AcmeGroup\services\entitiesServices\evenement
+	 * @return labo\Bundle\TestmanuBundle\services\entitiesServices\evenement
 	 */
 	public function findWithParams() {
 		// $this->params->addParam($champ, $valeur, $champLié)

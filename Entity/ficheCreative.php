@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * ficheCreative
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\ficheCreativeRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\ficheCreativeRepository")
  */
 class ficheCreative {
 	/**
@@ -75,7 +75,7 @@ class ficheCreative {
 	private $dateExpiration;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
@@ -108,7 +108,7 @@ class ficheCreative {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $image;
@@ -116,7 +116,7 @@ class ficheCreative {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\categorie")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\categorie")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $categorie;
@@ -124,7 +124,7 @@ class ficheCreative {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
 	 */
 	private $versions;
 
@@ -143,7 +143,7 @@ class ficheCreative {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\article", mappedBy="ficheCreatives")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\article", mappedBy="ficheCreatives")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $articles;
@@ -338,10 +338,10 @@ class ficheCreative {
 	/**
 	 * Set statut
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+	 * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
 	 * @return ficheCreative
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -350,7 +350,7 @@ class ficheCreative {
 	/**
 	 * Get statut
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\statut 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -443,10 +443,10 @@ class ficheCreative {
 	/**
 	 * Set image
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $image
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $image
 	 * @return ficheCreative
 	 */
-	public function setImage(\AcmeGroup\LaboBundle\Entity\image $image = null) {
+	public function setImage(\labo\Bundle\TestmanuBundle\Entity\image $image = null) {
 		$this->image = $image;
 	
 		return $this;
@@ -455,7 +455,7 @@ class ficheCreative {
 	/**
 	 * Get image
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\image 
 	 */
 	public function getImage() {
 		return $this->image;
@@ -464,10 +464,10 @@ class ficheCreative {
 	/**
 	 * Set categorie
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\categorie $categorie
+	 * @param \labo\Bundle\TestmanuBundle\Entity\categorie $categorie
 	 * @return ficheCreative
 	 */
-	public function setCategorie(\AcmeGroup\LaboBundle\Entity\categorie $categorie) {
+	public function setCategorie(\labo\Bundle\TestmanuBundle\Entity\categorie $categorie) {
 		$this->categorie = $categorie;
 	
 		return $this;
@@ -476,7 +476,7 @@ class ficheCreative {
 	/**
 	 * Get categorie
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\categorie 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\categorie 
 	 */
 	public function getCategorie() {
 		return $this->categorie;
@@ -485,10 +485,10 @@ class ficheCreative {
 	/**
 	 * Add versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 * @return ficheCreative
 	 */
-	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions[] = $versions;
 	
 		return $this;
@@ -497,9 +497,9 @@ class ficheCreative {
 	/**
 	 * Remove versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 */
-	public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions->removeElement($versions);
 	}
 
@@ -545,10 +545,10 @@ class ficheCreative {
 	/**
 	 * Add article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @return video
 	 */
-	public function addArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function addArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->articles[] = $article;
 	
 		return $this;
@@ -557,9 +557,9 @@ class ficheCreative {
 	/**
 	 * Remove article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 */
-	public function removeArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function removeArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->articles->removeElement($article);
 	}
 

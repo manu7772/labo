@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="categorie")
  * use repository for handy tree functions
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\categorieRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\categorieRepository")
  * @UniqueEntity(fields={"nom"}, message="Cette catégorie existe déjà")
  */
 
@@ -40,7 +40,7 @@ class categorie {
 	private $nom;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\pageweb")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\pageweb")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $page;
@@ -118,7 +118,7 @@ class categorie {
 	private $dateExpiration;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
@@ -130,7 +130,7 @@ class categorie {
 	private $slug;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
 	 */
 	private $versions;
 
@@ -194,7 +194,7 @@ class categorie {
 		return $this->nomroutepage;
 	}
 
-	public function setPage(\AcmeGroup\LaboBundle\Entity\pageweb $page = null) {
+	public function setPage(\labo\Bundle\TestmanuBundle\Entity\pageweb $page = null) {
 		$this->page = $page;
 		if(is_object($page)) {
 			$this->setNomroutepage($page->getRoute()."___".$page->getSlug());
@@ -285,7 +285,7 @@ class categorie {
 	 * @param integer $statut
 	 * @return baseEntity
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut) {
 		$this->statut = $statut;
 		return $this;
 	}
@@ -293,7 +293,7 @@ class categorie {
 	/**
 	 * Get statut
 	 *
-	 * @return AcmeGroup\LaboBundle\Entity\statut 
+	 * @return labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -342,10 +342,10 @@ class categorie {
 	/**
 	 * Add versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 * @return article
 	 */
-	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions[] = $versions;
 	
 		return $this;
@@ -354,9 +354,9 @@ class categorie {
 	/**
 	 * Remove versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 */
-	public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions->removeElement($versions);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * video
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\videoRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\videoRepository")
  */
 class video {
 	/**
@@ -54,7 +54,7 @@ class video {
 	private $videoUrl;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
@@ -102,7 +102,7 @@ class video {
 	private $dateExpiration;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $versions;
@@ -120,7 +120,7 @@ class video {
 	private $propUser;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\article", mappedBy="videos")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\article", mappedBy="videos")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $articles;
@@ -213,10 +213,10 @@ class video {
 	/**
 	 * Set statut
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+	 * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
 	 * @return video
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -225,7 +225,7 @@ class video {
 	/**
 	 * Get statut
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\statut 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -360,10 +360,10 @@ class video {
 	/**
 	 * Add versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 * @return video
 	 */
-	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions[] = $versions;
 	
 		return $this;
@@ -372,9 +372,9 @@ class video {
 	/**
 	 * Remove versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 */
-	public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions->removeElement($versions);
 	}
 
@@ -440,10 +440,10 @@ class video {
 	/**
 	 * Add article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @return video
 	 */
-	public function addArticle(\AcmeGroup\LaboBundle\Entity\article $article = null) {
+	public function addArticle(\labo\Bundle\TestmanuBundle\Entity\article $article = null) {
 		$this->articles[] = $article;
 		// $article->addVideo($this);
 	
@@ -453,9 +453,9 @@ class video {
 	/**
 	 * Remove article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 */
-	public function removeArticle(\AcmeGroup\LaboBundle\Entity\article $article = null) {
+	public function removeArticle(\labo\Bundle\TestmanuBundle\Entity\article $article = null) {
 		$this->articles->removeElement($article);
 		// $article->removeVideo($this);
 	}

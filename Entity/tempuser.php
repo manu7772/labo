@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * tempuser
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\tempuserRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\tempuserRepository")
  * @UniqueEntity(fields={"username"}, message="Cet utilisateur existe déjà.")
  * @UniqueEntity(fields={"email"}, message="Cet email existe déjà.")
  */
@@ -86,7 +86,7 @@ class tempuser {
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\magasin")
+     * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\magasin")
      * @ORM\JoinColumn(nullable=true, unique=false)
      */
     private $magasin;
@@ -148,7 +148,7 @@ class tempuser {
     private $typemachine;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\marque")
+     * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\marque")
      * @ORM\JoinColumn(nullable=true, unique=false)
      */
     private $marque;
@@ -170,7 +170,7 @@ class tempuser {
     /**
      * @var array
      *
-     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+     * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
      */
     private $versions;
 
@@ -591,10 +591,10 @@ class tempuser {
     /**
      * Add versions
      *
-     * @param \AcmeGroup\LaboBundle\Entity\version $versions
+     * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
      * @return tempuser
      */
-    public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions)
+    public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions)
     {
         $this->versions[] = $versions;
     
@@ -604,9 +604,9 @@ class tempuser {
     /**
      * Remove versions
      *
-     * @param \AcmeGroup\LaboBundle\Entity\version $versions
+     * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
      */
-    public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions)
+    public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions)
     {
         $this->versions->removeElement($versions);
     }

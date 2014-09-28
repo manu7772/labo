@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * magasin
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\magasinRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\magasinRepository")
  */
 class magasin {
 
@@ -195,7 +195,7 @@ class magasin {
 	private $item;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
@@ -210,7 +210,7 @@ class magasin {
 	/**
 	 * @var array
 	 *
-	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=true)
 	 */
 	private $image;
@@ -783,10 +783,10 @@ class magasin {
 	/**
 	 * Set statut
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+	 * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
 	 * @return magasin
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -795,7 +795,7 @@ class magasin {
 	/**
 	 * Get statut
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\statut 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -825,10 +825,10 @@ class magasin {
 	/**
 	 * Set image
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $image
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $image
 	 * @return ficheCreative
 	 */
-	public function setImage(\AcmeGroup\LaboBundle\Entity\image $image = null) {
+	public function setImage(\labo\Bundle\TestmanuBundle\Entity\image $image = null) {
 		$this->image = $image;
 	
 		return $this;
@@ -837,7 +837,7 @@ class magasin {
 	/**
 	 * Get image
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\image 
 	 */
 	public function getImage() {
 		return $this->image;

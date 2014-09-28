@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -59,7 +59,7 @@ class baseRepository extends EntityRepository {
 	/**
 	 * setVersion
 	 * fixe la version du site pour le repository
-	 * si $version n'est pas précisé, recherche la version par défaut dans l'entité AcmeGroup\LaboBundle\Entity\version
+	 * si $version n'est pas précisé, recherche la version par défaut dans l'entité labo\Bundle\TestmanuBundle\Entity\version
 	 * @param string $version
 	 * @param string $shutdown
 	 */

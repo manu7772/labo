@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Form;
+namespace labo\Bundle\TestmanuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,7 +13,7 @@ class parametreType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $parametre = new \AcmeGroup\LaboBundle\Entity\parametre();
+        $parametre = new \labo\Bundle\TestmanuBundle\Entity\parametre();
 
         $builder
             ->add('nom', 'text', array(
@@ -64,7 +64,7 @@ class parametreType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AcmeGroup\LaboBundle\Entity\parametre'
+            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\parametre'
         ));
     }
 
@@ -73,6 +73,6 @@ class parametreType extends AbstractType
      */
     public function getName()
     {
-        return 'acmegroup_labobundle_parametre';
+        return 'labo_testmanubundle_parametre';
     }
 }

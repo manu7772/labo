@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Form;
+namespace labo\Bundle\TestmanuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -70,7 +70,7 @@ class articleMiniType extends articleType {
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-			'data_class' => 'AcmeGroup\LaboBundle\Entity\article'
+			'data_class' => 'labo\Bundle\TestmanuBundle\Entity\article'
 		));
 	}
 
@@ -78,7 +78,7 @@ class articleMiniType extends articleType {
 	 * @return string
 	 */
 	public function getName() {
-		return 'acmegroup_labobundle_articlemini';
+		return 'labo_testmanubundle_articlemini';
 	}
 
 }

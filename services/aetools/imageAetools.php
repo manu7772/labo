@@ -1,14 +1,14 @@
 <?php
 // src/AcmeGroup/services/aetools/imageAetools.php
 
-namespace AcmeGroup\services\aetools;
+namespace labo\Bundle\TestmanuBundle\services\aetools;
 
 use Doctrine\Common\EventSubscriber; 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
-use AcmeGroup\LaboBundle\Entity\image;
+use labo\Bundle\TestmanuBundle\Entity\image;
 
 define("FORMATS_IMAGES",	"(jpeg|jpg|gif|png|ico)$");
 define("FORMATS_PDF",		"(pdf)$");

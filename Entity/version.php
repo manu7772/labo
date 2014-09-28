@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * version
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\versionRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\versionRepository")
  * @UniqueEntity(fields={"siren"}, message="Cette entreprise est déjà enregistrée")
  */
 class version {
@@ -122,7 +122,7 @@ class version {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $logo;
@@ -130,7 +130,7 @@ class version {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=true)
 	 */
 	private $favicon;
@@ -138,7 +138,7 @@ class version {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $imageEntete;
@@ -173,7 +173,7 @@ class version {
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\adresse", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\adresse", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true, unique=false)
      */
     private $adresse;
@@ -502,10 +502,10 @@ class version {
 	/**
 	 * Set logo
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $logo
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $logo
 	 * @return version
 	 */
-	public function setLogo(\AcmeGroup\LaboBundle\Entity\image $logo) {
+	public function setLogo(\labo\Bundle\TestmanuBundle\Entity\image $logo) {
 		$this->logo = $logo;
 	
 		return $this;
@@ -514,7 +514,7 @@ class version {
 	/**
 	 * Get logo
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\image 
 	 */
 	public function getLogo() {
 		return $this->logo;
@@ -523,10 +523,10 @@ class version {
 	/**
 	 * Set favicon
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $favicon
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $favicon
 	 * @return version
 	 */
-	public function setFavicon(\AcmeGroup\LaboBundle\Entity\image $favicon) {
+	public function setFavicon(\labo\Bundle\TestmanuBundle\Entity\image $favicon) {
 		$this->favicon = $favicon;
 	
 		return $this;
@@ -535,7 +535,7 @@ class version {
 	/**
 	 * Get favicon
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\image 
 	 */
 	public function getFavicon() {
 		return $this->favicon;
@@ -544,10 +544,10 @@ class version {
 	/**
 	 * Set imageEntete
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $imageEntete
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $imageEntete
 	 * @return version
 	 */
-	public function setImageEntete(\AcmeGroup\LaboBundle\Entity\image $imageEntete = null) {
+	public function setImageEntete(\labo\Bundle\TestmanuBundle\Entity\image $imageEntete = null) {
 		$this->imageEntete = $imageEntete;
 	
 		return $this;
@@ -556,7 +556,7 @@ class version {
 	/**
 	 * Get imageEntete
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\image 
 	 */
 	public function getImageEntete() {
 		return $this->imageEntete;
@@ -565,10 +565,10 @@ class version {
     /**
      * Set adresse
      *
-     * @param \AcmeGroup\LaboBundle\Entity\adresse $adresse
+     * @param \labo\Bundle\TestmanuBundle\Entity\adresse $adresse
      * @return partenaire
      */
-    public function setAdresse(\AcmeGroup\LaboBundle\Entity\adresse $adresse = null)
+    public function setAdresse(\labo\Bundle\TestmanuBundle\Entity\adresse $adresse = null)
     {
         $this->adresse = $adresse;
     
@@ -578,7 +578,7 @@ class version {
     /**
      * Get adresse
      *
-     * @return \AcmeGroup\LaboBundle\Entity\adresse 
+     * @return \labo\Bundle\TestmanuBundle\Entity\adresse 
      */
     public function getAdresse()
     {

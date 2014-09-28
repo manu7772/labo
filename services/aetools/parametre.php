@@ -1,11 +1,11 @@
 <?php
 // src/AcmeGroup/services/aetools/parametre.php
 
-namespace AcmeGroup\services\aetools;
+namespace labo\Bundle\TestmanuBundle\services\aetools;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\entitiesServices\entitiesGeneric;
+use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 // use Symfony\Component\Form\FormFactoryInterface;
 

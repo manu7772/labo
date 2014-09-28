@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * voteArticle
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\voteArticleRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\voteArticleRepository")
  */
 class voteArticle {
 
@@ -25,7 +25,7 @@ class voteArticle {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\article", inversedBy="voteUsers", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\article", inversedBy="voteUsers", cascade={"persist", "remove"})
 	 */
 	private $article;
 
@@ -81,10 +81,10 @@ class voteArticle {
 	/**
 	 * Set article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @return voteArticle
 	 */
-	public function setArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function setArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->article = $article;
 		$article->addVoteUser($this);
 	
@@ -94,7 +94,7 @@ class voteArticle {
 	/**
 	 * Get article
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\article 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\article 
 	 */
 	public function getArticle() {
 		return $this->article;

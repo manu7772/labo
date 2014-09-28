@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * richtext
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\richtextRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\richtextRepository")
  */
 class richtext {
 	/**
@@ -102,7 +102,7 @@ class richtext {
 	private $twigConverti;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
@@ -110,21 +110,21 @@ class richtext {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\typeRichtext")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\typeRichtext")
 	 */
 	private $typeRichtexts;
 
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
 	 */
 	private $versions;
 
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\tag", inversedBy="richtexts")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\tag", inversedBy="richtexts")
 	 */
 	private $tags;
 
@@ -367,10 +367,10 @@ class richtext {
 	/**
 	 * Set statut
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+	 * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
 	 * @return baseEntity
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut = null) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut = null) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -379,7 +379,7 @@ class richtext {
 	/**
 	 * Get statut
 	 *
-	 * @return AcmeGroup\LaboBundle\Entity\statut 
+	 * @return labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -388,10 +388,10 @@ class richtext {
 	/**
 	 * Add typeRichtexts
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\typeRichtext $typeRichtexts
+	 * @param \labo\Bundle\TestmanuBundle\Entity\typeRichtext $typeRichtexts
 	 * @return richtext
 	 */
-	public function addTypeRichtext(\AcmeGroup\LaboBundle\Entity\typeRichtext $typeRichtexts) {
+	public function addTypeRichtext(\labo\Bundle\TestmanuBundle\Entity\typeRichtext $typeRichtexts) {
 		$this->typeRichtexts[] = $typeRichtexts;
 	
 		return $this;
@@ -400,9 +400,9 @@ class richtext {
 	/**
 	 * Remove typeRichtexts
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\typeRichtext $typeRichtexts
+	 * @param \labo\Bundle\TestmanuBundle\Entity\typeRichtext $typeRichtexts
 	 */
-	public function removeTypeRichtext(\AcmeGroup\LaboBundle\Entity\typeRichtext $typeRichtexts) {
+	public function removeTypeRichtext(\labo\Bundle\TestmanuBundle\Entity\typeRichtext $typeRichtexts) {
 		$this->typeRichtexts->removeElement($typeRichtexts);
 	}
 
@@ -418,10 +418,10 @@ class richtext {
 	/**
 	 * Add versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 * @return richtext
 	 */
-	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions[] = $versions;
 	
 		return $this;
@@ -430,9 +430,9 @@ class richtext {
 	/**
 	 * Remove versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 */
-	public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions->removeElement($versions);
 	}
 
@@ -448,10 +448,10 @@ class richtext {
 	/**
 	 * Add tag
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\tag $tags
+	 * @param \labo\Bundle\TestmanuBundle\Entity\tag $tags
 	 * @return richtext
 	 */
-	public function addTag(\AcmeGroup\LaboBundle\Entity\tag $tag) {
+	public function addTag(\labo\Bundle\TestmanuBundle\Entity\tag $tag) {
 		$this->tags->add($tag);
 		$tag->addRichtext($this);
 	
@@ -461,9 +461,9 @@ class richtext {
 	/**
 	 * Remove tag
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\tag $tag
+	 * @param \labo\Bundle\TestmanuBundle\Entity\tag $tag
 	 */
-	public function removeTag(\AcmeGroup\LaboBundle\Entity\tag $tag) {
+	public function removeTag(\labo\Bundle\TestmanuBundle\Entity\tag $tag) {
 		$this->tags->removeElement($tag);
 		$tag->removeRichtext($this);
 	}

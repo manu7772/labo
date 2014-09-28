@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Form;
+namespace labo\Bundle\TestmanuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -49,7 +49,7 @@ class collectionType extends AbstractType {
 				'multiple'  => true,
 				"label"     => 'Médias',
 				"required"  => false,
-                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('diaporama'));
                     },
                 'empty_value' => '(utiliser image standard)'
@@ -61,7 +61,7 @@ class collectionType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut du magasin',
-                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
+                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
                     return $qb->defaultValClosure();
                     }
                 ))
@@ -153,7 +153,7 @@ class collectionType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => 'AcmeGroup\LaboBundle\Entity\collection'
+			'data_class' => 'labo\Bundle\TestmanuBundle\Entity\collection'
 		));
 	}
 
@@ -162,6 +162,6 @@ class collectionType extends AbstractType {
 	 */
 	public function getName()
 	{
-		return 'acmegroup_labobundle_collection';
+		return 'labo_testmanubundle_collection';
 	}
 }

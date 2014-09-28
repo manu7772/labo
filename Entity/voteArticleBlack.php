@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * voteArticleBlack
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\voteArticleBlackRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\voteArticleBlackRepository")
  */
 class voteArticleBlack {
 
@@ -34,7 +34,7 @@ class voteArticleBlack {
 	private $adresseIp;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\article", inversedBy="voteBlacks", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\article", inversedBy="voteBlacks", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $article;
@@ -54,7 +54,7 @@ class voteArticleBlack {
 	private $dateCreation;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\richtext", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\richtext", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $richtext;
@@ -98,10 +98,10 @@ class voteArticleBlack {
 	/**
 	 * Set article
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @return voteArticleBlack
 	 */
-	public function setArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function setArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 		$this->article = $article;
 		$article->addVoteblack($this);
 	
@@ -111,7 +111,7 @@ class voteArticleBlack {
 	/**
 	 * Get article
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\article 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\article 
 	 */
 	public function getArticle() {
 		return $this->article;

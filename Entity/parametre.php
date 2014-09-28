@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * parametre
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\parametreRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\parametreRepository")
  * @UniqueEntity(fields={"nom"}, message="Ce paramètre existe déjà")
  */
 class parametre {
@@ -85,7 +85,7 @@ class parametre {
     /**
      * @var array
      *
-     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+     * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
      */
     private $versions;
 
@@ -293,10 +293,10 @@ class parametre {
     /**
      * Add version
      *
-     * @param \AcmeGroup\LaboBundle\Entity\version $version
+     * @param \labo\Bundle\TestmanuBundle\Entity\version $version
      * @return parametre
      */
-    public function addVersion(\AcmeGroup\LaboBundle\Entity\version $version) {
+    public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $version) {
         $this->versions[] = $version;
     
         return $this;
@@ -305,9 +305,9 @@ class parametre {
     /**
      * Remove version
      *
-     * @param \AcmeGroup\LaboBundle\Entity\version $version
+     * @param \labo\Bundle\TestmanuBundle\Entity\version $version
      */
-    public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $version) {
+    public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $version) {
         $this->versions->removeElement($version);
     }
 

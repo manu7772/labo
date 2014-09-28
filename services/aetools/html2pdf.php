@@ -1,10 +1,10 @@
 <?php
 // src/AcmeGroup/services/aetools/html2pdf.php
 
-namespace AcmeGroup\services\aetools;
+namespace labo\Bundle\TestmanuBundle\services\aetools;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 use app\Resources\classes\html2pdf\HTML2PDF;
 

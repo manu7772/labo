@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Form;
+namespace labo\Bundle\TestmanuBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -117,7 +117,7 @@ class adresseMiniType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AcmeGroup\LaboBundle\Entity\adresse'
+            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\adresse'
         ));
     }
 
@@ -126,6 +126,6 @@ class adresseMiniType extends AbstractType {
      */
     public function getName()
     {
-        return 'acmegroup_labobundle_adressemini';
+        return 'labo_testmanubundle_adressemini';
     }
 }

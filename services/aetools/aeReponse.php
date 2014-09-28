@@ -1,7 +1,7 @@
 <?php
 // src/AcmeGroup/services/aetools/aeReponse.php
 
-namespace AcmeGroup\services\aetools;
+namespace labo\Bundle\TestmanuBundle\services\aetools;
 
 class aeReponse {
 

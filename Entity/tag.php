@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * tag
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\tagRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\tagRepository")
  * @UniqueEntity(fields={"nom"}, message="Ce tag existe déjà.")
  */
 class tag {
@@ -43,14 +43,14 @@ class tag {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\richtext", mappedBy="tags")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\richtext", mappedBy="tags")
 	 */
 	private $richtexts;
 
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\pageweb", mappedBy="tags")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\pageweb", mappedBy="tags")
 	 */
 	private $pagewebs;
 
@@ -101,10 +101,10 @@ class tag {
 	/**
 	 * Add richtext
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\richtext $richtext
+	 * @param \labo\Bundle\TestmanuBundle\Entity\richtext $richtext
 	 * @return tag
 	 */
-	public function addRichtext(\AcmeGroup\LaboBundle\Entity\richtext $richtext) {
+	public function addRichtext(\labo\Bundle\TestmanuBundle\Entity\richtext $richtext) {
 		$this->richtexts->add($richtext);
 	
 		return $this;
@@ -113,9 +113,9 @@ class tag {
 	/**
 	 * Remove richtext
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\richtext $richtext
+	 * @param \labo\Bundle\TestmanuBundle\Entity\richtext $richtext
 	 */
-	public function removeRichtext(\AcmeGroup\LaboBundle\Entity\richtext $richtext) {
+	public function removeRichtext(\labo\Bundle\TestmanuBundle\Entity\richtext $richtext) {
 		$this->richtexts->removeElement($richtext);
 	}
 
@@ -131,10 +131,10 @@ class tag {
 	/**
 	 * Add pageweb
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\pageweb $pageweb
+	 * @param \labo\Bundle\TestmanuBundle\Entity\pageweb $pageweb
 	 * @return tag
 	 */
-	public function addPageweb(\AcmeGroup\LaboBundle\Entity\pageweb $pageweb) {
+	public function addPageweb(\labo\Bundle\TestmanuBundle\Entity\pageweb $pageweb) {
 		$this->pagewebs->add($pageweb);
 	
 		return $this;
@@ -143,9 +143,9 @@ class tag {
 	/**
 	 * Remove pageweb
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\pageweb $pageweb
+	 * @param \labo\Bundle\TestmanuBundle\Entity\pageweb $pageweb
 	 */
-	public function removePageweb(\AcmeGroup\LaboBundle\Entity\pageweb $pageweb) {
+	public function removePageweb(\labo\Bundle\TestmanuBundle\Entity\pageweb $pageweb) {
 		$this->pagewebs->removeElement($pageweb);
 	}
 

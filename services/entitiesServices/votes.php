@@ -1,11 +1,11 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/votes.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\entitiesServices\entitiesGeneric;
+use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 // use Symfony\Component\Form\FormFactoryInterface;
 
@@ -19,7 +19,7 @@ class votes extends entitiesGeneric {
 
 	/**
 	 * voteArticle
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @param string $note
 	 * @param string $avis
 	 * @param \AcmeGroup\userBundle\Entity\User $user
@@ -54,7 +54,7 @@ class votes extends entitiesGeneric {
 
 	/**
 	 * dejaVote
-	 * @param \AcmeGroup\LaboBundle\Entity\article $article / ou id article
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article / ou id article
 	 * @param \AcmeGroup\userBundle\Entity\User $user / ou id user
 	 * @return objet ou null
 	 */

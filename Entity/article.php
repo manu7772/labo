@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * article
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AcmeGroup\LaboBundle\Entity\articleRepository")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\articleRepository")
  */
 class article {
 	/**
@@ -40,13 +40,13 @@ class article {
 	private $nom;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="AcmeGroup\LaboBundle\Entity\voteArticle", mappedBy="article")
+	 * @ORM\OneToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\voteArticle", mappedBy="article")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $voteUsers;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="AcmeGroup\LaboBundle\Entity\voteArticleBlack", mappedBy="article")
+	 * @ORM\OneToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\voteArticleBlack", mappedBy="article")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $voteBlacks;
@@ -119,7 +119,7 @@ class article {
 	private $dateExpiration;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $statut;
@@ -171,7 +171,7 @@ class article {
 	/**
 	 * @var string
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\tauxTVA")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\tauxTVA")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $tauxTVA;
@@ -184,7 +184,7 @@ class article {
 	private $plusVisible;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\marque")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\marque")
 	 * @ORM\JoinColumn(nullable=true)
 	 */
 	private $marque;
@@ -192,7 +192,7 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $imagePpale;
@@ -200,7 +200,7 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\image")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $images;
@@ -208,7 +208,7 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\fichierPdf", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\fichierPdf", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=true, unique=true)
 	 */
 	private $fichierPdf;
@@ -216,7 +216,7 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\categorie")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\categorie")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $categories;
@@ -224,7 +224,7 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\reseau", inversedBy="articles")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\reseau", inversedBy="articles")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $reseaus;
@@ -232,14 +232,14 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\article", mappedBy="articlesLies")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\article", mappedBy="articlesLies")
 	 */
 	private $articlesParents;
 
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\article", inversedBy="articlesParents")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\article", inversedBy="articlesParents")
 	 * @ORM\JoinTable(name="articlesLinks",
 	 *     joinColumns={@ORM\JoinColumn(name="articlesLies_id", referencedColumnName="id")},
 	 *     inverseJoinColumns={@ORM\JoinColumn(name="articlesParents_id", referencedColumnName="id")}
@@ -250,7 +250,7 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	private $versions;
@@ -270,7 +270,7 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\video", inversedBy="articles")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\video", inversedBy="articles")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $videos;
@@ -278,7 +278,7 @@ class article {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\ficheCreative", inversedBy="articles")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\ficheCreative", inversedBy="articles")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $ficheCreatives;
@@ -713,10 +713,10 @@ class article {
 	/**
 	 * Set statut
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\statut $statut
+	 * @param \labo\Bundle\TestmanuBundle\Entity\statut $statut
 	 * @return article
 	 */
-	public function setStatut(\AcmeGroup\LaboBundle\Entity\statut $statut) {
+	public function setStatut(\labo\Bundle\TestmanuBundle\Entity\statut $statut) {
 		$this->statut = $statut;
 	
 		return $this;
@@ -725,7 +725,7 @@ class article {
 	/**
 	 * Get statut
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\statut 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\statut 
 	 */
 	public function getStatut() {
 		return $this->statut;
@@ -734,10 +734,10 @@ class article {
 	/**
 	 * Set tauxTVA
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\tauxTVA $tauxTVA
+	 * @param \labo\Bundle\TestmanuBundle\Entity\tauxTVA $tauxTVA
 	 * @return article
 	 */
-	public function setTauxTVA(\AcmeGroup\LaboBundle\Entity\tauxTVA $tauxTVA) {
+	public function setTauxTVA(\labo\Bundle\TestmanuBundle\Entity\tauxTVA $tauxTVA) {
 		$this->tauxTVA = $tauxTVA;
 	
 		return $this;
@@ -746,7 +746,7 @@ class article {
 	/**
 	 * Get tauxTVA
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\tauxTVA 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\tauxTVA 
 	 */
 	public function getTauxTVA() {
 		return $this->tauxTVA;
@@ -755,10 +755,10 @@ class article {
 	/**
 	 * Set marque
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\marque $marque
+	 * @param \labo\Bundle\TestmanuBundle\Entity\marque $marque
 	 * @return article
 	 */
-	public function setMarque(\AcmeGroup\LaboBundle\Entity\marque $marque) {
+	public function setMarque(\labo\Bundle\TestmanuBundle\Entity\marque $marque) {
 		$this->marque = $marque;
 	
 		return $this;
@@ -767,7 +767,7 @@ class article {
 	/**
 	 * Get marque
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\marque 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\marque 
 	 */
 	public function getMarque() {
 		return $this->marque;
@@ -776,10 +776,10 @@ class article {
 	/**
 	 * Set imagePpale
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $imagePpale
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $imagePpale
 	 * @return article
 	 */
-	public function setImagePpale(\AcmeGroup\LaboBundle\Entity\image $imagePpale = null) {
+	public function setImagePpale(\labo\Bundle\TestmanuBundle\Entity\image $imagePpale = null) {
 		$this->imagePpale = $imagePpale;
 	
 		return $this;
@@ -788,7 +788,7 @@ class article {
 	/**
 	 * Get imagePpale
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\imagePpale 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\imagePpale 
 	 */
 	public function getImagePpale() {
 		return $this->imagePpale;
@@ -797,10 +797,10 @@ class article {
 	/**
 	 * Set fichierPdf
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\fichierPdf $fichierPdf
+	 * @param \labo\Bundle\TestmanuBundle\Entity\fichierPdf $fichierPdf
 	 * @return article
 	 */
-	public function setFichierPdf(\AcmeGroup\LaboBundle\Entity\fichierPdf $fichierPdf) {
+	public function setFichierPdf(\labo\Bundle\TestmanuBundle\Entity\fichierPdf $fichierPdf) {
 		$this->fichierPdf = $fichierPdf;
 	
 		return $this;
@@ -809,7 +809,7 @@ class article {
 	/**
 	 * Get fichierPdf
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\fichierPdf 
+	 * @return \labo\Bundle\TestmanuBundle\Entity\fichierPdf 
 	 */
 	public function getFichierPdf() {
 		return $this->fichierPdf;
@@ -818,10 +818,10 @@ class article {
 	/**
 	 * Add images
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $images
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $images
 	 * @return article
 	 */
-	public function addImage(\AcmeGroup\LaboBundle\Entity\image $images = null) {
+	public function addImage(\labo\Bundle\TestmanuBundle\Entity\image $images = null) {
 		if($images !== null) $this->images[] = $images;
 	
 		return $this;
@@ -830,9 +830,9 @@ class article {
 	/**
 	 * Remove images
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $images
+	 * @param \labo\Bundle\TestmanuBundle\Entity\image $images
 	 */
-	public function removeImage(\AcmeGroup\LaboBundle\Entity\image $images = null) {
+	public function removeImage(\labo\Bundle\TestmanuBundle\Entity\image $images = null) {
 		if($images !== null) $this->images->removeElement($images);
 	}
 
@@ -857,10 +857,10 @@ class article {
 	/**
 	 * Add categories
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\categorie $categories
+	 * @param \labo\Bundle\TestmanuBundle\Entity\categorie $categories
 	 * @return article
 	 */
-	public function addCategorie(\AcmeGroup\LaboBundle\Entity\categorie $categories) {
+	public function addCategorie(\labo\Bundle\TestmanuBundle\Entity\categorie $categories) {
 		$this->categories[] = $categories;
 	
 		return $this;
@@ -869,9 +869,9 @@ class article {
 	/**
 	 * Remove categories
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\categorie $categories
+	 * @param \labo\Bundle\TestmanuBundle\Entity\categorie $categories
 	 */
-	public function removeCategorie(\AcmeGroup\LaboBundle\Entity\categorie $categories) {
+	public function removeCategorie(\labo\Bundle\TestmanuBundle\Entity\categorie $categories) {
 		$this->categories->removeElement($categories);
 	}
 
@@ -887,10 +887,10 @@ class article {
 	/**
 	 * Add reseaus
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\reseau $reseaus
+	 * @param \labo\Bundle\TestmanuBundle\Entity\reseau $reseaus
 	 * @return article
 	 */
-	public function addReseau(\AcmeGroup\LaboBundle\Entity\reseau $reseaus) {
+	public function addReseau(\labo\Bundle\TestmanuBundle\Entity\reseau $reseaus) {
 		$this->reseaus[] = $reseaus;
 		$reseaus->addBdirArticle($this);
 	
@@ -900,9 +900,9 @@ class article {
 	/**
 	 * Remove reseaus
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\reseau $reseaus
+	 * @param \labo\Bundle\TestmanuBundle\Entity\reseau $reseaus
 	 */
-	public function removeReseau(\AcmeGroup\LaboBundle\Entity\reseau $reseaus) {
+	public function removeReseau(\labo\Bundle\TestmanuBundle\Entity\reseau $reseaus) {
 		$this->reseaus->removeElement($reseaus);
 		$reseau->removeBdirArticle($this);
 	}
@@ -910,10 +910,10 @@ class article {
 	/**
 	 * Add BdirReseaus -----> pour bidirectionnel bilatéral
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\reseau $reseaus
+	 * @param \labo\Bundle\TestmanuBundle\Entity\reseau $reseaus
 	 * @return article
 	 */
-	public function addBdirReseau(\AcmeGroup\LaboBundle\Entity\reseau $reseaus) {
+	public function addBdirReseau(\labo\Bundle\TestmanuBundle\Entity\reseau $reseaus) {
 		$this->reseaus[] = $reseaus;
 	
 		return $this;
@@ -922,19 +922,19 @@ class article {
 	/**
 	 * Remove BdirReseaus -----> pour bidirectionnel bilatéral
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\reseau $reseaus
+	 * @param \labo\Bundle\TestmanuBundle\Entity\reseau $reseaus
 	 */
-	public function removeBdirReseau(\AcmeGroup\LaboBundle\Entity\reseau $reseaus) {
+	public function removeBdirReseau(\labo\Bundle\TestmanuBundle\Entity\reseau $reseaus) {
 		$this->reseaus->removeElement($reseaus);
 	}
 
 	/**
 	 * Add versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 * @return article
 	 */
-	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function addVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions[] = $versions;
 	
 		return $this;
@@ -943,9 +943,9 @@ class article {
 	/**
 	 * Remove versions
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
+	 * @param \labo\Bundle\TestmanuBundle\Entity\version $versions
 	 */
-	public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
+	public function removeVersion(\labo\Bundle\TestmanuBundle\Entity\version $versions) {
 		$this->versions->removeElement($versions);
 	}
 
@@ -981,10 +981,10 @@ class article {
 	/**
 	 * Add articlesParents
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $articlesParents
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $articlesParents
 	 * @return article
 	 */
-	public function addArticlesParent(\AcmeGroup\LaboBundle\Entity\article $articlesParents) {
+	public function addArticlesParent(\labo\Bundle\TestmanuBundle\Entity\article $articlesParents) {
 		$this->articlesParents[] = $articlesParents;
 	
 		return $this;
@@ -993,9 +993,9 @@ class article {
 	/**
 	 * Remove articlesParents
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $articlesParents
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $articlesParents
 	 */
-	public function removeArticlesParent(\AcmeGroup\LaboBundle\Entity\article $articlesParents) {
+	public function removeArticlesParent(\labo\Bundle\TestmanuBundle\Entity\article $articlesParents) {
 		$this->articlesParents->removeElement($articlesParents);
 	}
 
@@ -1011,10 +1011,10 @@ class article {
 	/**
 	 * Add articlesLies
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $articlesLies
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $articlesLies
 	 * @return article
 	 */
-	public function addArticlesLie(\AcmeGroup\LaboBundle\Entity\article $articlesLies) {
+	public function addArticlesLie(\labo\Bundle\TestmanuBundle\Entity\article $articlesLies) {
 		$this->articlesLies[] = $articlesLies;
 		$articlesLies->addArticlesParent($this);
 		return $this;
@@ -1023,9 +1023,9 @@ class article {
 	/**
 	 * Remove articlesLies
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\article $articlesLies
+	 * @param \labo\Bundle\TestmanuBundle\Entity\article $articlesLies
 	 */
-	public function removeArticlesLie(\AcmeGroup\LaboBundle\Entity\article $articlesLies) {
+	public function removeArticlesLie(\labo\Bundle\TestmanuBundle\Entity\article $articlesLies) {
 		$this->articlesLies->removeElement($articlesLies);
 		$articlesLies->removeArticlesParent($this);
 	}
@@ -1063,10 +1063,10 @@ class article {
 	/**
 	 * Add voteUser
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\voteArticle $voteArticle
+	 * @param \labo\Bundle\TestmanuBundle\Entity\voteArticle $voteArticle
 	 * @return article
 	 */
-	public function addVoteUser(\AcmeGroup\LaboBundle\Entity\voteArticle $voteArticle) {
+	public function addVoteUser(\labo\Bundle\TestmanuBundle\Entity\voteArticle $voteArticle) {
 		$this->voteUsers[] = $voteArticle;
 	
 		return $this;
@@ -1075,9 +1075,9 @@ class article {
 	/**
 	 * Remove voteUser
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\voteArticle $voteArticle
+	 * @param \labo\Bundle\TestmanuBundle\Entity\voteArticle $voteArticle
 	 */
-	public function removeVoteUser(\AcmeGroup\LaboBundle\Entity\voteArticle $voteArticle) {
+	public function removeVoteUser(\labo\Bundle\TestmanuBundle\Entity\voteArticle $voteArticle) {
 		$this->voteUsers->removeElement($voteArticle);
 	}
 
@@ -1093,10 +1093,10 @@ class article {
 	/**
 	 * Add voteBlack
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\voteArticleBlack $voteArticleBlack
+	 * @param \labo\Bundle\TestmanuBundle\Entity\voteArticleBlack $voteArticleBlack
 	 * @return article
 	 */
-	public function addVoteBlack(\AcmeGroup\LaboBundle\Entity\voteArticleBlack $voteArticleBlack) {
+	public function addVoteBlack(\labo\Bundle\TestmanuBundle\Entity\voteArticleBlack $voteArticleBlack) {
 		$this->voteBlacks[] = $voteArticleBlack;
 	
 		return $this;
@@ -1105,9 +1105,9 @@ class article {
 	/**
 	 * Remove voteBlack
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\voteArticleBlack $voteArticleBlack
+	 * @param \labo\Bundle\TestmanuBundle\Entity\voteArticleBlack $voteArticleBlack
 	 */
-	public function removeVoteBlack(\AcmeGroup\LaboBundle\Entity\voteArticleBlack $voteArticleBlack) {
+	public function removeVoteBlack(\labo\Bundle\TestmanuBundle\Entity\voteArticleBlack $voteArticleBlack) {
 		$this->voteBlacks->removeElement($voteArticleBlack);
 	}
 
@@ -1133,10 +1133,10 @@ class article {
 	/**
 	 * Add video
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\video $video
+	 * @param \labo\Bundle\TestmanuBundle\Entity\video $video
 	 * @return article
 	 */
-	public function addVideo(\AcmeGroup\LaboBundle\Entity\video $video = null) {
+	public function addVideo(\labo\Bundle\TestmanuBundle\Entity\video $video = null) {
 		if($video !== null) {
 			$this->videos[] = $video;
 			$video->addArticle($this);
@@ -1148,9 +1148,9 @@ class article {
 	/**
 	 * Remove video
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\video $video
+	 * @param \labo\Bundle\TestmanuBundle\Entity\video $video
 	 */
-	public function removeVideo(\AcmeGroup\LaboBundle\Entity\video $video = null) {
+	public function removeVideo(\labo\Bundle\TestmanuBundle\Entity\video $video = null) {
 		if($video !== null) {
 			$this->videos->removeElement($video);
 			$video->removeArticle($this);
@@ -1169,10 +1169,10 @@ class article {
 	/**
 	 * Add ficheCreative
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\ficheCreative $ficheCreative
+	 * @param \labo\Bundle\TestmanuBundle\Entity\ficheCreative $ficheCreative
 	 * @return article
 	 */
-	public function addFicheCreative(\AcmeGroup\LaboBundle\Entity\ficheCreative $ficheCreative = null) {
+	public function addFicheCreative(\labo\Bundle\TestmanuBundle\Entity\ficheCreative $ficheCreative = null) {
 		if($ficheCreative !== null) {
 			$this->ficheCreatives[] = $ficheCreative;
 			$ficheCreative->addArticle($this);
@@ -1184,9 +1184,9 @@ class article {
 	/**
 	 * Remove ficheCreative
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\ficheCreative $ficheCreative
+	 * @param \labo\Bundle\TestmanuBundle\Entity\ficheCreative $ficheCreative
 	 */
-	public function removeFicheCreative(\AcmeGroup\LaboBundle\Entity\ficheCreative $ficheCreative = null) {
+	public function removeFicheCreative(\labo\Bundle\TestmanuBundle\Entity\ficheCreative $ficheCreative = null) {
 		if($ficheCreative !== null) {
 			$this->ficheCreatives->removeElement($ficheCreative);
 			$ficheCreative->removeArticle($this);

@@ -1,8 +1,8 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
-use AcmeGroup\LaboBundle\Entity\baseRepository;
+use labo\Bundle\TestmanuBundle\Entity\baseRepository;
 
 /**
  * voteArticleRepository
@@ -13,7 +13,7 @@ use AcmeGroup\LaboBundle\Entity\baseRepository;
 class voteArticleRepository extends baseRepository {
 
 	// à supprimer
-	// public function findVotesByArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	// public function findVotesByArticle(\labo\Bundle\TestmanuBundle\Entity\article $article) {
 	// 	$qb = $this->createQueryBuilder('element');
 	// 	$qb->where('element.defaut = :true')
 	// 		->setParameter('true', 1);

@@ -1,11 +1,11 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Controller;
+namespace labo\Bundle\TestmanuBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 class AelogController extends Controller {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\DataFixtures\ORM;
+namespace labo\Bundle\TestmanuBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 // Entité
-use AcmeGroup\LaboBundle\Entity\evenement;
+use labo\Bundle\TestmanuBundle\Entity\evenement;
 
 class evenements extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $ord			= 310;			// Ordre de chargement fixtures
-	private $entity			= "AcmeGroup\\LaboBundle\\Entity\\evenement";	// nom de l'entité
+	private $entity			= "labo\\Bundle\\TestmanuBundle\\Entity\\evenement";	// nom de l'entité
 	private $container;
 	private $manager;
 

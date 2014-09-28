@@ -1,13 +1,13 @@
 <?php
 // src/AcmeGroup/services/entitiesServices/panier.php
 
-namespace AcmeGroup\services\entitiesServices;
+namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AcmeGroup\services\entitiesServices\entitiesGeneric;
-// use AcmeGroup\LaboBundle\Entity\article;
-use AcmeGroup\services\aetools\aeReponse;
+use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
+// use labo\Bundle\TestmanuBundle\Entity\article;
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 // use Symfony\Component\Form\FormFactoryInterface;
 
 class panier extends entitiesGeneric {
@@ -39,12 +39,12 @@ class panier extends entitiesGeneric {
 
 	/**
 	 * ajouteArticle
-	 * @param AcmeGroup\LaboBundle\Entity\article $article
+	 * @param labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @param AcmeGroup\UserBundle\Entity\User $user
 	 * @param integer $quantite
 	 * @return aeReponse
 	 */
-	public function ajouteArticle(\AcmeGroup\LaboBundle\Entity\article $article, $user = null, $quantite = 1) {
+	public function ajouteArticle(\labo\Bundle\TestmanuBundle\Entity\article $article, $user = null, $quantite = 1) {
 		if($user === null) $user = $this->user;
 		if(is_object($user)) {
 			$art = $this->getRepo()->getOneArticleOfUser($article->getId(), $user->getId());
@@ -72,12 +72,12 @@ class panier extends entitiesGeneric {
 
 	/**
 	 * reduitArticle
-	 * @param AcmeGroup\LaboBundle\Entity\article $article
+	 * @param labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @param AcmeGroup\UserBundle\Entity\User $user
 	 * @param integer $quantite
 	 * @return aeReponse
 	 */
-	public function reduitArticle(\AcmeGroup\LaboBundle\Entity\article $article, $user = null, $quantite = 1) {
+	public function reduitArticle(\labo\Bundle\TestmanuBundle\Entity\article $article, $user = null, $quantite = 1) {
 		if($user === null) $user = $this->user;
 		if(is_object($user)) {
 			$art = $this->getRepo()->getOneArticleOfUser($article->getId(), $user->getId());
@@ -107,11 +107,11 @@ class panier extends entitiesGeneric {
 
 	/**
 	 * SupprimeArticle
-	 * @param AcmeGroup\LaboBundle\Entity\article $article
+	 * @param labo\Bundle\TestmanuBundle\Entity\article $article
 	 * @param AcmeGroup\UserBundle\Entity\User $user
 	 * @return aeReponse
 	 */
-	public function SupprimeArticle(\AcmeGroup\LaboBundle\Entity\article $article, $user = null) {
+	public function SupprimeArticle(\labo\Bundle\TestmanuBundle\Entity\article $article, $user = null) {
 		if($user === null) $user = $this->user;
 		if(is_object($user)) {
 			$art = $this->getRepo()->getOneArticleOfUser($article->getId(), $user->getId());

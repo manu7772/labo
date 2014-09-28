@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\DataFixtures\ORM;
+namespace labo\Bundle\TestmanuBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 // Entité
-use AcmeGroup\LaboBundle\Entity\reseau;
+use labo\Bundle\TestmanuBundle\Entity\reseau;
 
 class reseaus extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $ord			= 130;			// Ordre de chargement fixtures
-	private $entity			= "AcmeGroup\\LaboBundle\\Entity\\reseau";		// nom de l'entité
+	private $entity			= "labo\\Bundle\\TestmanuBundle\\Entity\\reseau";		// nom de l'entité
 	private $container;
 	private $manager;
 
