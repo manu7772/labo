@@ -8,9 +8,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
 /**
- * baseRepository
+ * laboBaseRepository
  */
-class baseRepository extends EntityRepository {
+class laboBaseRepository extends EntityRepository {
 
 	protected $em;
 	protected $version = null;
