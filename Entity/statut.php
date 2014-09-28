@@ -11,14 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity(fields={"nom"}, message="Ce statut existe déjà.")
  */
 abstract class statut {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
+
+	protected $id;
 
 	/**
 	 * @var string
