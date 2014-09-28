@@ -35,7 +35,7 @@ class tempuserType extends AbstractType {
 
             // ->add('magasin', 'magasins', array(
             //     // "required"  => true,
-            //     // 'class'     => 'AcmeGroupLaboBundle:magasin',
+            //     // 'class'     => 'LaboTestmanuBundle:magasin',
             //     // 'property'  => 'nommagasin',
             //     // 'multiple'  => false,
             //     "label"     => 'Boutique référente',
@@ -58,7 +58,7 @@ class tempuserType extends AbstractType {
                 "required"  => false,
                 'multiple'  => false,
                 "label"     => 'Marque : ',
-                'class'     => 'AcmeGroupLaboBundle:marque',
+                'class'     => 'LaboTestmanuBundle:marque',
                 'property'  => 'nom',
                 ))
             ->add('numserie', 'text', array(

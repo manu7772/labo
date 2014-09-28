@@ -18,12 +18,12 @@ class LaboController extends Controller {
 
 	// Page d'accueil de l'admin (labo)
 	public function homeAction() {
-		return $this->render('AcmeGroupLaboBundle:pages:index.html.twig');
+		return $this->render('LaboTestmanuBundle:pages:index.html.twig');
 	}
 
 	// Page en cours (labo)
 	public function workingAction() {
-		return $this->render('AcmeGroupLaboBundle:pages:working.html.twig');
+		return $this->render('LaboTestmanuBundle:pages:working.html.twig');
 	}
 
 	/**
@@ -126,8 +126,8 @@ class LaboController extends Controller {
 		$data["pag"]["nbtot"] = count($data["dataEntite"]);
 		$data["pag"]["nbpage"] = ceil($data["pag"]["nbtot"] / $data["pag"]["lignes"]);
 
-		return $this->render('AcmeGroupLaboBundle:pages:page-image.html.twig', $data);
-		// return $this->render('AcmeGroupLaboBundle:pages:index.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:page-image.html.twig', $data);
+		// return $this->render('LaboTestmanuBundle:pages:index.html.twig', $data);
 	}
 
 	public function UserAction($action = "liste", $role = 'tous-roles', $element = 'all', $changeRole = null) {
@@ -215,7 +215,7 @@ class LaboController extends Controller {
 		$data["pag"]["nbpage"] = ceil($data["pag"]["nbtot"] / $data["pag"]["lignes"]);
 
 		if($data['action'] === 'change-roles') $data['action'] = 'liste';
-		return $this->render('AcmeGroupLaboBundle:pages:page-User.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:page-User.html.twig', $data);
 	}
 
 	// Page de gestion entite
@@ -311,7 +311,7 @@ class LaboController extends Controller {
 		$data["pag"]["nbtot"] = count($data["dataEntite"]);
 		$data["pag"]["nbpage"] = ceil($data["pag"]["nbtot"] / $data["pag"]["lignes"]);
 
-		return $this->render('AcmeGroupLaboBundle:pages:page-entite.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:page-entite.html.twig', $data);
 	}
 
 	public function noteEntiteAction($classEntite, $id = null) {
@@ -324,7 +324,7 @@ class LaboController extends Controller {
 		$data['bundleNameEntiteName'] = $data["entite"]->getBundleNameEntiteName();
 		// $data['bundleEntiteName'] = $data["entite"]->getEntiteName();
 
-		$enRepo = $this->getDoctrine()->getManager()->getRepository("AcmeGroupLaboBundle:".$data['entiteName']);
+		$enRepo = $this->getDoctrine()->getManager()->getRepository("LaboTestmanuBundle:".$data['entiteName']);
 		$version = $this->get("session")->get('version');
 		$enRepo->setVersion($version["nom"], $version["shutdown"]);
 		if($id === null) {
@@ -341,7 +341,7 @@ class LaboController extends Controller {
 			$data['action'] = "liste";
 		}
 
-		return $this->render('AcmeGroupLaboBundle:pages:page-note-'.$data["entiteName"].'.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:page-note-'.$data["entiteName"].'.html.twig', $data);
 	}
 
 	public function VenteArticleAction($type = "all") {
@@ -367,7 +367,7 @@ class LaboController extends Controller {
 				$data["factures"] = $this->get("AcmeGroup.facture")->getRepo()->findAll();
 				break;
 		}
-		return $this->render('AcmeGroupLaboBundle:pages:factures.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:factures.html.twig', $data);
 	}
 
 	public function getCSVventeAction($type = 'all') {
@@ -477,7 +477,7 @@ class LaboController extends Controller {
 				break;
 			default: // detail
 				$data["facture"] = $this->get("AcmeGroup.facture")->getRepo()->find($id);
-				return $this->render('AcmeGroupLaboBundle:pages:factureDetail.html.twig', $data);
+				return $this->render('LaboTestmanuBundle:pages:factureDetail.html.twig', $data);
 				break;
 		}
 	}
@@ -530,7 +530,7 @@ class LaboController extends Controller {
 				$data["check"] = new aeReponse(false, null, "Entité non reconnue (".$entite.")<br />L'opération de checking n'a pu avoir lieu.");
 				break;
 		}
-		return $this->render('AcmeGroupLaboBundle:pages:checking-data.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:checking-data.html.twig', $data);
 	}
 
 	public function generateRandomDataAction($entite) {
@@ -548,7 +548,7 @@ class LaboController extends Controller {
 	public function showRoutesAction($motif) {
 		$data["routes"] = $this->get("acmeGroup.aetools")->getAllRoutes($motif);
 		$data["motif"] = $motif;
-		return $this->render('AcmeGroupLaboBundle:pages:show-routes.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:show-routes.html.twig', $data);
 	}
 
 	/**
@@ -567,7 +567,7 @@ class LaboController extends Controller {
 			$data["show"] = "database";
 		}
 		$data['dbname'] = $this->container->getParameter('database_name');
-		return $this->render('AcmeGroupLaboBundle:pages:show-database.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:show-database.html.twig', $data);
 	}
 
 	/**
@@ -585,7 +585,7 @@ class LaboController extends Controller {
 		// $data["database"] = $this->showField($entite, $field);
 		$data["champ"] = $champ;
 		$data['dbname'] = $this->container->getParameter('database_name');
-		return $this->render('AcmeGroupLaboBundle:pages:show-database.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:show-database.html.twig', $data);
 	}
 
 	/**
@@ -618,7 +618,7 @@ class LaboController extends Controller {
 			}
 		}
 		$data["richtexts"] = $txtools->getAllTexts();
-		return $this->render('AcmeGroupLaboBundle:pages:prod-richtextLinks.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:prod-richtextLinks.html.twig', $data);
 	}
 
 
@@ -628,8 +628,8 @@ class LaboController extends Controller {
 	 */
 	public function imagesVersionAction() {
 		$em = $this->getDoctrine()->getManager();
-		$repoImg = $em->getRepository("AcmeGroupLaboBundle:image");
-		$repoVer = $em->getRepository("AcmeGroupLaboBundle:version");
+		$repoImg = $em->getRepository("LaboTestmanuBundle:image");
+		$repoVer = $em->getRepository("LaboTestmanuBundle:version");
 		$imnoms = array("Singer" => "Logo Singer entête", "Singer-V2" => "Logo Singer.v2 entête", "DemoSinger" => "Logo Singer Démo");
 		$cpt = 0;$echec = 0;
 		foreach($imnoms as $ver => $img) {
@@ -652,7 +652,7 @@ class LaboController extends Controller {
 	//////////////////////////
 
 	public function leftSideMenuAction() {
-		return $this->render('AcmeGroupLaboBundle:menu:left-side-menu.html.twig');
+		return $this->render('LaboTestmanuBundle:menu:left-side-menu.html.twig');
 	}
 
 	public function navbarAction($pageweb = null) {
@@ -678,7 +678,7 @@ class LaboController extends Controller {
 		$data["ligne"] = $data['entite']->getById($id);
 
 		$rep['result'] = true;
-		$rep['html'] = $this->renderView('AcmeGroupLaboBundle:bloc:liste'.ucfirst($data["entite"]->getEntiteName()).'Ligne.html.twig', $data);
+		$rep['html'] = $this->renderView('LaboTestmanuBundle:bloc:liste'.ucfirst($data["entite"]->getEntiteName()).'Ligne.html.twig', $data);
 		return new JsonResponse($rep);
 	}
 
@@ -782,7 +782,7 @@ class LaboController extends Controller {
 		$r = array();
 		$em = $this->getDoctrine()->getManager();
 		$repoU = $em->getRepository('AcmeGroupUserBundle:User');
-		$repoM = $em->getRepository('AcmeGroupLaboBundle:marque');
+		$repoM = $em->getRepository('LaboTestmanuBundle:marque');
 		$users = $repoU->findAll();
 		$marqs = $repoM->findAll();
 		// liste des noms de marques
@@ -890,11 +890,11 @@ class LaboController extends Controller {
 			$article = $this->get('acmeGroup.article');
 			// version
 			$Tidx = $this->get("session")->get('version');
-			$versObj = $this->getDoctrine()->getManager()->getRepository('AcmeGroupLaboBundle:version')->find($Tidx["id"]);
+			$versObj = $this->getDoctrine()->getManager()->getRepository('LaboTestmanuBundle:version')->find($Tidx["id"]);
 			// user
 			$user = $this->get('security.context')->getToken()->getUser();
 			// statut
-			$statut = $this->getDoctrine()->getManager()->getRepository('AcmeGroupLaboBundle:statut')->findByNom("Test");
+			$statut = $this->getDoctrine()->getManager()->getRepository('LaboTestmanuBundle:statut')->findByNom("Test");
 			for($i = 1; $i <= $nombre; $i++) {
 				$articles = $article->getArticlesByReseau("e-commerce");
 				$nba = rand(1,10);if($nba > 3) $nba = 1;

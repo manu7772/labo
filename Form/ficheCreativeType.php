@@ -71,7 +71,7 @@ class ficheCreativeType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'AcmeGroupLaboBundle:statut',
+                'class'     => 'LaboTestmanuBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de la fiche',
@@ -84,7 +84,7 @@ class ficheCreativeType extends AbstractType {
             //     "label"     => "Fichier image"
             //     ))
             ->add('image', 'entity', array(
-                'class'     => 'AcmeGroupLaboBundle:image',
+                'class'     => 'LaboTestmanuBundle:image',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Image de l\'article',
@@ -96,7 +96,7 @@ class ficheCreativeType extends AbstractType {
                 ))
             ->add('categorie', 'entity', array(
                 "required"  => true,
-                'class'     => 'AcmeGroupLaboBundle:categorie',
+                'class'     => 'LaboTestmanuBundle:categorie',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Thème atelier',
@@ -105,7 +105,7 @@ class ficheCreativeType extends AbstractType {
                     }
                 ))
             ->add('articles', 'entity', array(
-                'class'     => 'AcmeGroupLaboBundle:article',
+                'class'     => 'LaboTestmanuBundle:article',
                 'property'  => 'nom',
                 'multiple'  => true,
                 'expanded'  => false,
@@ -168,7 +168,7 @@ class ficheCreativeType extends AbstractType {
                             "label"     => 'Date d\'expiration'
                             ))
                         ->add('versions', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:version',
+                            'class'     => 'LaboTestmanuBundle:version',
                             'property'  => 'nom',
                             'multiple'  => true,
                             'expanded'  => false,
@@ -188,7 +188,7 @@ class ficheCreativeType extends AbstractType {
                                 }
                             ))
                         ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
+                            'class'     => 'LaboTestmanuBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut'

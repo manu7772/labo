@@ -59,7 +59,7 @@ class pagewebType extends AbstractType {
 				'required'  => false,
 				))
 			->add('tags', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:tag',
+				'class'     => 'LaboTestmanuBundle:tag',
 				'property'  => 'nom',
 				'multiple'  => true,
 				'expanded'  => false,
@@ -67,7 +67,7 @@ class pagewebType extends AbstractType {
 				"label"     => 'Tags'
 				))
 			->add('richtexts', 'entity', array(
-			   'class'     => 'AcmeGroupLaboBundle:richtext',
+			   'class'     => 'LaboTestmanuBundle:richtext',
 			   'property'  => 'nom',
 			   'multiple'  => true,
 			   'expanded'  => false,

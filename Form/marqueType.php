@@ -43,7 +43,7 @@ class marqueType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'AcmeGroupLaboBundle:statut',
+                'class'     => 'LaboTestmanuBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de la marque',
@@ -52,7 +52,7 @@ class marqueType extends AbstractType {
                     }
                 ))
             ->add('logoImage', 'entity', array(
-                'class'     => 'AcmeGroupLaboBundle:image',
+                'class'     => 'LaboTestmanuBundle:image',
                 'property'  => 'nom',
                 'multiple'  => false,
                 'required'  => false,
@@ -104,7 +104,7 @@ class marqueType extends AbstractType {
                 if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
                     $form
                         ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
+                            'class'     => 'LaboTestmanuBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut de la marque'

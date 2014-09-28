@@ -149,7 +149,7 @@ class entitiesGeneric {
 		$this->entiteName		= $explodName[3];		// nom court de l'entité, par exemple "article"
 		$this->serviceNom		= $this->entiteName;	// nom du service -> utilisé pour mise en session
 		$this->bundleNameEntiteName	= $this->bundleName.$this->entiteName; // nom du bundle + entité, par exemple "LabuBundlearticle"
-		$this->repoNameEntite	= $this->repoNameWithClassName($this->classEntite); // Classe du repository, par exemple "AcmeGroupLaboBundle:article"
+		$this->repoNameEntite	= $this->repoNameWithClassName($this->classEntite); // Classe du repository, par exemple "LaboTestmanuBundle:article"
 		$this->formNameEntite	= $this->specialFormNameWithClassName($this->classEntite); // nom de la classe formulaire
 		// Objet Repository
 		$this->getRepo();
@@ -559,7 +559,7 @@ class entitiesGeneric {
 					$memem = $this->em;
 					if($entiteObj->getStatut()->getNom() == "Actif")
 						$find = "Inactif"; else $find = "Actif";
-					$statut = $this->em->getRepository("AcmeGroupLaboBundle:statut")->findByNom($find);
+					$statut = $this->em->getRepository("LaboTestmanuBundle:statut")->findByNom($find);
 					$entiteObj->setStatut($statut[0]);
 					$this->repo = $memrepo;
 					$this->em = $memem;

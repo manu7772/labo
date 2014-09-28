@@ -54,7 +54,7 @@ class categorieType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'AcmeGroupLaboBundle:statut',
+                'class'     => 'LaboTestmanuBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de la catégorie',
@@ -64,21 +64,21 @@ class categorieType extends AbstractType {
                 ))
             ->add('page', 'entity', array(
                 'multiple'  => false,
-                'class'     => 'AcmeGroupLaboBundle:pageweb',
+                'class'     => 'LaboTestmanuBundle:pageweb',
                 'expanded'  => false,
                 "required"  => false,
                 'property'  => 'nom',
                 "label"     => 'Page web',
                 ))
             ->add('parent', 'entity', array(
-                'class'     => 'AcmeGroupLaboBundle:categorie',
+                'class'     => 'LaboTestmanuBundle:categorie',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "required"  => false,
                 'label'     => "Catégorie parent",
                 ))
             ->add('children', 'entity', array(
-                'class'     => 'AcmeGroupLaboBundle:categorie',
+                'class'     => 'LaboTestmanuBundle:categorie',
                 'property'  => 'nom',
                 'multiple'  => true,
                 "required"  => false,
@@ -128,7 +128,7 @@ class categorieType extends AbstractType {
                 if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
                     $form
                         ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
+                            'class'     => 'LaboTestmanuBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut'
@@ -142,7 +142,7 @@ class categorieType extends AbstractType {
                             "label"     => 'Date d\'expiration',
                             ))
                         ->add('versions', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:version',
+                            'class'     => 'LaboTestmanuBundle:version',
                             'property'  => 'nom',
                             'multiple'  => true,
                             'expanded'  => true,

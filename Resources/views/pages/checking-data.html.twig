@@ -1,10 +1,10 @@
-{% extends "AcmeGroupLaboBundle::sitePage.html.twig" %}
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
 {% block title %}{{ parent() }} - Checking pour {{ entite }}{% endblock %}
 
 {% block main_contain %}
 {% set entiteName = "Checking" %}
 {% set ssentiteName = entite %}
-{% include "AcmeGroupLaboBundle:bloc:page-header.html.twig" %}
+{% include "LaboTestmanuBundle:bloc:page-header.html.twig" %}
 <div class="row">
 	<!-- Corps complet -->
 	{% if check.result != null %}

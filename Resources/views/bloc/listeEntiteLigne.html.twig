@@ -1,5 +1,5 @@
 <tr class="ajxu-{{ entite.bundleName }}Bundle{{ entiteName }}{{ ligne.id }}" data-prototype="{{ url('listeEntiteLigne', {'classEntite': Url_encode(classEntite), 'id': ligne.id}) }}">
-	{% include "AcmeGroupLaboBundle:tableau:col_actions.html.twig" with {"ligne": ligne} %}
+	{% include "LaboTestmanuBundle:tableau:col_actions.html.twig" with {"ligne": ligne} %}
 	{% if entiteName == "pageweb" %}
 	<td>
 		{% if ligne.richtexts|length > 0 %}
@@ -18,9 +18,9 @@
 	{% endif %}
 	{% for nom,MI in metaInfo if nom != "id" %}
 	{% if champs is defined %}{% if MI.libelle in champs %}
-	{% include "AcmeGroupLaboBundle:tableau:" ~ MI.colbloc ~ ".html.twig" with {"ligne": ligne, "value": valueOfObject(ligne, nom)} %}
+	{% include "LaboTestmanuBundle:tableau:" ~ MI.colbloc ~ ".html.twig" with {"ligne": ligne, "value": valueOfObject(ligne, nom)} %}
 	{% endif %}{% else %}
-	{% include "AcmeGroupLaboBundle:tableau:" ~ MI.colbloc ~ ".html.twig" with {"ligne": ligne, "value": valueOfObject(ligne, nom)} %}
+	{% include "LaboTestmanuBundle:tableau:" ~ MI.colbloc ~ ".html.twig" with {"ligne": ligne, "value": valueOfObject(ligne, nom)} %}
 	{% endif %}
 	{% endfor %}
 </tr>

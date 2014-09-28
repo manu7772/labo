@@ -1,13 +1,13 @@
-{% extends "AcmeGroupLaboBundle::sitePage.html.twig" %}
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
 {% block title %}{{ parent() }} - Statistiques site{% endblock %}
 
 {% block main_contain %}
 
-{{ render(controller("AcmeGroupLaboBundle:Labo:pageHeader", {titre : "Statistiques pages", sstitre : pageNom})) }}
+{{ render(controller("LaboTestmanuBundle:Labo:pageHeader", {titre : "Statistiques pages", sstitre : pageNom})) }}
 <div class="row">
 	<!-- Corps complet -->
-	{{ include('AcmeGroupLaboBundle:bloc:statListOptions.html.twig') }}
-	{{ include('AcmeGroupLaboBundle:bloc:statListOptionsCategories.html.twig') }}
+	{{ include('LaboTestmanuBundle:bloc:statListOptions.html.twig') }}
+	{{ include('LaboTestmanuBundle:bloc:statListOptionsCategories.html.twig') }}
 	{% if pageStat is defined %}
 	<div class="well well-sm">
 		{{ pageStat.nom }}

@@ -1,10 +1,10 @@
-{% extends "AcmeGroupLaboBundle::sitePage.html.twig" %}
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
 {% block title %}{{ parent() }} - Détail {{ entite }} {{ facture.reference }}{% endblock %}
 
 {% block main_contain %}
 {% set entiteName = "Détail de commande " ~ facture.reference %}
 {% set ssentiteName = entite %}
-{% include "AcmeGroupLaboBundle:bloc:page-header.html.twig" %}
+{% include "LaboTestmanuBundle:bloc:page-header.html.twig" %}
 <a href="{{ url('labo_page_vente', {type: comefrom}) }}"><button type="button" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-left"></span> Retour</button></a>
 <div style="clear:both;height:12px;"></div>
 <div class="row">

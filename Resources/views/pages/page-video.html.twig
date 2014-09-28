@@ -1,13 +1,13 @@
-{% extends "AcmeGroupLaboBundle::sitePage.html.twig" %}
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
 {% block title %}{{ parent() }} - {{ action|capitalize }} {{ entite }}{% endblock %}
 
 {% block main_contain %}
 <div class="row">
 	{% if action != 'liste' %}{% set action2 = 'annule' %}{% else %}{% set action2 = action %}{% endif %}
-	{{ render(controller("AcmeGroupLaboBundle:Labo:pageHeader", {titre: entite, sstitre: action, action: action2, entite: bundleEntite})) }}
+	{{ render(controller("LaboTestmanuBundle:Labo:pageHeader", {titre: entite, sstitre: action, action: action2, entite: bundleEntite})) }}
 	<!-- Corps complet -->
 	{% if action == "liste" %}
-	{% include "AcmeGroupLaboBundle:bloc:pagination.html.twig" with {"liste": ["nom","descriptif","videoUrl"]} %}
+	{% include "LaboTestmanuBundle:bloc:pagination.html.twig" with {"liste": ["nom","descriptif","videoUrl"]} %}
 	<div class="panel panel-default table-responsive">
 	<!-- Default panel contents -->
 		<div class="panel-heading"><span class="badge">{{ pag.nbtot }}</span> video{{ plur(video) }} trouvé{{ plur(video) }}{% if pag.nbpage > 0 %} - page {{ pag.page }}/{{ pag.nbpage }} - {{ pag.lignes }} vidéos par page{% endif %}</div>
@@ -27,7 +27,7 @@
 				</thead>
 				<tbody>
 				{% for ligne in video %}
-					{% include "AcmeGroupLaboBundle:bloc:liste" ~ UCfirst(entite) ~ "Ligne.html.twig" %}
+					{% include "LaboTestmanuBundle:bloc:liste" ~ UCfirst(entite) ~ "Ligne.html.twig" %}
 				{% endfor %}
 				</tbody>
 			</table>

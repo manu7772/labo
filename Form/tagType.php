@@ -35,7 +35,7 @@ class tagType extends AbstractType {
                 "required" => true,
                 "label" => 'Nom du tag'))
             ->add('richtexts', 'entity', array(
-               'class'     => 'AcmeGroupLaboBundle:richtext',
+               'class'     => 'LaboTestmanuBundle:richtext',
                'property'  => 'nom',
                'multiple'  => true,
                'expanded'  => false,
@@ -44,7 +44,7 @@ class tagType extends AbstractType {
                'disabled'  => true
                ))
             ->add('pagewebs', 'entity', array(
-               'class'     => 'AcmeGroupLaboBundle:pageweb',
+               'class'     => 'LaboTestmanuBundle:pageweb',
                'property'  => 'nom',
                'multiple'  => true,
                'expanded'  => false,

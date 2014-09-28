@@ -1,16 +1,16 @@
-{% extends "AcmeGroupLaboBundle::sitePage.html.twig" %}
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
 {% block title %}{{ parent() }} - Statistiques site{% endblock %}
 
 {% block main_contain %}
 
-{{ render(controller("AcmeGroupLaboBundle:Labo:pageHeader", {titre : "Statistiques", sstitre : typedata})) }}
+{{ render(controller("LaboTestmanuBundle:Labo:pageHeader", {titre : "Statistiques", sstitre : typedata})) }}
 <div class="row">
 	<!-- Corps complet -->
-	{{ include('AcmeGroupLaboBundle:bloc:statListOptions.html.twig') }}
+	{{ include('LaboTestmanuBundle:bloc:statListOptions.html.twig') }}
 	{% if listeArticles is defined %}
-	{{ include('AcmeGroupLaboBundle:bloc:statListOptionsArticles.html.twig') }}
+	{{ include('LaboTestmanuBundle:bloc:statListOptionsArticles.html.twig') }}
 	{% else %}
-	{{ include('AcmeGroupLaboBundle:bloc:statListOptionsCategories.html.twig') }}
+	{{ include('LaboTestmanuBundle:bloc:statListOptionsCategories.html.twig') }}
 	{% endif %}
 	<div class="well well-sm">
 		<h4>Page d'accueil <small>(acme_site_home)</small></h4>

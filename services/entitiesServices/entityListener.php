@@ -149,7 +149,7 @@ class entityListener implements EventSubscriber {
 			$this->modeFixtures = false;
 			$this->session = $this->container->get('session')->get('version');
 			$ver = $this->session["slug"];
-			$this->repoVersion = $this->em->getRepository("AcmeGroupLaboBundle:version");
+			$this->repoVersion = $this->em->getRepository("LaboTestmanuBundle:version");
 			$cv = $this->repoVersion->findBySlug($ver);
 			if(count($cv) > 0) $this->currentVersion = $cv[0];
 				else $this->currentVersion = false;

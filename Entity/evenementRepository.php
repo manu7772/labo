@@ -99,7 +99,7 @@ class evenementRepository extends baseRepository {
 		if(($this->typesEventMODELE === null) || ($this->typesEvent === null) || ($force === true)) {
 			$this->typesEventMODELE = array();
 			$this->typesEvent = array();
-			$listTE = $this->_em->getRepository("AcmeGroupLaboBundle:typeEvenement")->findAll();
+			$listTE = $this->_em->getRepository("LaboTestmanuBundle:typeEvenement")->findAll();
 			// $TER = new typeEvenementRepository($this->em, $this->cmdata);
 			// $listTE = $TER->findAll();
 			// $listTE = array("expositions", "salons-foires", "manifestations-culturelles", "pub");

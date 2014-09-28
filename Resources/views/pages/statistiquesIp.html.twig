@@ -1,12 +1,12 @@
-{% extends "AcmeGroupLaboBundle::sitePage.html.twig" %}
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
 {% block title %}{{ parent() }} - Statistiques site{% endblock %}
 
 {% block main_contain %}
 
-{{ render(controller("AcmeGroupLaboBundle:Labo:pageHeader", {titre : "Statistiques", sstitre : "suivi IP " ~ ip})) }}
+{{ render(controller("LaboTestmanuBundle:Labo:pageHeader", {titre : "Statistiques", sstitre : "suivi IP " ~ ip})) }}
 <div class="row">
 	<!-- Corps complet -->
-	{{ include('AcmeGroupLaboBundle:bloc:statListOptions.html.twig') }}
+	{{ include('LaboTestmanuBundle:bloc:statListOptions.html.twig') }}
 	<div class="well well-sm">
 		<h4>Liste des pages visitées par {{ ip }} ({{ statistiques|length }} <small>page{{ plur(statistiques, "s") }})</small></h4>
 		<table class="table table-striped table-hover table-condensed">

@@ -1,4 +1,4 @@
-{% extends "AcmeGroupLaboBundle::sitePage.html.twig" %}
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
 {% block title %}{{ parent() }} - {{ action|capitalize }} {{ classEntite }}{% endblock %}
 
 {% block main_contain %}
@@ -7,10 +7,10 @@
 	{% set entiteName = classEntite %}
 	{% set ssentiteName = action %}
 	{% set comment = action2 %}
-	{% include "AcmeGroupLaboBundle:bloc:page-header.html.twig" %}
+	{% include "LaboTestmanuBundle:bloc:page-header.html.twig" %}
 	<!-- Corps complet -->
 	{% if action == "liste" %}
-	{% include "AcmeGroupLaboBundle:bloc:pagination.html.twig" with {"liste": ["nom","prix"]} %}
+	{% include "LaboTestmanuBundle:bloc:pagination.html.twig" with {"liste": ["nom","prix"]} %}
 	<div class="panel panel-default table-responsive">
 	<!-- Default panel contents -->
 		<div class="panel-heading"><span class="badge">{{ pag.nbtot }}</span> article{{ plur(article) }} trouvé{{ plur(article) }}{% if pag.nbpage > 0 %} - page {{ pag.page }}/{{ pag.nbpage }} - {{ pag.lignes }} articles par page{% endif %}</div>
@@ -39,7 +39,7 @@
 				</thead>
 				<tbody>
 				{% for ligne in article %}
-					{% include "AcmeGroupLaboBundle:bloc:listeEntiteLigne.html.twig" %}
+					{% include "LaboTestmanuBundle:bloc:listeEntiteLigne.html.twig" %}
 				{% endfor %}
 				</tbody>
 			</table>
@@ -49,7 +49,7 @@
 
 	{% else %}
 
-	{% form_theme form 'AcmeGroupLaboBundle:Form:bootstrap-override.html.twig' %}
+	{% form_theme form 'LaboTestmanuBundle:Form:bootstrap-override.html.twig' %}
 
 	<div class="container">
 		<div class="row">

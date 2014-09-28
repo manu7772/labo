@@ -35,14 +35,14 @@ class articleType extends AbstractType {
 				"label"     => 'Nom de l\'article'
 				))
 			->add('marque', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:marque',
+				'class'     => 'LaboTestmanuBundle:marque',
 				'property'  => 'nom',
 				'multiple'  => false,
 				"label"     => 'Marque'
 				))
             ->add('categories', 'entity', array(
                 "required"  => true,
-                'class'     => 'AcmeGroupLaboBundle:categorie',
+                'class'     => 'LaboTestmanuBundle:categorie',
                 'property'  => 'nom',
                 'multiple'  => true,
                 "label"     => 'Catégories',
@@ -52,7 +52,7 @@ class articleType extends AbstractType {
                 ))
 			->add('reseaus', 'entity', array(
 				"required"  => true,
-				'class'     => 'AcmeGroupLaboBundle:reseau',
+				'class'     => 'LaboTestmanuBundle:reseau',
 				'property'  => 'nom',
 				'multiple'  => true,
 				"label"     => 'Réseaux de distribution'
@@ -87,7 +87,7 @@ class articleType extends AbstractType {
 				"required"  => false
 				))
 			->add('imagePpale', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:image',
+				'class'     => 'LaboTestmanuBundle:image',
 				'property'  => 'nom',
 				'multiple'  => false,
 				"label"     => 'Image de l\'article',
@@ -98,7 +98,7 @@ class articleType extends AbstractType {
 				'empty_value' => 'Sélectionner…'
 				))
 			->add('images', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:image',
+				'class'     => 'LaboTestmanuBundle:image',
 				'property'  => 'nom',
 				'multiple'  => true,
 				"label"     => 'Autres images',
@@ -110,7 +110,7 @@ class articleType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'AcmeGroupLaboBundle:statut',
+                'class'     => 'LaboTestmanuBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de l\'article',
@@ -119,7 +119,7 @@ class articleType extends AbstractType {
                     }
                 ))
 			->add('tauxTVA', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:tauxTVA',
+				'class'     => 'LaboTestmanuBundle:tauxTVA',
 				'property'  => 'nom',
 				'multiple'  => false,
 				"label"     => 'Taux de TVA (%)'
@@ -129,7 +129,7 @@ class articleType extends AbstractType {
                 "label"     => "Fiche technique PDF"
                 ))
 			->add('articlesLies', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:article',
+				'class'     => 'LaboTestmanuBundle:article',
 				'property'  => 'nom',
 				'multiple'  => true,
 				'expanded'  => false,
@@ -137,7 +137,7 @@ class articleType extends AbstractType {
 				"label"     => 'Articles conseillés'
 				))
 			->add('videos', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:video',
+				'class'     => 'LaboTestmanuBundle:video',
 				'property'  => 'nom',
 				'multiple'  => true,
 				'expanded'  => false,
@@ -145,7 +145,7 @@ class articleType extends AbstractType {
 				"label"     => 'Vidéos associées'
 				))
 			->add('ficheCreatives', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:ficheCreative',
+				'class'     => 'LaboTestmanuBundle:ficheCreative',
 				'property'  => 'nom',
 				'multiple'  => true,
 				'expanded'  => false,
@@ -153,7 +153,7 @@ class articleType extends AbstractType {
 				"label"     => 'Fiches créatives associées'
 				))
 			->add('versions', 'entity', array(
-				'class'     => 'AcmeGroupLaboBundle:version',
+				'class'     => 'LaboTestmanuBundle:version',
 				'property'  => 'nom',
 				'multiple'  => true,
 				'expanded'  => true,
@@ -213,7 +213,7 @@ class articleType extends AbstractType {
 				if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
                     $form
                         ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
+                            'class'     => 'LaboTestmanuBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut'

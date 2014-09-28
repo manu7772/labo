@@ -38,10 +38,10 @@ class AelogController extends Controller {
 		switch($data['typedata']) {
 			case "articles":
 				$data["listeArticles"] = $this->get("acmeGroup.article")->getRepo()->aeFindAll();
-				return $this->render('AcmeGroupLaboBundle:pages:statistiquesArticles.html.twig', $data);
+				return $this->render('LaboTestmanuBundle:pages:statistiquesArticles.html.twig', $data);
 				break;
 			default:
-				return $this->render('AcmeGroupLaboBundle:pages:statistiques.html.twig', $data);
+				return $this->render('LaboTestmanuBundle:pages:statistiques.html.twig', $data);
 				break;
 		}
 	}
@@ -59,7 +59,7 @@ class AelogController extends Controller {
 		$data["ip"] = $ip;
 		$statistiques = $this->get("acmeGroup.aelog");
 		$data["statistiques"] = $statistiques->findByIp($ip, $dateDebut, $dateFin);
-		return $this->render('AcmeGroupLaboBundle:pages:statistiquesIp.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:statistiquesIp.html.twig', $data);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class AelogController extends Controller {
 		} else {
 			$data["error"] = "Cette page n'existe pas.";
 		}
-		return $this->render('AcmeGroupLaboBundle:pages:statistiquesPages.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:statistiquesPages.html.twig', $data);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class AelogController extends Controller {
 				"Vues uniques" => $data["articleStat"]["unique"][$year]
 				));
 		}
-		return $this->render('AcmeGroupLaboBundle:pages:statistiquesArticles.html.twig', $data);
+		return $this->render('LaboTestmanuBundle:pages:statistiquesArticles.html.twig', $data);
 	}
 
 

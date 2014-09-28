@@ -65,7 +65,7 @@ class baseRepository extends EntityRepository {
 	 */
 	public function setVersion($version = null, $shutdown = null) {
 		if($version === null) {
-			$ver = $this->_em->getRepository("AcmeGroupLaboBundle:version")->defaultVersion();
+			$ver = $this->_em->getRepository("LaboTestmanuBundle:version")->defaultVersion();
 			$this->version[0] = $ver->getSlug();
 		} else if(is_array($version)) {
 			$this->version = $version;

@@ -16,7 +16,7 @@ class richtextsAetools {
 	public function __construct(ContainerInterface $container) {
 		$this->container = $container;
 		$this->em = $this->container->get('doctrine')->getManager();
-		$this->repo = $this->em->getRepository('AcmeGroupLaboBundle:richtext');
+		$this->repo = $this->em->getRepository('LaboTestmanuBundle:richtext');
 	}
 
 	/**
@@ -83,7 +83,7 @@ class richtextsAetools {
 	 * @return typeRichtext
 	 */
 	public function typeRichtextList() {
-		return $this->em->getRepository('AcmeGroupLaboBundle:typeRichtext')->findAll();
+		return $this->em->getRepository('LaboTestmanuBundle:typeRichtext')->findAll();
 	}
 
 	/**
@@ -93,7 +93,7 @@ class richtextsAetools {
 	 * @return boolean
 	 */
 	public function hasTypeRichtext($typeRichtextNom) {
-		if(count($this->em->getRepository('AcmeGroupLaboBundle:typeRichtext')->findByNom($typeRichtextNom)) > 0) return true;
+		if(count($this->em->getRepository('LaboTestmanuBundle:typeRichtext')->findByNom($typeRichtextNom)) > 0) return true;
 			else return false;
 	}
 

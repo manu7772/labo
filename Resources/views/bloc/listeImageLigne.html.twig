@@ -4,10 +4,10 @@
 			<img src="{{ asset('images/tn64/' ~ ligne.fichierNom) }}" width="64" height="64" class="img-thumbnail" />
 		</a>
 	</td>
-	{% include "AcmeGroupLaboBundle:tableau:col_actions.html.twig" %}
-	{% include "AcmeGroupLaboBundle:tableau:col_texte.html.twig" with {"value": ligne.nom} %}
-	{% include "AcmeGroupLaboBundle:tableau:col_texte.html.twig" with {"value": ligne.descriptif, "short": 50} %}
-	{% include "AcmeGroupLaboBundle:tableau:col_date.html.twig" with {"value": ligne.dateCreation} %}
-	{% include "AcmeGroupLaboBundle:tableau:col_date.html.twig" with {"value": ligne.dateMaj} %}
-	{% include "AcmeGroupLaboBundle:tableau:col_statut.html.twig" with {"statut": ligne.statut} %}
+	{% include "LaboTestmanuBundle:tableau:col_actions.html.twig" %}
+	{% include "LaboTestmanuBundle:tableau:col_texte.html.twig" with {"value": ligne.nom} %}
+	{% include "LaboTestmanuBundle:tableau:col_texte.html.twig" with {"value": ligne.descriptif, "short": 50} %}
+	{% include "LaboTestmanuBundle:tableau:col_date.html.twig" with {"value": ligne.dateCreation} %}
+	{% include "LaboTestmanuBundle:tableau:col_date.html.twig" with {"value": ligne.dateMaj} %}
+	{% include "LaboTestmanuBundle:tableau:col_statut.html.twig" with {"statut": ligne.statut} %}
 </tr>

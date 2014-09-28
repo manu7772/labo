@@ -226,7 +226,7 @@ class fixturesLoader {
 			function($matches) {
 				if((count($matches) > 3) || ($matches[1] == 'IMG')) {
 					$meth = 'findBy'.ucfirst($matches[2]);
-					$repo = $this->manager->getRepository("AcmeGroupLaboBundle:image");
+					$repo = $this->manager->getRepository("LaboTestmanuBundle:image");
 					$image = $repo->$meth($matches[3]);
 					if(count($image) > 0) return ("{{ asset('images/original/".$image[0]->getFichierNom()."') }}");
 				}

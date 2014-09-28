@@ -52,7 +52,7 @@ class outPuts3 {
 	protected $outputs = array();	// éléments à renvoyer en output
 
 	protected $reservedWords = array( // clés non utilisables avec $this->addData()
-		"bundleName",		// --> AcmeGroupLaboBundle
+		"bundleName",		// --> LaboTestmanuBundle
 		"bundleNameSlash",	// --> AcmeGroup\LaboBundle
 		"baseType",			// --> labo\Bundle\TestmanuBundle\Form\
 		"basePath",			// --> labo\Bundle\TestmanuBundle\Entity\
@@ -232,7 +232,7 @@ class outPuts3 {
 		} else $this->ErrorGenerate("Nom de bundle invalide : non attribué");
 		return $this;
 	}
-		// "bundleName",		// --> AcmeGroupLaboBundle
+		// "bundleName",		// --> LaboTestmanuBundle
 		// "bundleNameSlash",	// --> AcmeGroup\LaboBundle
 		// "baseType",			// --> labo\Bundle\TestmanuBundle\Form\
 		// "basePath",			// --> labo\Bundle\TestmanuBundle\Entity\
@@ -451,7 +451,7 @@ class outPuts3 {
 
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('c')
-			->from('AcmeGroupLaboBundle:categorie', 'c')
+			->from('LaboTestmanuBundle:categorie', 'c')
 			->join('c.statut', 's')
 			->where($qb->expr()->in('s.nom', $socNom))
 			// ->join('c.statut', 'st', 'WITH', 'UPPER(st.nom) = :actif')

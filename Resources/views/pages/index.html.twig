@@ -1,13 +1,13 @@
-{% extends "AcmeGroupLaboBundle::sitePage.html.twig" %}
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
 {% block title %}{{ parent() }} - Administration site{% endblock %}
 
 {% block main_contain %}
 
-{% include "AcmeGroupLaboBundle:bloc:jumbotron.html.twig" %}
+{% include "LaboTestmanuBundle:bloc:jumbotron.html.twig" %}
 
 <div class="row">
 	<div id="menu" class="col-md-4 hidden-sm hidden-xs">
-	{{ render(controller("AcmeGroupLaboBundle:Labo:leftSideMenu")) }}
+	{{ render(controller("LaboTestmanuBundle:Labo:leftSideMenu")) }}
 	</div>
 	<div id="content" class="col-md-8">
 		<div class="well well-sm">Liens de téléchargement</div>

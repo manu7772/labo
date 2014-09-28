@@ -53,7 +53,7 @@ class versionType extends AbstractType {
             ->add('couleurFond', 'text', array(
                 'label' => 'Couleur principale #'))
             ->add('imageEntete', 'entity', array(
-                'class'     => 'AcmeGroupLaboBundle:image',
+                'class'     => 'LaboTestmanuBundle:image',
                 'property'  => 'nom',
                 'multiple'  => false,
                 'required'  => true,
@@ -64,7 +64,7 @@ class versionType extends AbstractType {
                 'empty_value' => 'Sélectionner…'
                 ))
             ->add('logo', 'entity', array(
-                'class'     => 'AcmeGroupLaboBundle:image',
+                'class'     => 'LaboTestmanuBundle:image',
                 'property'  => 'nom',
                 'multiple'  => false,
                 'required'  => true,
