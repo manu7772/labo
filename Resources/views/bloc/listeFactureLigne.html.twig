@@ -1,0 +1,14 @@
+<tr class="ajxu-{{ bundle }}Bundle{{ entite }}{{ ligne.id }}" data-prototype="{{ url('listeEntiteLigne', {'entite': bundle ~ 'Bundle' ~ entite, 'id': ligne.id}) }}">
+	{% include "AcmeGroupLaboBundle:tableau:col_texteCentre.html.twig" with {"texte": ligne.id} %}
+	{% if is_granted("ROLE_SUPER_ADMIN") %}
+	{% include "AcmeGroupLaboBundle:tableau:col_actions.html.twig" %}
+	{% endif %}
+	{% include "AcmeGroupLaboBundle:tableau:col_texte.html.twig" with {"texte": ligne.reference} %}
+	{% include "AcmeGroupLaboBundle:tableau:col_euro.html.twig" with {"euro": "???"} %}
+	{% include "AcmeGroupLaboBundle:tableau:col_date.html.twig" with {"date": ligne.dateCreation} %}
+	{% include "AcmeGroupLaboBundle:tableau:col_date.html.twig" with {"date": ligne.dateMaj} %}
+	{% include "AcmeGroupLaboBundle:tableau:col_texte.html.twig" with {"texte": ligne.ver} %}
+	{% include "AcmeGroupLaboBundle:tableau:col_texte.html.twig" with {"texte": ligne.phase} %}
+	{% if ligne.annulee == 0 %}{% set etat = "Active" %}{% set label = "success" %}{% else %}{% set etat = "Annulée" %}{% set label = "warning" %}{% endif %}
+	<td><span class="label label-{{ label }}">{{ etat }}</span></td>
+</tr>
