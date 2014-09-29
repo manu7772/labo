@@ -29,14 +29,14 @@ abstract class statut {
 	 *      maxMessage = "Le nom doit comporter au maximum {{ limit }} lettres."
 	 * )
 	 */
-	private $nom;
+	protected $nom;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="descriptif", type="text", nullable=true, unique=false)
 	 */
-	private $descriptif;
+	protected $descriptif;
 
 
 
