@@ -6,9 +6,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class parametreType extends AbstractType
-{
-        /**
+class parametreType extends AbstractType {
+
+    private $controller;
+    private $securityContext;
+    private $parametres;
+    
+    public function __construct(Controller $controller, $parametres = null) {
+        $this->controller = $controller;
+        $this->securityContext = $controller->get('security.context');
+        if($parametres === null) $parametres = array();
+        $this->parametres = $parametres;
+    }
+
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */

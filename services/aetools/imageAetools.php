@@ -233,7 +233,7 @@ class imageAetools {
 	}
 
 	protected function getUploadRootDir() {
-		$path = __DIR__.'../../../../../../../../web/images/';
+		$path = __DIR__.'/../../../../../../../../web/images/';
 		$this->SetAeReponse(true, $path, "OK");
 		return $path;
 	}

@@ -120,9 +120,9 @@ class articleType extends AbstractType {
                 ))
 			->add('tauxTVA', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:tauxTVA',
-				'property'  => 'nom',
+				'property'  => 'nomlong',
 				'multiple'  => false,
-				"label"     => 'Taux de TVA (%)'
+				"label"     => 'Taux de TVA'
 				))
             ->add('fichierPdf', new fichierPdfType($this->controller), array(
                 "required"  => false,

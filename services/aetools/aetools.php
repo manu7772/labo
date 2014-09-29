@@ -82,7 +82,7 @@ class aetools {
 	}
 
 	public function setWebPath($path = "") {
-		$rootPath = __DIR__.'../../../../../../../../web/'.$path;
+		$rootPath = __DIR__.'/../../../../../../../../web/'.$path;
 		if(file_exists($rootPath)) {
 			$this->close();
 			$this->rootPath = $rootPath;
@@ -94,7 +94,7 @@ class aetools {
 	}
 
 	public function setRootPath($path = "") {
-		$rootPath = __DIR__.'../../../../../../../../'.$path;
+		$rootPath = __DIR__.'/../../../../../../../../'.$path;
 		if(file_exists($rootPath)) {
 			$this->close();
 			$this->rootPath = $rootPath;
