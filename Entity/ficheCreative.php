@@ -66,7 +66,7 @@ abstract class ficheCreative {
 	protected $dateExpiration;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	protected $statut;
@@ -115,7 +115,7 @@ abstract class ficheCreative {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
 	 */
 	protected $versions;
 
