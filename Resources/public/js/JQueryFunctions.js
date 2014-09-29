@@ -190,7 +190,7 @@ jQuery(document).ready(function($) {
 
 	// Initialisation du chemin
 	if($("#hiddenStuffs input#homepath").length)
-		tinyMCE.baseURL = $("#hiddenStuffs input#homepath").val().replace("app_dev.php/", "") + "bundles/acmegrouplabo/js/tinymce";
+		tinyMCE.baseURL = $("#hiddenStuffs input#homepath").val().replace("app_dev.php/", "") + "bundles/labotestmanu/js/tinymce";
 	tinyMCE.init({
 		language : 'fr_FR',
 		selector: 'form .richtexts',
@@ -302,17 +302,17 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	// TEST MDP POPUP
-	$('body').on("Change", "#labo_testmanubundle_tempuser_mdp2", function() {
-		alert("Mot de passe 2 changé !");
-	});
+	// // TEST MDP POPUP
+	// $('body').on("Change", "#labo_testmanubundle_tempuser_mdp2", function() {
+	// 	alert("Mot de passe 2 changé !");
+	// });
 
 	/* **************************************************** */
 	/* TINYMCE --> directeditor richtext
 	/* **************************************************** */
 
 	// Initialisation du chemin --> fait plus haut (pour formulaires)
-	// tinyMCE.baseURL = $("#hiddenStuffs input#homepath").val().replace("app_dev.php/", "") + "bundles/acmegrouplabo/js/tinymce";
+	// tinyMCE.baseURL = $("#hiddenStuffs input#homepath").val().replace("app_dev.php/", "") + "bundles/labotestmanu/js/tinymce";
 
 	// Sauvegarde son propre contenu
 	var saveHtml = function(elem) {
