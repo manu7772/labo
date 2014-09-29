@@ -65,7 +65,7 @@ class images extends AbstractFixture implements OrderedFixtureInterface, Contain
 			// echo("********************************\n");
 			// echo("** ENREGISTREMENT DES IMAGES. **\n");
 			// echo("********************************\n");
-			// $images = $manager->getRepository("labo\\Bundle\\TestmanuBundle\\Entity\\image")->findAll();
+			// $images = $manager->getRepository("AcmeGroupe\\LaboBundle\\Entity\\image")->findAll();
 			// foreach($images as $ent) {
 			// 	$this->imagetools->loadImageFile($ent);
 			// 	$this->imagetools->deleteCurtImage();

@@ -559,7 +559,7 @@ class entitiesGeneric {
 					$memem = $this->em;
 					if($entiteObj->getStatut()->getNom() == "Actif")
 						$find = "Inactif"; else $find = "Actif";
-					$statut = $this->em->getRepository("labo\\Bundle\\TestmanuBundle\\Entity\\statut")->findByNom($find);
+					$statut = $this->em->getRepository("AcmeGroupe\\LaboBundle\\Entity\\statut")->findByNom($find);
 					$entiteObj->setStatut($statut[0]);
 					$this->repo = $memrepo;
 					$this->em = $memem;
