@@ -47,7 +47,7 @@ class marqueType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de la marque',
-                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
+                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
                     return $qb->defaultValClosure();
                     }
                 ))
@@ -57,7 +57,7 @@ class marqueType extends AbstractType {
                 'multiple'  => false,
                 'required'  => false,
                 'label'     => 'Logo',
-                'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('logo'));
                     }
                 ))
@@ -138,7 +138,7 @@ class marqueType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\marque'
+            'data_class' => 'AcmeGroup\LaboBundle\Entity\marque'
         ));
     }
 

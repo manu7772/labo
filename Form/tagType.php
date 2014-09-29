@@ -105,7 +105,7 @@ class tagType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\tag'
+            'data_class' => 'AcmeGroup\LaboBundle\Entity\tag'
         ));
     }
 

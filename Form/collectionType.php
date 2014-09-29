@@ -49,7 +49,7 @@ class collectionType extends AbstractType {
 				'multiple'  => true,
 				"label"     => 'Médias',
 				"required"  => false,
-                'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('diaporama'));
                     },
                 'empty_value' => '(utiliser image standard)'
@@ -61,7 +61,7 @@ class collectionType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut du magasin',
-                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
+                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
                     return $qb->defaultValClosure();
                     }
                 ))
@@ -153,7 +153,7 @@ class collectionType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => 'labo\Bundle\TestmanuBundle\Entity\collection'
+			'data_class' => 'AcmeGroup\LaboBundle\Entity\collection'
 		));
 	}
 

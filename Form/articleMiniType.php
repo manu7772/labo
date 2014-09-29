@@ -70,7 +70,7 @@ class articleMiniType extends articleType {
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-			'data_class' => 'labo\Bundle\TestmanuBundle\Entity\article'
+			'data_class' => 'AcmeGroup\LaboBundle\Entity\article'
 		));
 	}
 

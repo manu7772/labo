@@ -39,7 +39,7 @@ class tempuserType extends AbstractType {
             //     // 'property'  => 'nommagasin',
             //     // 'multiple'  => false,
             //     "label"     => 'Boutique référente',
-            //     // "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\magasinRepository $magasin) {
+            //     // "query_builder" => function(\AcmeGroup\LaboBundle\Entity\magasinRepository $magasin) {
             //     //     return $magasin->findAll();
             //     //     }
             //     ))
@@ -90,7 +90,7 @@ class tempuserType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\tempuser'
+            'data_class' => 'AcmeGroup\LaboBundle\Entity\tempuser'
         ));
     }
 

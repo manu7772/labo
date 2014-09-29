@@ -30,7 +30,7 @@ class ficheCreativeType extends AbstractType {
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $ficheCreative = new \labo\Bundle\TestmanuBundle\Entity\ficheCreative();
+        $ficheCreative = new \AcmeGroup\LaboBundle\Entity\ficheCreative();
 
         $builder
             ->add('nom', 'text', array(
@@ -75,7 +75,7 @@ class ficheCreativeType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de la fiche',
-                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
+                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
                     return $qb->defaultValClosure();
                     }
                 ))
@@ -89,7 +89,7 @@ class ficheCreativeType extends AbstractType {
                 'multiple'  => false,
                 "label"     => 'Image de l\'article',
                 "required"  => false,
-                'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('atelier'));
                     },
                 'empty_value' => '(aucune image)'
@@ -100,7 +100,7 @@ class ficheCreativeType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Thème atelier',
-                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\categorieRepository $cat) {
+                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\categorieRepository $cat) {
                     return $cat->getSelectListForFicheCreative();
                     }
                 ))
@@ -222,7 +222,7 @@ class ficheCreativeType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\ficheCreative'
+            'data_class' => 'AcmeGroup\LaboBundle\Entity\ficheCreative'
         ));
     }
 
@@ -231,6 +231,6 @@ class ficheCreativeType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_fichecreative';
+        return 'acmegroup_labobundle_fichecreative';
     }
 }

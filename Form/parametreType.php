@@ -13,7 +13,7 @@ class parametreType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $parametre = new \labo\Bundle\TestmanuBundle\Entity\parametre();
+        $parametre = new \AcmeGroup\LaboBundle\Entity\parametre();
 
         $builder
             ->add('nom', 'text', array(
@@ -64,7 +64,7 @@ class parametreType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\parametre'
+            'data_class' => 'AcmeGroup\LaboBundle\Entity\parametre'
         ));
     }
 

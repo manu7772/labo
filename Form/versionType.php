@@ -58,7 +58,7 @@ class versionType extends AbstractType {
                 'multiple'  => false,
                 'required'  => true,
                 "label"     => 'Image d\'entête',
-                'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('Version'));
                     },
                 'empty_value' => 'Sélectionner…'
@@ -69,7 +69,7 @@ class versionType extends AbstractType {
                 'multiple'  => false,
                 'required'  => true,
                 "label"     => 'Logo',
-                'query_builder' => function(\labo\Bundle\TestmanuBundle\Entity\imageRepository $i) {
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('Logo'));
                     },
                 'empty_value' => 'Sélectionner…'
@@ -156,7 +156,7 @@ class versionType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'labo\Bundle\TestmanuBundle\Entity\version'
+            'data_class' => 'AcmeGroup\LaboBundle\Entity\version'
         ));
     }
 

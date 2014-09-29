@@ -42,10 +42,10 @@ class imageMiniType extends AbstractType {
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de l\'image',
-                "query_builder" => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
+                "query_builder" => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
                     return $qb->defaultValClosure();
                     }
-                // "data"      => function(\labo\Bundle\TestmanuBundle\Entity\statutRepository $qb) {
+                // "data"      => function(\AcmeGroup\LaboBundle\Entity\statutRepository $qb) {
                 //     $statut = $qb->defaultVal();
                 //     return $statut;
                 //     }
@@ -118,7 +118,7 @@ class imageMiniType extends AbstractType {
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-			'data_class' => 'labo\Bundle\TestmanuBundle\Entity\image'
+			'data_class' => 'AcmeGroup\LaboBundle\Entity\image'
 		));
 	}
 
