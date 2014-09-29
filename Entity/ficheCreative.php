@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -66,7 +66,7 @@ abstract class ficheCreative {
 	protected $dateExpiration;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
 	protected $statut;
@@ -115,7 +115,7 @@ abstract class ficheCreative {
 	/**
 	 * @var array
 	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
+	 * @ORM\ManyToMany(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
 	 */
 	protected $versions;
 
