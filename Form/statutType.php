@@ -116,6 +116,6 @@ class statutType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_statut';
+        return 'acmegroup_labobundle_statut';
     }
 }

@@ -119,6 +119,6 @@ class typeRemiseType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_typeremise';
+        return 'acmegroup_labobundle_typeremise';
     }
 }

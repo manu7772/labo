@@ -189,6 +189,6 @@ class evenementType extends AbstractType {
 	 */
 	public function getName()
 	{
-		return 'labo_testmanubundle_evenement';
+		return 'acmegroup_labobundle_evenement';
 	}
 }

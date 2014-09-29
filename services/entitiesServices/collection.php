@@ -22,7 +22,7 @@ class collection extends entitiesGeneric {
 	 * getDiaporama
 	 * Renvoie la collection selon le slug
 	 * @param string $collSlug
-	 * @return labo\Bundle\TestmanuBundle\services\entitiesServices\collection
+	 * @return AcmeGroup\LaboBundle\Entity\collection
 	 */
 	public function getDiaporama($collSlug = null) {
 		if($collSlug === null) $collSlug = "intro";

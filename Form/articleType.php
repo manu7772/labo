@@ -256,6 +256,6 @@ class articleType extends AbstractType {
 	 */
 	public function getName()
 	{
-		return 'labo_testmanubundle_article';
+		return 'acmegroup_labobundle_article';
 	}
 }

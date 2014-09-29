@@ -116,6 +116,6 @@ class userStatusType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_userstatus';
+        return 'acmegroup_labobundle_userstatus';
     }
 }

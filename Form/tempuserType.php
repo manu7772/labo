@@ -5,8 +5,25 @@ namespace labo\Bundle\TestmanuBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+// User
+use Symfony\Component\Security\Core\SecurityContext;
+// Paramétrage de formulaire
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class tempuserType extends AbstractType {
+
+    private $controller;
+    private $securityContext;
+    private $parametres;
+    
+    public function __construct(Controller $controller, $parametres = null) {
+        $this->controller = $controller;
+        $this->securityContext = $controller->get('security.context');
+        if($parametres === null) $parametres = array();
+        $this->parametres = $parametres;
+    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -99,6 +116,6 @@ class tempuserType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_tempuser';
+        return 'acmegroup_labobundle_tempuser';
     }
 }

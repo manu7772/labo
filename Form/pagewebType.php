@@ -180,6 +180,6 @@ class pagewebType extends AbstractType {
 	 */
 	public function getName()
 	{
-		return 'labo_testmanubundle_pageweb';
+		return 'acmegroup_labobundle_pageweb';
 	}
 }

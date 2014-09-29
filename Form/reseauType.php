@@ -141,7 +141,7 @@ class reseauType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_reseau';
+        return 'acmegroup_labobundle_reseau';
     }
 }
 

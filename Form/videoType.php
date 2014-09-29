@@ -149,6 +149,6 @@ class videoType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_video';
+        return 'acmegroup_labobundle_video';
     }
 }

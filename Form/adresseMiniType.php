@@ -126,6 +126,6 @@ class adresseMiniType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_adressemini';
+        return 'acmegroup_labobundle_adressemini';
     }
 }

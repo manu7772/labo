@@ -165,6 +165,6 @@ class versionType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_version';
+        return 'acmegroup_labobundle_version';
     }
 }

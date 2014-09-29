@@ -152,7 +152,7 @@ class imageType extends AbstractType {
 	 */
 	public function getName()
 	{
-		return 'labo_testmanubundle_image';
+		return 'acmegroup_labobundle_image';
 	}
 
 

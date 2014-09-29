@@ -119,6 +119,6 @@ class tauxTVAType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_tauxtva';
+        return 'acmegroup_labobundle_tauxtva';
     }
 }

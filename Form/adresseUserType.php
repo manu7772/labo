@@ -53,6 +53,6 @@ class adresseUserType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_adresseuser';
+        return 'acmegroup_labobundle_adresseuser';
     }
 }

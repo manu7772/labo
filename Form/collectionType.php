@@ -162,6 +162,6 @@ class collectionType extends AbstractType {
 	 */
 	public function getName()
 	{
-		return 'labo_testmanubundle_collection';
+		return 'acmegroup_labobundle_collection';
 	}
 }

@@ -147,6 +147,6 @@ class marqueType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_marque';
+        return 'acmegroup_labobundle_marque';
     }
 }

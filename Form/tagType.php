@@ -114,7 +114,7 @@ class tagType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_tag';
+        return 'acmegroup_labobundle_tag';
     }
 
 }

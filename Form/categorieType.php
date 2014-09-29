@@ -186,6 +186,6 @@ class categorieType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_categorie';
+        return 'acmegroup_labobundle_categorie';
     }
 }

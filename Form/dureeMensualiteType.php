@@ -119,6 +119,6 @@ class dureeMensualiteType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_dureemensualite';
+        return 'acmegroup_labobundle_dureemensualite';
     }
 }

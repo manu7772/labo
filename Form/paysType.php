@@ -119,6 +119,6 @@ class paysType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_pays';
+        return 'acmegroup_labobundle_pays';
     }
 }

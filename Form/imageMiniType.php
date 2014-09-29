@@ -126,7 +126,7 @@ class imageMiniType extends AbstractType {
 	 * @return string
 	 */
 	public function getName() {
-		return 'labo_testmanubundle_imagemini';
+		return 'acmegroup_labobundle_imagemini';
 	}
 
 }

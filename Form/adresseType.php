@@ -130,6 +130,6 @@ class adresseType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_adresse';
+        return 'acmegroup_labobundle_adresse';
     }
 }

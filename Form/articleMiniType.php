@@ -78,7 +78,7 @@ class articleMiniType extends articleType {
 	 * @return string
 	 */
 	public function getName() {
-		return 'labo_testmanubundle_articlemini';
+		return 'acmegroup_labobundle_articlemini';
 	}
 
 }

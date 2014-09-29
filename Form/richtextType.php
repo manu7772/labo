@@ -166,6 +166,6 @@ class richtextType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_richtext';
+        return 'acmegroup_labobundle_richtext';
     }
 }

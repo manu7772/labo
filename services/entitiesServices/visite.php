@@ -17,7 +17,7 @@ class visite extends Event {
 
 	public function __construct(UserInterface $user) {
 		parent::__construct($container);
-		// $this->defineEntity("labo\\Bundle\\TestmanuBundle\\Entity\\visite");
+		// $this->defineEntity("visite");
 		$this->user = $user;
 	}
 

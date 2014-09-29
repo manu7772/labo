@@ -233,6 +233,6 @@ class magasinType extends AbstractType {
      */
     public function getName()
     {
-        return 'labo_testmanubundle_magasin';
+        return 'acmegroup_labobundle_magasin';
     }
 }

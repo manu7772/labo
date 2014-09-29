@@ -73,6 +73,6 @@ class parametreType extends AbstractType
      */
     public function getName()
     {
-        return 'labo_testmanubundle_parametre';
+        return 'acmegroup_labobundle_parametre';
     }
 }

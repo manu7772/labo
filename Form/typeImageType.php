@@ -142,6 +142,6 @@ class typeImageType extends AbstractType {
 	 */
 	public function getName()
 	{
-		return 'labo_testmanubundle_typeimage';
+		return 'acmegroup_labobundle_typeimage';
 	}
 }
