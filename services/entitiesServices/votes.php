@@ -19,7 +19,7 @@ class votes extends entitiesGeneric {
 
 	/**
 	 * voteArticle
-	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article
+	 * @param \AcmeGroup\LaboBundle\Entity\article $article
 	 * @param string $note
 	 * @param string $avis
 	 * @param \AcmeGroup\userBundle\Entity\User $user
@@ -54,7 +54,7 @@ class votes extends entitiesGeneric {
 
 	/**
 	 * dejaVote
-	 * @param \labo\Bundle\TestmanuBundle\Entity\article $article / ou id article
+	 * @param \AcmeGroup\LaboBundle\Entity\article $article / ou id article
 	 * @param \AcmeGroup\userBundle\Entity\User $user / ou id user
 	 * @return objet ou null
 	 */

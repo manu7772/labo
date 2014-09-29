@@ -39,12 +39,12 @@ class panier extends entitiesGeneric {
 
 	/**
 	 * ajouteArticle
-	 * @param labo\Bundle\TestmanuBundle\Entity\article $article
+	 * @param AcmeGroup\LaboBundle\Entity\article $article
 	 * @param AcmeGroup\UserBundle\Entity\User $user
 	 * @param integer $quantite
 	 * @return aeReponse
 	 */
-	public function ajouteArticle(\labo\Bundle\TestmanuBundle\Entity\article $article, $user = null, $quantite = 1) {
+	public function ajouteArticle(\AcmeGroup\LaboBundle\Entity\article $article, $user = null, $quantite = 1) {
 		if($user === null) $user = $this->user;
 		if(is_object($user)) {
 			$art = $this->getRepo()->getOneArticleOfUser($article->getId(), $user->getId());
@@ -72,12 +72,12 @@ class panier extends entitiesGeneric {
 
 	/**
 	 * reduitArticle
-	 * @param labo\Bundle\TestmanuBundle\Entity\article $article
+	 * @param AcmeGroup\LaboBundle\Entity\article $article
 	 * @param AcmeGroup\UserBundle\Entity\User $user
 	 * @param integer $quantite
 	 * @return aeReponse
 	 */
-	public function reduitArticle(\labo\Bundle\TestmanuBundle\Entity\article $article, $user = null, $quantite = 1) {
+	public function reduitArticle(\AcmeGroup\LaboBundle\Entity\article $article, $user = null, $quantite = 1) {
 		if($user === null) $user = $this->user;
 		if(is_object($user)) {
 			$art = $this->getRepo()->getOneArticleOfUser($article->getId(), $user->getId());
@@ -107,11 +107,11 @@ class panier extends entitiesGeneric {
 
 	/**
 	 * SupprimeArticle
-	 * @param labo\Bundle\TestmanuBundle\Entity\article $article
+	 * @param AcmeGroup\LaboBundle\Entity\article $article
 	 * @param AcmeGroup\UserBundle\Entity\User $user
 	 * @return aeReponse
 	 */
-	public function SupprimeArticle(\labo\Bundle\TestmanuBundle\Entity\article $article, $user = null) {
+	public function SupprimeArticle(\AcmeGroup\LaboBundle\Entity\article $article, $user = null) {
 		if($user === null) $user = $this->user;
 		if(is_object($user)) {
 			$art = $this->getRepo()->getOneArticleOfUser($article->getId(), $user->getId());

@@ -559,7 +559,7 @@ class entitiesGeneric {
 					$memem = $this->em;
 					if($entiteObj->getStatut()->getNom() == "Actif")
 						$find = "Inactif"; else $find = "Actif";
-					$statut = $this->em->getRepository("AcmeGroup\\LaboBundle\\Entity\\statut")->findByNom($find);
+					$statut = $this->em->getRepository("AcmeGroupe\\LaboBundle\\Entity\\statut")->findByNom($find);
 					$entiteObj->setStatut($statut[0]);
 					$this->repo = $memrepo;
 					$this->em = $memem;
@@ -853,7 +853,7 @@ class entitiesGeneric {
 			} else if($info['Association'] == "single") {
 				// relation One
 				switch("fieldTargetClass") {
-					// case "labo\Bundle\TestmanuBundle\Entity\statut" :
+					// case "AcmeGroup\LaboBundle\Entity\statut" :
 					// 	$r[$nom]['colbloc'] = "col_statut";
 					// 	$r[$nom]['libelle'] = $nomL;
 					// 	break;

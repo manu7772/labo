@@ -124,7 +124,7 @@ class aelog extends entitiesGeneric {
 	/**
 	 * trieByDate
 	 * Trie un array de résultats Aelogs par périodes : années / mois / semaines / jours / heure…
-	 * @param array $data - array of \labo\Bundle\TestmanuBundle\Entity\aelog
+	 * @param array $data - array of \AcmeGroup\LaboBundle\Entity\aelog
 	 * @param array $tempo - affinage de tri
 	 * @return array
 	 */

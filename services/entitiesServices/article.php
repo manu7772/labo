@@ -53,7 +53,7 @@ class article extends entitiesGeneric {
 	/**
 	 * getInfoFiche
 	 * @param integer $id
-	 * @return \labo\Bundle\TestmanuBundle\Entity\article
+	 * @return \AcmeGroup\LaboBundle\Entity\article
 	 */
 	public function getInfoFiche($id) {
 		$Tidx = $this->container->get("session")->get('version');

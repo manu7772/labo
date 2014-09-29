@@ -55,7 +55,7 @@ class atelierCreatif extends entitiesGeneric {
 	/**
 	 * getFicheBySlug
 	 * @param string $slug
-	 * @return labo\Bundle\TestmanuBundle\Entity\ficheCreative
+	 * @return AcmeGroup\LaboBundle\Entity\ficheCreative
 	 */
 	public function getFicheBySlug($slug) {
 		$r = $this->getRepo()->getFicheBySlug($slug);

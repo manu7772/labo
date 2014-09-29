@@ -22,7 +22,7 @@ class evenement extends entitiesGeneric {
 	/**
 	 * addFindParam
 	 * ajoute un paramètre de recherche
-	 * @return labo\Bundle\TestmanuBundle\services\entitiesServices\evenement
+	 * @return AcmeGroup\LaboBundle\services\entitiesServices\evenement
 	 */
 	public function addFindParam($champ, $valeur, $champLié = null) {
 		$this->params->addParam($champ, $valeur, $champLié);
@@ -32,7 +32,7 @@ class evenement extends entitiesGeneric {
 	/**
 	 * compilePosts
 	 * compile les données reçues en post
-	 * @return labo\Bundle\TestmanuBundle\services\entitiesServices\evenement
+	 * @return AcmeGroup\LaboBundle\services\entitiesServices\evenement
 	 */
 	public function compilePosts($post) {
 		// $this->params->addParam($champ, $valeur, $champLié)
@@ -42,7 +42,7 @@ class evenement extends entitiesGeneric {
 	/**
 	 * findWithParams
 	 * lance la recherche en repository avec les paramètres paramForRepo
-	 * @return labo\Bundle\TestmanuBundle\services\entitiesServices\evenement
+	 * @return AcmeGroup\LaboBundle\services\entitiesServices\evenement
 	 */
 	public function findWithParams() {
 		// $this->params->addParam($champ, $valeur, $champLié)
