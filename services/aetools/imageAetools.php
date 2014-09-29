@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
-use labo\Bundle\TestmanuBundle\Entity\image;
+use AcmeGroup\LaboBundle\Entity\image;
 
 define("FORMATS_IMAGES",	"(jpeg|jpg|gif|png|ico)$");
 define("FORMATS_PDF",		"(pdf)$");
