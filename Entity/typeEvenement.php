@@ -33,7 +33,7 @@ abstract class typeEvenement {
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="editable", type="boolean")
+	 * @ORM\Column(name="editable", type="boolean", nullable=true, unique=false)
 	 */
 	protected $editable;
 

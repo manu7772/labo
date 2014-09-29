@@ -33,10 +33,12 @@ class typeEvenementType extends AbstractType {
         $builder
             ->add('nom', 'text', array(
                 "required" => true,
-                "label" => 'Nom de la remise'))
+                "label" => 'Nom de la remise'
+                ))
             ->add('descriptif', 'textarea', array(
                 "required" => false,
-                "label" => 'Descriptif'))
+                "label" => 'Descriptif'
+                ))
         ;
         // $builder = $this->addHiddenValues($builder);
 
@@ -78,12 +80,12 @@ class typeEvenementType extends AbstractType {
                 }
                 // Si ROLE_SUPER_ADMIN, on change ces champs :
                 if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    $form
-                        ->add('editable', 'ckeckbox', array(
-                        "required" => false,
-                        "label" => 'Editable'
-                        ))
-                    ;        
+                    // $form
+                    //     ->add('editable', 'checkbox', array(
+                    //     "required" => false,
+                    //     "label" => 'Editable'
+                    //     ))
+                    // ;        
                 }
             }
         );
