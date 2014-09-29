@@ -324,7 +324,7 @@ class LaboController extends Controller {
 		$data['bundleNameEntiteName'] = $data["entite"]->getBundleNameEntiteName();
 		// $data['bundleEntiteName'] = $data["entite"]->getEntiteName();
 
-		$enRepo = $this->getDoctrine()->getManager()->getRepository("LaboTestmanuBundle:".$data['entiteName']);
+		$enRepo = $this->getDoctrine()->getManager()->getRepository("labo\\Bundle\\TestmanuBundle\\Entity\\".$data['entiteName']);
 		$version = $this->get("session")->get('version');
 		$enRepo->setVersion($version["nom"], $version["shutdown"]);
 		if($id === null) {
@@ -628,8 +628,8 @@ class LaboController extends Controller {
 	 */
 	public function imagesVersionAction() {
 		$em = $this->getDoctrine()->getManager();
-		$repoImg = $em->getRepository("LaboTestmanuBundle:image");
-		$repoVer = $em->getRepository("LaboTestmanuBundle:version");
+		$repoImg = $em->getRepository("labo\\Bundle\\TestmanuBundle\\Entity\\image");
+		$repoVer = $em->getRepository("labo\\Bundle\\TestmanuBundle\\Entity\\version");
 		$imnoms = array("Singer" => "Logo Singer entête", "Singer-V2" => "Logo Singer.v2 entête", "DemoSinger" => "Logo Singer Démo");
 		$cpt = 0;$echec = 0;
 		foreach($imnoms as $ver => $img) {
@@ -782,7 +782,7 @@ class LaboController extends Controller {
 		$r = array();
 		$em = $this->getDoctrine()->getManager();
 		$repoU = $em->getRepository('AcmeGroupUserBundle:User');
-		$repoM = $em->getRepository('LaboTestmanuBundle:marque');
+		$repoM = $em->getRepository('labo\\Bundle\\TestmanuBundle\\Entity\\marque');
 		$users = $repoU->findAll();
 		$marqs = $repoM->findAll();
 		// liste des noms de marques
@@ -890,11 +890,11 @@ class LaboController extends Controller {
 			$article = $this->get('acmeGroup.article');
 			// version
 			$Tidx = $this->get("session")->get('version');
-			$versObj = $this->getDoctrine()->getManager()->getRepository('LaboTestmanuBundle:version')->find($Tidx["id"]);
+			$versObj = $this->getDoctrine()->getManager()->getRepository('labo\\Bundle\\TestmanuBundle\\Entity\\version')->find($Tidx["id"]);
 			// user
 			$user = $this->get('security.context')->getToken()->getUser();
 			// statut
-			$statut = $this->getDoctrine()->getManager()->getRepository('LaboTestmanuBundle:statut')->findByNom("Test");
+			$statut = $this->getDoctrine()->getManager()->getRepository('labo\\Bundle\\TestmanuBundle\\Entity\\statut')->findByNom("Test");
 			for($i = 1; $i <= $nombre; $i++) {
 				$articles = $article->getArticlesByReseau("e-commerce");
 				$nba = rand(1,10);if($nba > 3) $nba = 1;

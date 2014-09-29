@@ -9,7 +9,7 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 ## entités
-use labo\Bundle\TestmanuBundle\Entity\adresse;
+use AcmeGroup\UserBundle\Entity\adresse;
 use labo\Bundle\TestmanuBundle\Entity\article;
 use labo\Bundle\TestmanuBundle\Entity\atelier;
 use labo\Bundle\TestmanuBundle\Entity\bonLivraison;
@@ -149,7 +149,8 @@ class entityListener implements EventSubscriber {
 			$this->modeFixtures = false;
 			$this->session = $this->container->get('session')->get('version');
 			$ver = $this->session["slug"];
-			$this->repoVersion = $this->em->getRepository("LaboTestmanuBundle:version");
+			$this->repoVersion = $this->em->getRepository('labo\\Bundle\\TestmanuBundle\\Entity\\version');
+			// $this->repoVersion = $this->em->getRepository("labo\\Bundle\\TestmanuBundle\\Entity\\version");
 			$cv = $this->repoVersion->findBySlug($ver);
 			if(count($cv) > 0) $this->currentVersion = $cv[0];
 				else $this->currentVersion = false;

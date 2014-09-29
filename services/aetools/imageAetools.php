@@ -68,7 +68,7 @@ class imageAetools {
 			$this->modeFixtures = false;
 		}
 		$this->em = $this->container->get('doctrine')->getManager();
-		$this->repo = $this->em->getRepository("LaboTestmanuBundle:image");
+		$this->repo = $this->em->getRepository("labo\\Bundle\\TestmanuBundle\\Entity\\image");
 		$this->aetools = $this->container->get("acmeGroup.aetools");
 		$this->aetools->setWebPath("images/");
 		foreach($this->imgTypes as $it) {
