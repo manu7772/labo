@@ -55,7 +55,7 @@ class richtextType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'LaboTestmanuBundle:statut',
+                'class'     => 'AcmeGroupLaboBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut du texte',
@@ -64,7 +64,7 @@ class richtextType extends AbstractType {
                     }
                 ))
             ->add('tags', 'entity', array(
-                'class'     => 'LaboTestmanuBundle:tag',
+                'class'     => 'AcmeGroupLaboBundle:tag',
                 'property'  => 'nom',
                 'multiple'  => true,
                 'expanded'  => false,
@@ -72,7 +72,7 @@ class richtextType extends AbstractType {
                 "label"     => 'Tags'
                 ))
             ->add('typeRichtexts', 'entity', array(
-                'class'     => 'LaboTestmanuBundle:typeRichtext',
+                'class'     => 'AcmeGroupLaboBundle:typeRichtext',
                 'property'  => 'nom',
                 'multiple'  => true,
                 'expanded'  => false,
@@ -123,7 +123,7 @@ class richtextType extends AbstractType {
                 if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
                     $form
                         ->add('statut', 'entity', array(
-                            'class'     => 'LaboTestmanuBundle:statut',
+                            'class'     => 'AcmeGroupLaboBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut'

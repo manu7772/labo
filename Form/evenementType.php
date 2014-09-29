@@ -52,7 +52,7 @@ class evenementType extends AbstractType {
 				"label"     => 'Date de fin'
 				))
 			->add('image', 'entity', array(
-				'class'     => 'LaboTestmanuBundle:image',
+				'class'     => 'AcmeGroupLaboBundle:image',
 				'property'  => 'nom',
 				'multiple'  => false,
 				"label"     => 'Image de l\'évènement',
@@ -63,7 +63,7 @@ class evenementType extends AbstractType {
                 'empty_value' => '(aucune image)'
 				))
 			->add('typeEvenement', 'entity', array(
-				'class'     => 'LaboTestmanuBundle:typeEvenement',
+				'class'     => 'AcmeGroupLaboBundle:typeEvenement',
 				'property'  => 'nom',
 				'multiple'  => false,
 				"label"     => 'Type d\'évènement',
@@ -72,7 +72,7 @@ class evenementType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'LaboTestmanuBundle:statut',
+                'class'     => 'AcmeGroupLaboBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de l\'évènement',
@@ -139,14 +139,14 @@ class evenementType extends AbstractType {
 							"label"     => 'Date de fin'
 							))
 						->add('versions', 'entity', array(
-							'class'     => 'LaboTestmanuBundle:version',
+							'class'     => 'AcmeGroupLaboBundle:version',
 							'property'  => 'nom',
 							'multiple'  => true,
 							'expanded'  => true,
 							"label"     => 'Affectations version'
 							))
                         ->add('statut', 'entity', array(
-                            'class'     => 'LaboTestmanuBundle:statut',
+                            'class'     => 'AcmeGroupLaboBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut'

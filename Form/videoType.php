@@ -42,7 +42,7 @@ class videoType extends AbstractType {
                 'required'  => false
                 ))
             ->add('articles', 'entity', array(
-                'class'     => 'LaboTestmanuBundle:article',
+                'class'     => 'AcmeGroupLaboBundle:article',
                 'property'  => 'nom',
                 'required'  => false,
                 'multiple'  => true,
@@ -55,7 +55,7 @@ class videoType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'LaboTestmanuBundle:statut',
+                'class'     => 'AcmeGroupLaboBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de la vidéo',
@@ -106,7 +106,7 @@ class videoType extends AbstractType {
                 if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
                     $form
                         ->add('statut', 'entity', array(
-                            'class'     => 'LaboTestmanuBundle:statut',
+                            'class'     => 'AcmeGroupLaboBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut'

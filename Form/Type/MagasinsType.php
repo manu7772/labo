@@ -21,7 +21,7 @@ class MagasinsType extends AbstractType {
 		$resolver->setDefaults(array(
 			// 'choices' 	=> $this->villemags,
             "required"  => true,
-            'class'     => 'LaboTestmanuBundle:magasin',
+            'class'     => 'AcmeGroupLaboBundle:magasin',
             'property'  => 'nommagasin',
             'multiple'  => false,
             "label"     => 'Boutique préférée :',

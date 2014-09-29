@@ -44,7 +44,7 @@ class collectionType extends AbstractType {
 				"label"     => 'Date d\'expiration'
 				))
 			->add('medias', 'entity', array(
-				'class'     => 'LaboTestmanuBundle:image',
+				'class'     => 'AcmeGroupLaboBundle:image',
 				'property'  => 'nom',
 				'multiple'  => true,
 				"label"     => 'Médias',
@@ -57,7 +57,7 @@ class collectionType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'LaboTestmanuBundle:statut',
+                'class'     => 'AcmeGroupLaboBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut du magasin',
@@ -66,7 +66,7 @@ class collectionType extends AbstractType {
                     }
                 ))
 			->add('versions', 'entity', array(
-				'class'     => 'LaboTestmanuBundle:version',
+				'class'     => 'AcmeGroupLaboBundle:version',
 				'property'  => 'nom',
 				'multiple'  => true,
 				'expanded'  => true,
@@ -119,7 +119,7 @@ class collectionType extends AbstractType {
 				if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
                     $form
                         ->add('statut', 'entity', array(
-                            'class'     => 'LaboTestmanuBundle:statut',
+                            'class'     => 'AcmeGroupLaboBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut'

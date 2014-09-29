@@ -49,7 +49,7 @@ class parametreType extends AbstractType
                 ))
             // ->add('slug')
             ->add('versions', 'entity', array(
-                'class'     => 'LaboTestmanuBundle:version',
+                'class'     => 'AcmeGroupLaboBundle:version',
                 'property'  => 'nom',
                 'multiple'  => true,
                 'expanded'  => false,

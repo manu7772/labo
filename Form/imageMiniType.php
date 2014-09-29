@@ -38,7 +38,7 @@ class imageMiniType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'LaboTestmanuBundle:statut',
+                'class'     => 'AcmeGroupLaboBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut de l\'image',

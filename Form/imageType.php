@@ -79,7 +79,7 @@ class imageType extends AbstractType {
 						$form
 							->remove('file')
 	                        ->add('statut', 'entity', array(
-	                            'class'     => 'LaboTestmanuBundle:statut',
+	                            'class'     => 'AcmeGroupLaboBundle:statut',
 	                            'property'  => 'nom',
 	                            'multiple'  => false,
 	                            "label"     => 'Statut de l\'image',
@@ -112,7 +112,7 @@ class imageType extends AbstractType {
 				if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
                     $form
 						->add('typeImages', 'entity', array(
-							'class'     => 'LaboTestmanuBundle:typeImage',
+							'class'     => 'AcmeGroupLaboBundle:typeImage',
 							'property'  => 'nom',
 							'multiple'  => true,
 							"label"     => 'Types de l\'image'
@@ -126,7 +126,7 @@ class imageType extends AbstractType {
                             "label"     => 'Date d\'expiration'
                             ))
 						->add('statut', 'entity', array(
-							'class'     => 'LaboTestmanuBundle:statut',
+							'class'     => 'AcmeGroupLaboBundle:statut',
 							'property'  => 'nom',
 							'multiple'  => false,
 							"label"     => 'Statut de l\'image'

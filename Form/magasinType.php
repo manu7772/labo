@@ -113,7 +113,7 @@ class magasinType extends AbstractType {
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
                 "required"  => true,
-                'class'     => 'LaboTestmanuBundle:statut',
+                'class'     => 'AcmeGroupLaboBundle:statut',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Statut du magasin',
@@ -122,7 +122,7 @@ class magasinType extends AbstractType {
                     }
                 ))
             ->add('image', 'entity', array(
-                'class'     => 'LaboTestmanuBundle:image',
+                'class'     => 'AcmeGroupLaboBundle:image',
                 'property'  => 'nom',
                 'multiple'  => false,
                 "label"     => 'Image de l\'article',
@@ -179,13 +179,13 @@ class magasinType extends AbstractType {
                 if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
                     $form
                         ->add('statut', 'entity', array(
-                            'class'     => 'LaboTestmanuBundle:statut',
+                            'class'     => 'AcmeGroupLaboBundle:statut',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Statut du magasin'
                             ))
                         ->add('image', 'entity', array(
-                            'class'     => 'LaboTestmanuBundle:image',
+                            'class'     => 'AcmeGroupLaboBundle:image',
                             'property'  => 'nom',
                             'multiple'  => false,
                             "label"     => 'Image de l\'article',
