@@ -33,11 +33,11 @@ class typeEvenementType extends AbstractType {
         $builder
             ->add('nom', 'text', array(
                 "required" => true,
-                "label" => 'Nom de la remise'
+                "label" => 'Nom du type d\'évènement',
                 ))
             ->add('descriptif', 'textarea', array(
                 "required" => false,
-                "label" => 'Descriptif'
+                "label" => 'Descriptif',
                 ))
         ;
         // $builder = $this->addHiddenValues($builder);
@@ -80,12 +80,12 @@ class typeEvenementType extends AbstractType {
                 }
                 // Si ROLE_SUPER_ADMIN, on change ces champs :
                 if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    // $form
-                    //     ->add('editable', 'checkbox', array(
-                    //     "required" => false,
-                    //     "label" => 'Editable'
-                    //     ))
-                    // ;        
+                    $form
+                        ->add('editable', 'checkbox', array(
+                        "required" => false,
+                        "label" => 'Editable'
+                        ))
+                    ;        
                 }
             }
         );
@@ -114,7 +114,7 @@ class typeEvenementType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AcmeGroup\LaboBundle\Entity\typeRemise'
+            'data_class' => 'AcmeGroup\LaboBundle\Entity\typeEvenement'
         ));
     }
 
@@ -123,6 +123,6 @@ class typeEvenementType extends AbstractType {
      */
     public function getName()
     {
-        return 'acmegroup_labobundle_typeremise';
+        return 'acmegroup_labobundle_typeevenement';
     }
 }

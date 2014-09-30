@@ -3,7 +3,7 @@
 
 {% block main_contain %}
 
-{{ render(controller("LaboTestmanuBundle:Labo:pageHeader", {titre : "Statistiques pages", sstitre : pageNom})) }}
+{% include "LaboTestmanuBundle:bloc:page-header.html.twig" %}
 <div class="row">
 	<!-- Corps complet -->
 	{{ include('LaboTestmanuBundle:bloc:statListOptions.html.twig') }}
