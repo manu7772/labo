@@ -116,7 +116,7 @@ class LaboController extends Controller {
 						// $em = $this->getDoctrine()->getManager();
 						// $data['entite']->getEm()->persist($obj);
 						$data['entite']->getEm()->flush();
-						return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
+						return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => urlencode($data['URLclassEntite']))));
 					}
 				}
 				$data["form"] = $form->createView();
@@ -134,7 +134,7 @@ class LaboController extends Controller {
 						// $em = $this->getDoctrine()->getManager();
 						$data['entite']->getEm()->persist($obj);
 						$data['entite']->getEm()->flush();
-						return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
+						return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => urlencode($data['URLclassEntite']))));
 					}
 				}
 				$data["form"] = $form->createView();
@@ -152,7 +152,7 @@ class LaboController extends Controller {
 				} else {
 					$this->get('session')->getFlashBag()->add('error', "L'image ".$element." n'existe pas. Elle n'a pu être supprimée.");
 				}
-				return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
+				return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => urlencode($data['URLclassEntite']))));
 				break;
 			case 'supprime-admin':
 				if(is_object($obj)) {
@@ -167,7 +167,7 @@ class LaboController extends Controller {
 				} else {
 					$this->get('session')->getFlashBag()->add('error', "L'image ".$element." n'existe pas. Elle n'a pu être supprimée.");
 				}
-				return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
+				return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => urlencode($data['URLclassEntite']))));
 				break;
 			default: // liste
 				break;
@@ -328,7 +328,7 @@ class LaboController extends Controller {
 						// $em = $this->getDoctrine()->getManager();
 						$data['entite']->getEm()->persist($obj);
 						$data['entite']->getEm()->flush();
-						return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
+						return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => urlencode($data['URLclassEntite']))));
 					}
 				}
 				$data["form"] = $form->createView();
@@ -346,7 +346,7 @@ class LaboController extends Controller {
 						// $em = $this->getDoctrine()->getManager();
 						$data['entite']->getEm()->persist($obj);
 						$data['entite']->getEm()->flush();
-						return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
+						return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => urlencode($data['URLclassEntite']))));
 					}
 				}
 				$data["form"] = $form->createView();
@@ -362,7 +362,7 @@ class LaboController extends Controller {
 				} else {
 					$this->get('session')->getFlashBag()->add('error', "La ligne ".$element." n'existe pas. Elle n'a pu être supprimée.");
 				}
-				return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
+				return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => urlencode($data['URLclassEntite']))));
 				break;
 			case 'supprime-admin':
 				$obj = $data['entite']->getById($element);
@@ -376,7 +376,7 @@ class LaboController extends Controller {
 				} else {
 					$this->get('session')->getFlashBag()->add('error', "La ligne ".$element." n'existe pas. Elle n'a pu être supprimée.");
 				}
-				return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
+				return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => urlencode($data['URLclassEntite']))));
 				break;
 			default: // liste
 				break;
