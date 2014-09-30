@@ -27,6 +27,34 @@ class LaboController extends Controller {
 	}
 
 	/**
+	 *
+	 */
+	public function editParametresAction($action = "liste", $groupe = "all", $paramSlug = null) {
+		$params = $this->get('acmeGroup.parametre');
+		if($paramSlug !== null) {
+			// recherche du paramètre demandé
+			$data["parametre"] = $params->findParams($groupe, $paramSlug);
+		} else {
+
+		}
+
+		switch($action) {
+			case "edit":
+				if($data["parametre"] !== null) {
+					//
+				} else {
+					$this->get('session')->getFlashBag()->add('info', "Ce paramètre <strong>".$paramSlug."</strong> n'a pu être trouvé.");
+					return $this->redirect($this->generateUrl('labo_parametre_action', array("action" => "liste", "groupe" => $groupe)));
+				}
+				break;
+			default:
+				// liste
+				break;
+		}
+		return $this->render('LaboTestmanuBundle:pages:page-parametres.html.twig');
+	}
+
+	/**
 	 * imageByTypeAction
 	 * @param string/array $type
 	 * @return Response
@@ -222,6 +250,16 @@ class LaboController extends Controller {
 	public function entiteAction($action = "liste", $classEntite, $element = null) {
 		$data = array();
 		$classEntite = urldecode($classEntite);
+		$data['URLclassEntite'] = $classEntite;
+		// sous-catégorie ?
+		$exp = explode('@', $classEntite, 2);
+		$classEntite = $exp[0];
+		if(count($exp) > 1) {
+			$data["souscat"] = explode(":", $exp[1]);
+			$data["souscat"]['url'] = $exp[1];
+		} else {
+			$data["souscat"] = null;
+		}
 		// echo("Entite : ".$classEntite."<br />");
 		$data['entite'] = $this->get('acmeGroup.entities')->defineEntity($classEntite);
 		$data['metaInfo'] = $data['entite']->compileMetaInfo($classEntite);
@@ -249,7 +287,7 @@ class LaboController extends Controller {
 						// $em = $this->getDoctrine()->getManager();
 						$data['entite']->getEm()->persist($obj);
 						$data['entite']->getEm()->flush();
-						return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $classEntite)));
+						return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
 					}
 				}
 				$data["form"] = $form->createView();
@@ -265,7 +303,7 @@ class LaboController extends Controller {
 						// $em = $this->getDoctrine()->getManager();
 						$data['entite']->getEm()->persist($obj);
 						$data['entite']->getEm()->flush();
-						return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $classEntite)));
+						return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
 					}
 				}
 				$data["form"] = $form->createView();
@@ -281,7 +319,7 @@ class LaboController extends Controller {
 				} else {
 					$this->get('session')->getFlashBag()->add('error', "La ligne ".$element." n'existe pas. Elle n'a pu être supprimée.");
 				}
-				return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $classEntite)));
+				return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
 				break;
 			case 'supprime-admin':
 				$obj = $data['entite']->getById($element);
@@ -295,19 +333,19 @@ class LaboController extends Controller {
 				} else {
 					$this->get('session')->getFlashBag()->add('error', "La ligne ".$element." n'existe pas. Elle n'a pu être supprimée.");
 				}
-				return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $classEntite)));
+				return $this->redirect($this->generateUrl('labo_page_entite', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
 				break;
 			default: // liste
 				break;
 		}
-		if($data["entite"]->getEntiteName() == "richtext") {
+		if($data["souscat"] === null) {
 			$trt = $data["entite"]->getRepo()->findByNom($element);
 			if(count($trt) > 0) $data["typeRichtext"] = $trt[0]->getDescriptif();
 				else $data["typeRichtext"] = null;
 		}
 
 		$data["pag"] = $this->getPaginationQuery();
-		$data["dataEntite"] = $data["entite"]->getRepo()->findElementsPagination($data["pag"]['page'], $data["pag"]["lignes"], $data["pag"]["ordre"], $data["pag"]["sens"], $data["pag"]["searchString"], $data["pag"]["searchField"], $element);
+		$data["dataEntite"] = $data["entite"]->getRepo()->findElementsPagination($data["pag"]);
 		$data["pag"]["nbtot"] = count($data["dataEntite"]);
 		$data["pag"]["nbpage"] = ceil($data["pag"]["nbtot"] / $data["pag"]["lignes"]);
 
@@ -331,7 +369,7 @@ class LaboController extends Controller {
 			// pas d'élément désigné = page générale
 			$data["page"] = "generale";
 			$data["pag"] = $this->getPaginationQuery($classEntite);
-			$data["dataEntite"] = $data["entite"]->getRepo()->findElementsPagination($data["pag"]['page'], $data["pag"]["lignes"], $data["pag"]["ordre"], $data["pag"]["sens"], $data["pag"]["searchString"], $data["pag"]["searchField"]);
+			$data["dataEntite"] = $data["entite"]->getRepo()->findElementsPagination($data["pag"]);
 			$data["pag"]["nbtot"] = count($data["dataEntite"]);
 			$data["pag"]["nbpage"] = ceil($data["pag"]["nbtot"] / $data["pag"]["lignes"]);
 			$data['action'] = "détail";

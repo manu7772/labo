@@ -11,5 +11,14 @@ use labo\Bundle\TestmanuBundle\Entity\laboBaseRepository;
  * repository methods below.
  */
 class parametreRepository extends laboBaseRepository {
-	//
+	
+
+	/**
+	 * Recherche paramètres par groupes
+	 * @param string/array $groups
+	 */
+	public function findByGroupeNom($groups) {
+		if(is_string($groups)) $groups = array($groups);
+	}
+
 }

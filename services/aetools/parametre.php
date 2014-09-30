@@ -59,12 +59,26 @@ class parametre extends entitiesGeneric {
 	}
 
 	/**
-	 * Get paramBySlug
-	 * @param string $paramSlug
+	 * Get par slugs
+	 * @param string/array $paramSlugs
 	 * @return parametre
 	 */
-	public function getParamBySlug($paramSlug) {
-		$t = $this->getRepo()->findBySlug($paramSlug);
+	public function getParamBySlug($paramSlugs) {
+		if(is_string($paramSlugs)) $paramSlugs = array($paramSlugs);
+		$t = $this->getRepo()->findBySlug($paramSlugs);
+		if(count($t) > 0) {
+			return $t[0];
+		} else return false;
+	}
+
+	/**
+	 * Get par groupes
+	 * @param string/array $groups
+	 * @return parametre
+	 */
+	public function getParamByGroupeNom($groups) {
+		if(is_string($groups)) $groups = array($groups);
+		$t = $this->getRepo()->findByGroupeNom($groups);
 		if(count($t) > 0) {
 			return $t[0];
 		} else return false;

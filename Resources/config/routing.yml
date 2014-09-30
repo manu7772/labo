@@ -21,6 +21,11 @@ labo_page_User:
     pattern:  /labo-users/{action}/{role}/{element}.{changeRole}
     defaults: { _controller: LaboTestmanuBundle:Labo:User, action: "liste", role: 'tous-roles', element: 'all', changeRole: null }
 
+## Actions sur paramètres
+labo_parametre_action:
+    pattern:  /labo-parametres/{action}/{groupe}/{paramSlug}
+    defaults: { _controller: LaboTestmanuBundle:Labo:editParametres, action: "liste", groupe: "all", paramSlug: null }
+
 ## Actions sur entités
 labo_entite_action:
     pattern:  /labo-action/{action}/{classEntite}/{id}

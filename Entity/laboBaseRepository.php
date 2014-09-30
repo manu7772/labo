@@ -149,14 +149,15 @@ class laboBaseRepository extends EntityRepository {
 	 * Recherche les elements en fonction de la version
 	 * et pagination avec GET
 	 */
-	public function findElementsPagination($page = 1, $lignes = null, $ordre = 'id', $sens = 'ASC', $searchString = null, $searchField = "nom") {
+	// public function findElementsPagination($page = 1, $lignes = null, $ordre = 'id', $sens = 'ASC', $searchString = null, $searchField = "nom") {
+	public function findElementsPagination($pag, $souscat) {
 		// vérifications pagination
-		if($page < 1) $page = 1;
-		if($lignes > 100) $lignes = 100;
-		if($lignes < 10) $lignes = 10;
+		if($pag['page'] < 1) $pag['page'] = 1;
+		if($pag['lignes'] > 100) $pag['linges'] = 100;
+		if($pag['lignes'] < 10) $pag['lignes'] = 10;
 		// Requête…
 		$qb = $this->createQueryBuilder('element');
-		$qb = $this->rechercheStr($qb, $searchString, $searchField);
+		$qb = $this->rechercheStr($qb, $pag['searchString'], $pag['searchField']);
 		// $qb->leftJoin('element.imagePpale', 'i')
 		// 	->addSelect('i')
 		// 	->leftJoin('element.images', 'ii')
@@ -168,12 +169,12 @@ class laboBaseRepository extends EntityRepository {
 		$qb = $this->withVersion($qb);
 		// $qb = $this->defaultStatut($qb);
 		// Tri/ordre
-		if(!in_array($ordre, $this->getFields())) $ordre = "id";
-		if(!in_array($sens, array('ASC', 'DESC'))) $sens = "ASC";
-		$qb->orderBy('element.'.$ordre, $sens);
+		if(!in_array($pag['ordre'], $this->getFields())) $pag['ordre'] = "id";
+		if(!in_array($pag['sens'], array('ASC', 'DESC'))) $pag['sens'] = "ASC";
+		$qb->orderBy('element.'.$pag['ordre'], $pag['sens']);
 		// Pagination
-		$qb->setFirstResult(($page - 1) * $lignes)
-			->setMaxResults($lignes);
+		$qb->setFirstResult(($pag['page'] - 1) * $pag['lignes'])
+			->setMaxResults($pag['lignes']);
 		return new Paginator($qb);
 	}
 
