@@ -121,6 +121,6 @@ class fichierPdfType extends AbstractType {
      */
     public function getName()
     {
-        return 'acmegroup_labobundle_fichierpdf';
+        return 'acmegroup_labobundle_fichierpdfmini';
     }
 }
