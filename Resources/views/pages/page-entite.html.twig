@@ -48,7 +48,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<form action="{{ url(ROUTE, {action: 'creation', classEntite: Url_encode(URLclassEntite)}) }}" method="post" class="form" role="form" {{ form_enctype(form) }}>
+				<form action="{{ url(ROUTE, {action: action, classEntite: Url_encode(URLclassEntite)}) }}" method="post" class="form" role="form" {{ form_enctype(form) }}>
 					{{ form_widget(form) }}
 					<div class="row col-md-12">
 						<input type="submit" class="btn btn-primary btn-lg btn-block" value="Enregistrer" />
