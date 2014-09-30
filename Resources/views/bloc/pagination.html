@@ -1,3 +1,4 @@
+{% block pagination %}
 <form id="searchbar" class="form-inline" role="form" method="get" >
 	<div class="form-group">
 		{% if pag.nbpage > 0 %}
@@ -19,7 +20,7 @@
 		<select id="searchField" name="searchField" class="form-control input-sm col-xs-4">
 			{% for nom,MI in metaInfo %}
 			{% if pag.searchField == nom %}{% set select = " selected" %}{% else %}{% set select = "" %}{% endif %}
-			<option{{ select|raw }}>{{ nom }}</option>
+			<option{{ select|raw }} value="{{ nom }}">{{ nom }}</option>
 			{% endfor %}
 		</select>
 	</div>
@@ -29,14 +30,23 @@
 		<label class="sr-only" for="search">Recherche…</label>
 		<input type="text" id="searchString" name="searchString" class="form-control-sm" placeholder="{{ val1 }}" value="{{ val2 }}">
 	</div>
+	<div class="form-group">
+		<select id="nblignpp" name="lignes" class="form-control input-sm col-lg-12">
+			{% set listnbpp = ["10","20","50","100"] %}
+			{% for nbpp in listnbpp %}
+			{% if pag.lignes == nbpp %}{% set select = " selected" %}{% else %}{% set select = "" %}{% endif %}
+			<option{{ select|raw }} value="{{ nbpp }}">{{ nbpp }} résultats/page</option>
+			{% endfor %}
+		</select>
+	</div>
 	<button type="submit" class="btn btn-primary btn-sm">rechercher</button>
+	<a class="btn btn-primary btn-sm" href="?page={{ 1 }}&lignes={{ pag.lignes }}">Tout voir</a>
 	<input type="hidden" nom="page" value="{{ pag.page }}" />
 	<input type="hidden" nom="lignes" value="{{ pag.lignes }}" />
 	<input type="hidden" nom="ordre" value="{{ pag.ordre }}" />
 	<input type="hidden" nom="sens" value="{{ pag.sens }}" />
-	<a class="btn btn-primary btn-sm" href="?page={{ 1 }}&lignes={{ pag.lignes }}">Tout voir</a>
 </form>
-
+{% endblock pagination %}
 {#
 <!-- 	<form id="resetbar" class="form-inline" role="form" method="get" >
 		<button type="submit" class="btn btn-primary btn-sm">Réinitialiser</button>
