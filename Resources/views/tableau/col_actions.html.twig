@@ -1,7 +1,7 @@
 {% if classEntite == 'image' %}
 <td>
 	<div class="btn-group btn-group-xs">
-		<a href="{{ url(ROUTE, {action: 'edit', element: ligne.id, type: type}) }}" title="Éditer" class="btn btn-default">
+		<a href="{{ url(ROUTE, {action: 'edit', classEntite: Url_encode(URLclassEntite), element: ligne.id}) }}" title="Éditer" class="btn btn-default">
 			<span class="glyphicon glyphicon-pencil"></span>
 		</a>
 <!--	 	<a href="#" title="détails">
@@ -9,16 +9,16 @@
 		</a> -->	
  		{% if (ligne.protectedOnRemove is defined) %}
 		{% if ligne.protectedOnRemove != true %}
-		<a href="{{ url(ROUTE, {action: 'supprime', element: ligne.id, type: type}) }}" title="Supprimer" class="JSconfirm btn btn-default">
+		<a href="{{ url(ROUTE, {action: 'supprime', classEntite: Url_encode(URLclassEntite), element: ligne.id}) }}" title="Supprimer" class="JSconfirm btn btn-default">
 			<span class="glyphicon glyphicon-remove-sign"></span>
 		</a>
 		{% endif %}
 		{% elseif is_granted("ROLE_SUPER_ADMIN") %}
-		<a href="{{ url(ROUTE, {action: 'supprime-admin', element: ligne.id, type: type}) }}" title="Supprimer (super admin)" class="JSconfirm btn btn-default">
+		<a href="{{ url(ROUTE, {action: 'supprime-admin', classEntite: Url_encode(URLclassEntite), element: ligne.id}) }}" title="Supprimer (super admin)" class="JSconfirm btn btn-default">
 			<span class="glyphicon glyphicon-remove-sign"></span>
 		</a>
 		{% elseif is_granted("ROLE_ADMIN") %}
-		<a href="{{ url(ROUTE, {action: 'supprime', element: ligne.id, type: type}) }}" title="Supprimer" class="JSconfirm btn btn-default">
+		<a href="{{ url(ROUTE, {action: 'supprime', classEntite: Url_encode(URLclassEntite), element: ligne.id}) }}" title="Supprimer" class="JSconfirm btn btn-default">
 			<span class="glyphicon glyphicon-remove-sign"></span>
 		</a>
 		{% endif %}
@@ -71,7 +71,7 @@
 {% else %}
 <td>
 	<div class="btn-group btn-group-xs">
-		<a href="{{ url(ROUTE, {action: 'edit', 'classEntite': Url_encode(entite.name), element: ligne.id}) }}" title="Éditer" class="btn btn-default">
+		<a href="{{ url(ROUTE, {action: 'edit', classEntite: Url_encode(URLclassEntite), element: ligne.id}) }}" title="Éditer" class="btn btn-default">
 			<span class="glyphicon glyphicon-pencil"></span>
 		</a>
 <!--	 	<a href="#" title="détails">
@@ -79,16 +79,16 @@
 		</a> -->	
  		{% if (ligne.protectedOnRemove is defined) %}
 		{% if ligne.protectedOnRemove != true %}
-		<a href="{{ url(ROUTE, {action: 'supprime', 'classEntite': Url_encode(entite.name), element: ligne.id}) }}" title="Supprimer" class="JSconfirm btn btn-default">
+		<a href="{{ url(ROUTE, {action: 'supprime', classEntite: Url_encode(URLclassEntite), element: ligne.id}) }}" title="Supprimer" class="JSconfirm btn btn-default">
 			<span class="glyphicon glyphicon-remove-sign"></span>
 		</a>
 		{% endif %}
 		{% elseif is_granted("ROLE_SUPER_ADMIN") %}
-		<a href="{{ url(ROUTE, {action: 'supprime-admin', 'classEntite': Url_encode(entite.name), element: ligne.id}) }}" title="Supprimer (super admin)" class="JSconfirm btn btn-default">
+		<a href="{{ url(ROUTE, {action: 'supprime-admin', classEntite: Url_encode(URLclassEntite), element: ligne.id}) }}" title="Supprimer (super admin)" class="JSconfirm btn btn-default">
 			<span class="glyphicon glyphicon-remove-sign"></span>
 		</a>
 		{% elseif is_granted("ROLE_ADMIN") %}
-		<a href="{{ url(ROUTE, {action: 'supprime', 'classEntite': Url_encode(entite.name), element: ligne.id}) }}" title="Supprimer" class="JSconfirm btn btn-default">
+		<a href="{{ url(ROUTE, {action: 'supprime', classEntite: Url_encode(URLclassEntite), element: ligne.id}) }}" title="Supprimer" class="JSconfirm btn btn-default">
 			<span class="glyphicon glyphicon-remove-sign"></span>
 		</a>
 		{% endif %}
