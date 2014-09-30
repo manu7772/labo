@@ -32,8 +32,17 @@ class fichierPdfType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
             // ->add('dateCreation')
+            ->add('nom', 'text', array(
+                "label"     => "Nom",
+                "required"  => false,
+                ))
+            ->add('descriptif', 'richtext', array(
+                "label"     => "Description",
+                "required"  => false,
+                ))
             ->add('file', 'file', array(
-                "label" => "(format PDF)"))
+                "label"     => "fichier (format PDF)"
+                ))
             // ->add('fichierOrigine')
             // ->add('fichierNom')
             // ->add('tailleMo')

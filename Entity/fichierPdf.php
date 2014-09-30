@@ -19,6 +19,20 @@ class fichierPdf {
 	protected $id;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="nom", type="string", length=255, nullable=true, unique=true)
+	 */
+	protected $nom;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="descriptif", type="text", nullable=true, unique=false)
+	 */
+	protected $descriptif;
+
+	/**
 	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="dateCreation", type="datetime")
@@ -144,11 +158,54 @@ class fichierPdf {
 		return "images/pdf";
 	}
 	protected function getUploadRootDir() {
-		return __DIR__.'/../../../../web/'.$this->getUploadDir();
+		return __DIR__.'/../../../../../../../../web/'.$this->getUploadDir();
 	}
 
 	public function getWebPath() {
 		return $this->getUploadDir()."/".$this->getFichierNom();
+	}
+
+	/**
+	 * Set nom
+	 *
+	 * @param string $nom
+	 * @return fichierPdf
+	 */
+	public function setNom($nom = null) {
+		$this->nom = $nom;
+		if($this->nom === null) $this->nom = $this->getFichierNom();
+	
+		return $this;
+	}
+
+	/**
+	 * Get nom
+	 *
+	 * @return string 
+	 */
+	public function getNom() {
+		return $this->nom;
+	}
+
+	/**
+	 * Set descriptif
+	 *
+	 * @param string $descriptif
+	 * @return fichierPdf
+	 */
+	public function setDescriptif($descriptif = null) {
+		$this->descriptif = $descriptif;
+	
+		return $this;
+	}
+
+	/**
+	 * Get descriptif
+	 *
+	 * @return string 
+	 */
+	public function getDescriptif() {
+		return $this->descriptif;
 	}
 
 	/**
@@ -219,6 +276,7 @@ class fichierPdf {
 	 */
 	public function setFichierNom($fichierNom) {
 		$this->fichierNom = $fichierNom;
+		if($this->getNom() === null) $this->setNom($this->fichierNom);
 	
 		return $this;
 	}
