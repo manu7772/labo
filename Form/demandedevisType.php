@@ -5,6 +5,12 @@ namespace labo\Bundle\TestmanuBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+// User
+use Symfony\Component\Security\Core\SecurityContext;
+// Paramétrage de formulaire
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class demandedevisType extends AbstractType {
 
