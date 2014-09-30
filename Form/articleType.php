@@ -124,7 +124,7 @@ class articleType extends AbstractType {
 				'multiple'  => false,
 				"label"     => 'Taux de TVA'
 				))
-            ->add('fichierPdf', new fichierPdfType($this->controller), array(
+            ->add('fichierPdf', new fichierPdfMiniType($this->controller), array(
                 "required"  => false,
                 "label"     => "Fiche technique PDF"
                 ))
