@@ -59,26 +59,49 @@ class LaboController extends Controller {
 	 * @param string/array $type
 	 * @return Response
 	 */
-	public function imageByTypeAction($action = "liste", $type, $element = null) {
-		$type = urldecode($type); // --> nom (pas de slug !!)
-		// Récupération de l'objet typeImage
-		$t = $this->get('acmeGroup.entities')->defineEntity('typeImage')->getRepo()->findByNom($type);
-		$typeImage = $t[0];
-		$classEntite = "image";
-		$data['type'] = $type;
+	public function imageByTypeAction($action = "liste", $classEntite, $element = null) {
+		$data = array();
+		$types = null;
+		$classEntite = urldecode($classEntite);
+		$data['URLclassEntite'] = $classEntite;			// richtext@typeRichtext:nom:pageweb:… (à partir du 3ème, on énumère les valeurs, séparées par des ":")
+		// sous-catégorie ?
+		$exp = explode('@', $classEntite, 2);
+		$classEntite = $exp[0];							// image
+		if(count($exp) > 1) {
+			$deps = explode(":", $exp[1], 3);
+			if(count($deps) === 3) {
+				$data["souscat"]['attrib'] = $deps[0];	// typeImages
+				$champ = $this->metaInfo($classEntite, $data["souscat"]['attrib']);
+				$target = explode("\\", $champ['targetEntity']);
+				$data["souscat"]['extent'] = $target[count($target) - 1];	// typeImage (sans "s") (targetEntity)
+				$data["souscat"]['column'] = $deps[1];	// nom
+				$data["souscat"]['values'] = $deps[2];	// diaporama
+				$data["souscat"]['url'] = $exp[1];		// typeImages:nom:diaporama
+				// récupère les entités à lier (si $action = creation)
+				if($action === "creation") {
+					if($champ['Association'] === "single") $methodAdd = "set".ucfirst($data["souscat"]['extent']);
+					if($champ['Association'] === "collection") $methodAdd = "add".ucfirst($data["souscat"]['extent']);
+					$types = $this->get('acmeGroup.entities')->defineEntity($data["souscat"]['extent'])->getRepo()->findByAttrib($data["souscat"]['column'], explode(":", $data["souscat"]['values']));
+				}
+			} else {
+				$data["souscat"] = null;
+			}
+		} else {
+			$data["souscat"] = null;
+		}
+		// echo("Entite : ".$classEntite."<br />");
 		$data['entite'] = $this->get('acmeGroup.entities')->defineEntity($classEntite);
 		$data['metaInfo'] = $data['entite']->compileMetaInfo($classEntite);
-		$data['entite-image'] = $this->get('acmeGroup.imagetools');
 
 		$data['action'] = $action;
-		$data['entiteName'] = "image";
-		$data['classEntite'] = "image";
+		$data['classEntite'] = $data["entite"]->getClassEntite();	// nom long de l'entité
+		$data['entiteName'] = $data["entite"]->getEntiteName();		// nom court de l'entité
 		$data['element'] = $element;
 		if($element !== null) {
 			$obj = $data['entite']->getById($element);
 			if(!is_object($obj)) {
 				$data['action'] = "liste";
-				$this->get('session')->getFlashBag()->add('error', "L'image n'a pas pu être trouvée.");
+				$this->get('session')->getFlashBag()->add('error', "L'élément n'a pas pu être trouvé.");
 			}
 		}
 
@@ -93,14 +116,15 @@ class LaboController extends Controller {
 						// $em = $this->getDoctrine()->getManager();
 						// $data['entite']->getEm()->persist($obj);
 						$data['entite']->getEm()->flush();
-						return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "type" => $type)));
+						return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
 					}
 				}
 				$data["form"] = $form->createView();
 				break;
 			case 'creation':
 				$obj = $data['entite']->newObject(true);
-				$obj->addTypeImage($typeImage);
+				// ajout des types par défaut
+				if($types !== null) foreach($types as $type) $obj->$methodAdd($type);
 				$formType = $data['entite']->getFormNameEntite();
 				$form = $this->createForm(new $formType($this), $obj);
 				$request = $this->get('request');
@@ -110,7 +134,7 @@ class LaboController extends Controller {
 						// $em = $this->getDoctrine()->getManager();
 						$data['entite']->getEm()->persist($obj);
 						$data['entite']->getEm()->flush();
-						return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "type" => $type)));
+						return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
 					}
 				}
 				$data["form"] = $form->createView();
@@ -128,7 +152,7 @@ class LaboController extends Controller {
 				} else {
 					$this->get('session')->getFlashBag()->add('error', "L'image ".$element." n'existe pas. Elle n'a pu être supprimée.");
 				}
-				return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "type" => $type)));
+				return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
 				break;
 			case 'supprime-admin':
 				if(is_object($obj)) {
@@ -143,14 +167,14 @@ class LaboController extends Controller {
 				} else {
 					$this->get('session')->getFlashBag()->add('error', "L'image ".$element." n'existe pas. Elle n'a pu être supprimée.");
 				}
-				return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "type" => $type)));
+				return $this->redirect($this->generateUrl('labo_page_imageByType', array("action" => 'liste', "classEntite" => $data['URLclassEntite'])));
 				break;
 			default: // liste
 				break;
 		}
 
 		$data["pag"] = $this->getPaginationQuery();
-		$data["dataEntite"] = $data["entite"]->getRepo()->findImageByTypePagination($type, $data["pag"]['page'], $data["pag"]["lignes"], $data["pag"]["ordre"], $data["pag"]["sens"], $data["pag"]["searchString"], $data["pag"]["searchField"], $element);
+		$data["dataEntite"] = $data["entite"]->getRepo()->findElementsPagination($data["pag"], $data["souscat"]);
 		$data["pag"]["nbtot"] = count($data["dataEntite"]);
 		$data["pag"]["nbpage"] = ceil($data["pag"]["nbtot"] / $data["pag"]["lignes"]);
 
@@ -249,14 +273,31 @@ class LaboController extends Controller {
 	// Page de gestion entite
 	public function entiteAction($action = "liste", $classEntite, $element = null) {
 		$data = array();
+		$types = null;
 		$classEntite = urldecode($classEntite);
-		$data['URLclassEntite'] = $classEntite;
+		$data['URLclassEntite'] = $classEntite;			// richtext@typeRichtext:nom:pageweb:… (à partir du 3ème, on énumère les valeurs, séparées par des ":")
 		// sous-catégorie ?
 		$exp = explode('@', $classEntite, 2);
-		$classEntite = $exp[0];
+		$classEntite = $exp[0];							// richtext
 		if(count($exp) > 1) {
-			$data["souscat"] = explode(":", $exp[1]);
-			$data["souscat"]['url'] = $exp[1];
+			$deps = explode(":", $exp[1], 3);
+			if(count($deps) === 3) {
+				$data["souscat"]['attrib'] = $deps[0];	// typeImages
+				$champ = $this->metaInfo($classEntite, $data["souscat"]['attrib']);
+				$target = explode("\\", $champ['targetEntity']);
+				$data["souscat"]['extent'] = $target[count($target) - 1];	// typeImage (sans "s") (targetEntity)
+				$data["souscat"]['column'] = $deps[1];	// nom
+				$data["souscat"]['values'] = $deps[2];	// diaporama
+				$data["souscat"]['url'] = $exp[1];		// typeImages:nom:diaporama
+				// récupère les entités à lier (si $action = creation)
+				if($action === "creation") {
+					if($champ['Association'] === "single") $methodAdd = "set".ucfirst($data["souscat"]['extent']);
+					if($champ['Association'] === "collection") $methodAdd = "add".ucfirst($data["souscat"]['extent']);
+					$types = $this->get('acmeGroup.entities')->defineEntity($data["souscat"]['extent'])->getRepo()->findByAttrib($data["souscat"]['column'], explode(":", $data["souscat"]['values']));
+				}
+			} else {
+				$data["souscat"] = null;
+			}
 		} else {
 			$data["souscat"] = null;
 		}
@@ -294,6 +335,8 @@ class LaboController extends Controller {
 				break;
 			case 'creation':
 				$obj = $data['entite']->newObject(true);
+				// ajout des types par défaut
+				if($types !== null) foreach($types as $type) $obj->$methodAdd($type);
 				$formType = $data['entite']->getFormNameEntite();
 				$form = $this->createForm(new $formType($this), $obj);
 				$request = $this->get('request');
@@ -338,14 +381,14 @@ class LaboController extends Controller {
 			default: // liste
 				break;
 		}
-		if($data["souscat"] === null) {
-			$trt = $data["entite"]->getRepo()->findByNom($element);
-			if(count($trt) > 0) $data["typeRichtext"] = $trt[0]->getDescriptif();
-				else $data["typeRichtext"] = null;
-		}
+		// if($data["souscat"] === null) {
+		// 	$trt = $data["entite"]->getRepo()->findByNom($element);
+		// 	if(count($trt) > 0) $data["typeRichtext"] = $trt[0]->getDescriptif();
+		// 		else $data["typeRichtext"] = null;
+		// }
 
 		$data["pag"] = $this->getPaginationQuery();
-		$data["dataEntite"] = $data["entite"]->getRepo()->findElementsPagination($data["pag"]);
+		$data["dataEntite"] = $data["entite"]->getRepo()->findElementsPagination($data["pag"], $data["souscat"]);
 		$data["pag"]["nbtot"] = count($data["dataEntite"]);
 		$data["pag"]["nbpage"] = ceil($data["pag"]["nbtot"] / $data["pag"]["lignes"]);
 

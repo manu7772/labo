@@ -13,7 +13,11 @@
 	<!-- Default panel contents -->
 		<div class="panel-heading">
 			<span class="badge">{{ pag.nbtot }}</span> {{ entiteName }}{{ plur(dataEntite) }} trouvé{{ plur(dataEntite) }}{% if pag.nbpage > 0 %} - page {{ pag.page }}/{{ pag.nbpage }} - {{ pag.lignes }} {{ entiteName }}s par page{% endif %}
-			<a class="btn btn-warning btn-xs" href="{{ url(ROUTE, {classEntite: Url_encode(entiteName), action: 'creation'}) }}">Créer nouveau : {{ entiteName }}</a>
+			{% if souscat != null %}
+			<a class="btn btn-warning btn-xs" href="{{ url(ROUTE, {action: 'creation', classEntite: Url_encode(URLclassEntite)}) }}">Créer {{ entiteName }} {{ souscat.values }}</a>
+			{% else %}
+			<a class="btn btn-warning btn-xs" href="{{ url(ROUTE, {action: 'creation', classEntite: Url_encode(URLclassEntite)}) }}">Créer {{ entiteName }}</a>
+			{% endif %}
 		</div>
 		{% if pag.nbpage > 0 %}
 		<table class="table table-bordered table-striped">

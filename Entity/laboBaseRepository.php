@@ -104,28 +104,41 @@ class laboBaseRepository extends EntityRepository {
 	}
 
 	/**
-	* findActifs
-	* Liste des éléments de 
-	* - statut = actif
-	* - version = version actuelle
-	* - non expirés
-	* @return array
-	*/
+	 * findActifs
+	 * Liste des éléments de 
+	 * - statut = actif
+	 * - version = version actuelle
+	 * - non expirés
+	 * @return array
+	 */
 	public function findActifs() {
 		$qb = $this->createQueryBuilder('element');
 		$qb = $this->defaultStatut($qb);
 		$qb = $this->excludeExpired($qb);
 		$qb = $this->withVersion($qb);
-		$qb->orderBy('element.id', 'DESC');
+		// $qb->orderBy('element.id', 'DESC');
 		return $qb->getQuery()->getResult();
 	}
 
 	/**
-	* findXrandomElements
-	* récupère $n éléments au hasard dans la BDD
-	* @param integer $n
-	* @return array
-	*/
+	 * Renvoie les entités dont le $champ contient les valeurs $values
+	 * @param string $champ
+	 * @param array $values
+	 * @return array
+	 */
+	public function findByAttrib($champ, $values) {
+		if(is_string($values)) $values = array($values);
+		$qb = $this->createQueryBuilder('element');
+		$qb->where($qb->expr()->in('element.'.$champ, $values));
+		return $qb->getQuery()->getResult();
+	}
+
+	/**
+	 * findXrandomElements
+	 * récupère $n éléments au hasard dans la BDD
+	 * @param integer $n
+	 * @return array
+	 */
 	public function findXrandomElements($n) {
 		$n = intval($n);
 		if($n < 1) $n = 1;
@@ -150,7 +163,7 @@ class laboBaseRepository extends EntityRepository {
 	 * et pagination avec GET
 	 */
 	// public function findElementsPagination($page = 1, $lignes = null, $ordre = 'id', $sens = 'ASC', $searchString = null, $searchField = "nom") {
-	public function findElementsPagination($pag, $souscat) {
+	public function findElementsPagination($pag, $souscat = null) {
 		// vérifications pagination
 		if($pag['page'] < 1) $pag['page'] = 1;
 		if($pag['lignes'] > 100) $pag['linges'] = 100;
@@ -158,6 +171,11 @@ class laboBaseRepository extends EntityRepository {
 		// Requête…
 		$qb = $this->createQueryBuilder('element');
 		$qb = $this->rechercheStr($qb, $pag['searchString'], $pag['searchField']);
+		// sous-catégories de tri
+		if($souscat !== null) {
+			$qb->join('element.'.$souscat['attrib'], 'link')
+				->andWhere($qb->expr()->in('link.'.$souscat['column'], explode(":", $souscat['values'])));
+		}
 		// $qb->leftJoin('element.imagePpale', 'i')
 		// 	->addSelect('i')
 		// 	->leftJoin('element.images', 'ii')
@@ -184,38 +202,38 @@ class laboBaseRepository extends EntityRepository {
 	 * tous types : 'all'
 	 * et pagination avec GET
 	 */
-	public function findImageByTypePagination($type, $page = 1, $lignes = null, $ordre = 'id', $sens = 'ASC', $searchString = null, $searchField = "nom") {
-		// vérifications pagination
-		if($page < 1) $page = 1;
-		if($lignes > 100) $lignes = 100;
-		if($lignes < 10) $lignes = 10;
-		// Requête…
-		$qb = $this->createQueryBuilder('element');
-		$qb = $this->rechercheStr($qb, $searchString, $searchField);
-		if($type !== 'all') {
-			$qb->join('element.typeImages', 'ti')
-				->where('ti.nom = :tinom')
-				->setParameter('tinom', $type);
-		}
-		// $qb->leftJoin('element.imagePpale', 'i')
-		// 	->addSelect('i')
-		// 	->leftJoin('element.images', 'ii')
-		// 	->addSelect('ii')
-		// 	->leftJoin('element.reseaus', 'r')
-		// 	->addSelect('r');
-		// exclusions
-		// $qb = $this->excludeExpired($qb);
-		$qb = $this->withVersion($qb);
-		// $qb = $this->defaultStatut($qb);
-		// Tri/ordre
-		if(!in_array($ordre, $this->getFields())) $ordre = "id";
-		if(!in_array($sens, array('ASC', 'DESC'))) $sens = "ASC";
-		$qb->orderBy('element.'.$ordre, $sens);
-		// Pagination
-		$qb->setFirstResult(($page - 1) * $lignes)
-			->setMaxResults($lignes);
-		return new Paginator($qb);
-	}
+	// public function findImageByTypePagination($type, $page = 1, $lignes = null, $ordre = 'id', $sens = 'ASC', $searchString = null, $searchField = "nom") {
+	// 	// vérifications pagination
+	// 	if($page < 1) $page = 1;
+	// 	if($lignes > 100) $lignes = 100;
+	// 	if($lignes < 10) $lignes = 10;
+	// 	// Requête…
+	// 	$qb = $this->createQueryBuilder('element');
+	// 	$qb = $this->rechercheStr($qb, $searchString, $searchField);
+	// 	if($type !== 'all') {
+	// 		$qb->join('element.typeImages', 'ti')
+	// 			->where('ti.nom = :tinom')
+	// 			->setParameter('tinom', $type);
+	// 	}
+	// 	// $qb->leftJoin('element.imagePpale', 'i')
+	// 	// 	->addSelect('i')
+	// 	// 	->leftJoin('element.images', 'ii')
+	// 	// 	->addSelect('ii')
+	// 	// 	->leftJoin('element.reseaus', 'r')
+	// 	// 	->addSelect('r');
+	// 	// exclusions
+	// 	// $qb = $this->excludeExpired($qb);
+	// 	$qb = $this->withVersion($qb);
+	// 	// $qb = $this->defaultStatut($qb);
+	// 	// Tri/ordre
+	// 	if(!in_array($ordre, $this->getFields())) $ordre = "id";
+	// 	if(!in_array($sens, array('ASC', 'DESC'))) $sens = "ASC";
+	// 	$qb->orderBy('element.'.$ordre, $sens);
+	// 	// Pagination
+	// 	$qb->setFirstResult(($page - 1) * $lignes)
+	// 		->setMaxResults($lignes);
+	// 	return new Paginator($qb);
+	// }
 
 	/**
 	 * findListByTag
