@@ -26,8 +26,13 @@ class LaboController extends Controller {
 		return $this->render('LaboTestmanuBundle:pages:working.html.twig');
 	}
 
+	// Page erreur (labo)
+	public function errorAction() {
+		return $this->render('LaboTestmanuBundle:pages:error.html.twig');
+	}
+
 	/**
-	 *
+	 * Edition des paramètres du site
 	 */
 	public function editParametresAction($action = "liste", $groupe = "all", $paramSlug = null) {
 		$params = $this->get('acmeGroup.parametre');
