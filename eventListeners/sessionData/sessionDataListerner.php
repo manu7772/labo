@@ -1,5 +1,4 @@
 <?php
-// src/AcmeGroup/LaboBundle/eventListeners/sessionData/sessionDataListerner.php
 
 namespace labo\Bundle\TestmanuBundle\eventListeners\sessionData;
 

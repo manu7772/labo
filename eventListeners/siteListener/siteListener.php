@@ -1,7 +1,6 @@
 <?php
-// src/AcmeGroup/eventListeners/siteListener/siteListener.php
 
-namespace AcmeGroup\eventListeners\siteListener;
+namespace labo\Bundle\TestmanuBundle\eventListeners\siteListener;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
@@ -9,11 +8,6 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
-use AcmeGroup\services\aetools\aetools;
-use AcmeGroup\services\entitiesServices\version;
-use AcmeGroup\services\entitiesServices\categorie;
-use AcmeGroup\services\entitiesServices\directeditor;
 
 class siteListener {
 
