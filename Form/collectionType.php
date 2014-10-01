@@ -43,6 +43,17 @@ class collectionType extends AbstractType {
 				"required"  => false,
 				"label"     => 'Date d\'expiration'
 				))
+			->add('firstmedia', 'entity', array(
+				'class'     => 'AcmeGroupLaboBundle:image',
+				'property'  => 'nom',
+				'multiple'  => false,
+				"label"     => 'Premier média',
+				"required"  => false,
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                    return $i->findImageByTypes(array('diaporama','universel','ambiance'));
+                    },
+                'empty_value' => 'Choisir…'
+				))
 			->add('medias', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:image',
 				'property'  => 'nom',
@@ -50,9 +61,9 @@ class collectionType extends AbstractType {
 				"label"     => 'Médias',
 				"required"  => false,
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('diaporama'));
+                    return $i->findImageByTypes(array('diaporama','universel','ambiance'));
                     },
-                'empty_value' => '(utiliser image standard)'
+                'empty_value' => 'Choisir…'
 				))
             ->add('statut', 'entity', array(
                 // "disabled"  => true,

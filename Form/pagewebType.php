@@ -74,6 +74,14 @@ class pagewebType extends AbstractType {
 			   "required"  => false,
 			   "label"     => 'Textes (richtext)'
 			   ))
+			->add('diaporama', 'entity', array(
+				'class'     => 'AcmeGroupLaboBundle:collection',
+				'property'  => 'nom',
+				'multiple'  => false,
+				"label"     => 'Diaporama',
+				"required"  => false,
+                'empty_value' => 'Choisir…'
+				))
 			->add('route', 'text', array(
 				"label"     => "Nom de la route",
 				"required"  => true,
