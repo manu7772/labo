@@ -30,6 +30,12 @@ abstract class evenement {
 	protected $statut;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\partenaire")
+	 * @ORM\JoinColumn(nullable=true, unique=false)
+	 */
+	private $partenaire;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\typeEvenement")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
@@ -92,6 +98,13 @@ abstract class evenement {
 	protected $image;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="imageurl", type="string", length=255, nullable=true, unique=false)
+	 */
+	private $imageurl;
+
+	/**
 	 * @var array
 	 *
 	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
@@ -113,6 +126,8 @@ abstract class evenement {
 		$this->dateCreation = new \Datetime();
 		$this->dateMaj = null;
 		$this->dateExpiration = null;
+		$this->imageurl = null;
+		$this->partenaire = null;
 		$this->versions = new ArrayCollection();
 	}
 
@@ -166,6 +181,27 @@ abstract class evenement {
 	 */
 	public function getStatut() {
 		return $this->statut;
+	}
+
+	/**
+	 * Set partenaire
+	 *
+	 * @param \AcmeGroup\LaboBundle\Entity\partenaire $partenaire
+	 * @return evenement
+	 */
+	public function setPartenaire(\AcmeGroup\LaboBundle\Entity\partenaire $partenaire = null) {
+		$this->partenaire = $partenaire;
+	
+		return $this;
+	}
+
+	/**
+	 * Get partenaire
+	 *
+	 * @return \AcmeGroup\LaboBundle\Entity\partenaire 
+	 */
+	public function getPartenaire() {
+		return $this->partenaire;
 	}
 
 	/**
@@ -354,6 +390,27 @@ abstract class evenement {
 	 */
 	public function getImage() {
 		return $this->image;
+	}
+
+	/**
+	 * Set imageurl
+	 *
+	 * @param string $imageurl
+	 * @return evenement
+	 */
+	public function setImageurl($imageurl = null) {
+		$this->imageurl = $imageurl;
+	
+		return $this;
+	}
+
+	/**
+	 * Get imageurl
+	 *
+	 * @return string 
+	 */
+	public function getImageurl() {
+		return $this->imageurl;
 	}
 
 	/**
