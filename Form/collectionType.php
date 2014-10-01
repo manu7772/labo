@@ -52,7 +52,7 @@ class collectionType extends AbstractType {
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('diaporama','universel','ambiance'));
                     },
-                'empty_value' => 'Choisir…'
+                'empty_value' => '(aucun)'
 				))
 			->add('medias', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:image',
@@ -63,7 +63,7 @@ class collectionType extends AbstractType {
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('diaporama','universel','ambiance'));
                     },
-                'empty_value' => 'Choisir…'
+                'empty_value' => '(aucun)'
 				))
             ->add('statut', 'entity', array(
                 // "disabled"  => true,

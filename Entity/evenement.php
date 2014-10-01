@@ -30,10 +30,10 @@ abstract class evenement {
 	protected $statut;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\partenaire")
+	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\partenaire")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
-	private $partenaire;
+	private $partenaires;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\typeEvenement")
@@ -128,6 +128,7 @@ abstract class evenement {
 		$this->dateExpiration = null;
 		$this->imageurl = null;
 		$this->partenaire = null;
+		$this->partenaires = new ArrayCollection();
 		$this->versions = new ArrayCollection();
 	}
 
@@ -184,24 +185,33 @@ abstract class evenement {
 	}
 
 	/**
-	 * Set partenaire
+	 * Add partenaire
 	 *
 	 * @param \AcmeGroup\LaboBundle\Entity\partenaire $partenaire
 	 * @return evenement
 	 */
-	public function setPartenaire(\AcmeGroup\LaboBundle\Entity\partenaire $partenaire = null) {
-		$this->partenaire = $partenaire;
+	public function addPartenaire(\AcmeGroup\LaboBundle\Entity\partenaire $partenaire = null) {
+		$this->partenaires[] = $partenaire;
 	
 		return $this;
 	}
 
 	/**
-	 * Get partenaire
+	 * Remove partenaire
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\partenaire 
+	 * @param \AcmeGroup\LaboBundle\Entity\partenaire $partenaire
 	 */
-	public function getPartenaire() {
-		return $this->partenaire;
+	public function removePartenaire(\AcmeGroup\LaboBundle\Entity\partenaire $partenaire) {
+		$this->partenaires->removeElement($partenaire);
+	}
+
+	/**
+	 * Get partenaires
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getPartenaires() {
+		return $this->partenaires;
 	}
 
 	/**

@@ -80,7 +80,7 @@ class pagewebType extends AbstractType {
 				'multiple'  => false,
 				"label"     => 'Diaporama',
 				"required"  => false,
-                'empty_value' => 'Choisir…'
+                'empty_value' => '(aucun)'
 				))
 			->add('route', 'text', array(
 				"label"     => "Nom de la route",
