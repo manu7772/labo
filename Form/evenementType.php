@@ -51,11 +51,11 @@ class evenementType extends AbstractType {
 				"required"  => false,
 				"label"     => 'Date de fin'
 				))
-			->add('partenaire', 'entity', array(
+			->add('partenaires', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:partenaire',
 				'property'  => 'nom',
 				'multiple'  => true,
-				"label"     => 'Partenaire de l\'évènement',
+				"label"     => 'Partenaires de l\'évènement',
 				"required"  => false,
                 // 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                 //     return $i->findImageByTypes(array('evenement'));
