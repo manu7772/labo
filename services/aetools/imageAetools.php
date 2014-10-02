@@ -23,6 +23,7 @@ class imageAetools {
 	protected $modes = array("cut", "in", "deform", "no");
 	protected $appliDeclinaisons = array();
 	protected $formatsValides;
+	protected $maxFixtImageWidth = 1024;
 	protected $imgTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF);
 	protected $dossiers = array(
 		// nom : nom du dossier
@@ -68,7 +69,7 @@ class imageAetools {
 			$this->modeFixtures = false;
 		}
 		$this->em = $this->container->get('doctrine')->getManager();
-		$this->repo = $this->em->getRepository("AcmeGroup\\LaboBundle\\Entity\\image");
+		$this->repo = $this->em->getRepository("AcmeGroupLaboBundle:image");
 		$this->aetools = $this->container->get("acmeGroup.aetools");
 		$this->aetools->setWebPath("images/");
 		foreach($this->imgTypes as $it) {
@@ -85,7 +86,7 @@ class imageAetools {
 			$this->echoFixtures("---> CHECK FIXTURES : nettoyage complet des données images\n");
 			$this->echoFixtures("---> CHECK FIXTURES : suppression image courante\n");
 			$this->deleteCurtImages();
-			$this->echoFixtures("---> CHECK FIXTURES : suppression images déclinaisons\n");
+			$this->echoFixtures("---> CHECK FIXTURES : suppression ".count($this->newImages)." images déclinaisons\n");
 			$this->deleteAllNewImages();
 		}
 	}
@@ -200,6 +201,27 @@ class imageAetools {
 					return false;
 				break;
 			}
+			// Mode fixtures : réduit le fichier si trop grand
+			// if(($this->modeFixtures === true) && ($this->curtImage["type"][0] > $this->maxFixtImageWidth)) {
+			// 	$ratio = $this->curtImage["type"][1] / $this->curtImage["type"][0];
+			// 	echo "Mémoire PHP : ".memory_get_usage()." (Création original avant réduction : ".$this->curtImage["objet"]->getFichierOrigine().")\n";
+			// 	$newimg = imagecreatetruecolor($this->maxFixtImageWidth, round($this->maxFixtImageWidth * $ratio));
+			// 	imagealphablending($newimg, false);
+			// 	imagesavealpha($newimg, true);
+			// 	$newimg = imagecopyresampled(
+			// 		$newimg,
+			// 		$this->curtImage["image"],
+			// 		0,0,0,0,
+			// 		$this->maxFixtImageWidth,
+			// 		round($this->maxFixtImageWidth * $ratio),
+			// 		$this->curtImage["type"][0],
+			// 		$this->curtImage["type"][1]
+			// 	);
+			// 	imagedestroy($this->curtImage["image"]);
+			// 	$this->curtImage["image"] = $newimg;
+			// 	imagedestroy($newimg);
+			// }
+			echo "Mémoire PHP : ".memory_get_usage()." (Création original : ".$this->curtImage["objet"]->getFichierOrigine().")\n";
 		} else {
 			$this->echoFixtures("Format non supporté !!!");
 			return false;
@@ -326,6 +348,7 @@ class imageAetools {
 		$this->newImages[$nom]["image"] = imagecreatetruecolor($tailleX, $tailleY);
 		imagealphablending($this->newImages[$nom]["image"], false);
 		imagesavealpha($this->newImages[$nom]["image"], true);
+		echo "Mémoire PHP : ".memory_get_usage()." (Création thumb : ".$nom.")\n";
 		return $this;
 	}
 
@@ -347,6 +370,7 @@ class imageAetools {
 	*
 	*/
 	public function deleteCurtImages() {
+		$nom = $this->curtImage["objet"]->getFichierOrigine();
 		if(isset($this->curtImage["image"])) {
 			$d = imagedestroy($this->curtImage["image"]);
 			unset($this->curtImage["image"]);
@@ -356,6 +380,7 @@ class imageAetools {
 		$this->curtImage = null;
 		unset($this->curtImage);
 		$this->curtImage = array();
+		echo "Mémoire PHP : ".memory_get_usage()." (destruction originale ".$nom.")\n";
 	}
 
 	/**
@@ -367,11 +392,12 @@ class imageAetools {
 	public function deleteImage($nom) {
 		if(isset($this->newImages[$nom]["image"])) {
 			$d = imagedestroy($this->newImages[$nom]["image"]);
-			if($d === true) $this->echoFixtures("---> Desctruction image déclinaison ".$nom."\n");
-				else $this->echoFixtures("---> ALERTE : Desctruction image déclinaison ".$nom." échouée !!!\n");
+			if($d === true) $this->echoFixtures("---> Desctruction image thumb ".$nom."\n");
+				else $this->echoFixtures("---> ALERTE : Desctruction image thumb ".$nom." échouée !!!\n");
 		}
 		$this->newImages[$nom] = null;
 		unset($this->newImages[$nom]);
+		echo "Mémoire PHP : ".memory_get_usage()." (destruction thumb ".$nom.")\n";
 	}
 
 	/**

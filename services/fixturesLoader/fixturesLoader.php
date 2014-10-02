@@ -38,15 +38,8 @@ class fixturesLoader {
 		$this->parsList = array();
 		$this->manager = $manager;
 		$this->EntityService = $EntityService;
-
-		if($this->loadXML() !== null) {
-				echo("--- OK : ".$this->EntityService->getNameFixturesFile()." ---\n\n");
-				return true;
-			}
-			else {
-				echo("--- Fichier XML ".$this->EntityService->getNameFixturesFile()." non présent ---\n\n");
-				return false;
-			}
+		// chargement
+		$this->loadXML();
 	}
 
 	private function loadXML() {
@@ -155,36 +148,19 @@ class fixturesLoader {
 			}
 		}
 
-		// Désactive partiellement le chargement d'image si entité = "image" (ou plutôt contient la méthode "setFixturesDeactivate()")
-		// if(method_exists($this->parsList, "setFixturesDeactivate")) {
-		// 	$this->parsList->setFixturesDeactivate(true); // Court-circuit FIXTURES ------ !!!
-		// 	$path = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/images_fixtures/";
-		// 	if(file_exists($path.$this->parsList->getFichierOrigine())) {
-		// 		$file = $path.$this->parsList->getFichierOrigine();
-		// 		echo('Chargement image '.$this->parsList->getFichierOrigine()." ---------\n");
-		// 		$img = getimagesize($file);
-		// 		$this->parsList->setTailleX($img[0]);
-		// 		$this->parsList->setTailleY($img[1]);
-		// 		$this->parsList->setTailleMo(filesize($file));
-		// 		echo("------------------------------\n");
-		// 	}
-		// }
 		// ajout du parent (concerne les entités Tree uniquement)
 		if($cpt_parent !== null) {
 			if (method_exists($this->parsList, "setParent")) $this->parsList->setParent($cpt_parent);
 			if (method_exists($this->parsList, "addParent")) $this->parsList->addParent($cpt_parent);
 		}
 		// Persist & flush
+		echo "Mémoire PHP : ".memory_get_usage()." --> ";
 		$this->manager->persist($this->parsList);
 		$this->manager->flush();
+		echo memory_get_usage()."\n";
 		echo("* Entité enregistrée en BDD *\n\n");
 		return $this->parsList; // renvoie l'objet enregistré
 	}
-
-
-
-
-
 
 
 	/**
