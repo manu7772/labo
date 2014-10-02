@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 // Entité
-use labo\Bundle\TestmanuBundle\Entity\video;
+use acmeGroup\LaboBundle\Entity\video;
 
 class videos extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $ord			= 120;			// Ordre de chargement fixtures
-	private $entity			= "labo\\Bundle\\TestmanuBundle\\Entity\\video";	// nom de l'entité
+	private $entity			= "video";	// nom de l'entité
 	private $container;
 	private $manager;
 

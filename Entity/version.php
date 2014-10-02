@@ -110,6 +110,15 @@ abstract class version {
 	protected $nomDomaine;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="email", type="string", length=200, nullable=true, unique=false)
+	 * @Assert\Email(message = "Vous devez indiquer un email valide et complet.")
+	 * 
+	 */
+	protected $email;
+
+	/**
 	 * @var integer
 	 *
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
@@ -121,7 +130,7 @@ abstract class version {
 	 * @var integer
 	 *
 	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image", cascade={"persist", "remove"})
-	 * @ORM\JoinColumn(nullable=true)
+	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	protected $favicon;
 
@@ -427,6 +436,27 @@ abstract class version {
 	}
 
 	/**
+	 * Set email
+	 *
+	 * @param string $email
+	 * @return version
+	 */
+	public function setEmail($email = null) {
+		$this->email = $email;
+	
+		return $this;
+	}
+
+	/**
+	 * Get email
+	 *
+	 * @return string 
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
+
+	/**
 	 * Set couleurFond
 	 *
 	 * @param string $couleurFond
@@ -495,7 +525,7 @@ abstract class version {
 	 * @param \AcmeGroup\LaboBundle\Entity\image $logo
 	 * @return version
 	 */
-	public function setLogo(\AcmeGroup\LaboBundle\Entity\image $logo) {
+	public function setLogo(\AcmeGroup\LaboBundle\Entity\image $logo = null) {
 		$this->logo = $logo;
 	
 		return $this;
@@ -516,7 +546,7 @@ abstract class version {
 	 * @param \AcmeGroup\LaboBundle\Entity\image $favicon
 	 * @return version
 	 */
-	public function setFavicon(\AcmeGroup\LaboBundle\Entity\image $favicon) {
+	public function setFavicon(\AcmeGroup\LaboBundle\Entity\image $favicon = null) {
 		$this->favicon = $favicon;
 	
 		return $this;

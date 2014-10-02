@@ -7,6 +7,8 @@ namespace labo\Bundle\TestmanuBundle\services\fixturesLoader;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+define("BASEFOLDER", __DIR__."/../../../../../../../..");
+
 class fixturesLoader {
 
 	private $bundleSave;
@@ -48,7 +50,7 @@ class fixturesLoader {
 	}
 
 	private function loadXML() {
-		$XMLfile = __DIR__."/../../SiteBundle/Resources/public/xml/".$this->EntityService->getNameFixturesFile();
+		$XMLfile = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/xml/".$this->EntityService->getNameFixturesFile();
 		if(file_exists($XMLfile)) {
 			echo("XML trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
 			$r = $this->parseX(@simplexml_load_file($XMLfile));
@@ -156,7 +158,7 @@ class fixturesLoader {
 		// Désactive partiellement le chargement d'image si entité = "image" (ou plutôt contient la méthode "setFixturesDeactivate()")
 		// if(method_exists($this->parsList, "setFixturesDeactivate")) {
 		// 	$this->parsList->setFixturesDeactivate(true); // Court-circuit FIXTURES ------ !!!
-		// 	$path = "src/AcmeGroup/SiteBundle/Resources/public/images_fixtures/";
+		// 	$path = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/images_fixtures/";
 		// 	if(file_exists($path.$this->parsList->getFichierOrigine())) {
 		// 		$file = $path.$this->parsList->getFichierOrigine();
 		// 		echo('Chargement image '.$this->parsList->getFichierOrigine()." ---------\n");
@@ -205,7 +207,7 @@ class fixturesLoader {
 				$file[1] = $file[0];
 				$file[0] = $dossier;
 			} else $dossier = $file[0];
-			$importFile = "src/AcmeGroup/SiteBundle/Resources/public/".$file[0]."/".$file[1];
+			$importFile = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/".$file[0]."/".$file[1];
 			echo("Import : ".$importFile."\n");
 			if(file_exists($importFile)) {
 				$txt = @file_get_contents($importFile);

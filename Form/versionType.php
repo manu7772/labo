@@ -50,6 +50,8 @@ class versionType extends AbstractType {
                 ))
             ->add('nomDomaine', 'text', array(
                 'label' => 'Nom de domaine'))
+            ->add('email', 'text', array(
+                'label' => 'Adresse email principale'))
             ->add('couleurFond', 'text', array(
                 'label' => 'Couleur principale #'))
             ->add('imageEntete', 'entity', array(

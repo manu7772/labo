@@ -865,36 +865,7 @@ class LaboController extends Controller {
 	 * @return aeReponse
 	 */
 	private function checkUsers() {
-		$r = array();
-		$em = $this->getDoctrine()->getManager();
-		$repoU = $em->getRepository('AcmeGroupUserBundle:User');
-		$repoM = $em->getRepository('AcmeGroup\\LaboBundle\\Entity\\marque');
-		$users = $repoU->findAll();
-		$marqs = $repoM->findAll();
-		// liste des noms de marques
-		$ms = $objm = array();
-		foreach($marqs as $marque) {
-			$ms[] = strtoupper($marque->getNom());			// $ms 		= noms de marques
-			$objm[strtoupper($marque->getNom())] = $marque;	// $objm	= objets marques
-		}
-		// Check
-		foreach ($users as $user) {
-			$MM = strtoupper($user->getMacmarque());
-			if((in_array($MM, $ms)) && ($user->getMarque() === null)) {
-				$r[$user->getId()]["marque"]["format"] = "string";
-				$r[$user->getId()]["MACmarque"]["format"] = "string";
-				$r[$user->getId()]["MACmarque"]["before"] = $user->getMacmarque();
-				if($user->getMarque() !== null) $r[$user->getId()]["marque"]["before"] = $user->getMarque()->getNom();
-					else $r[$user->getId()]["marque"]["before"] = "aucun";
-				// change user marque
-				$user->setMarque($objm[$MM]);
-				$r[$user->getId()]["marque"]["after"] = $user->getMarque()->getNom();
-				$r[$user->getId()]["MACmarque"]["after"] = $user->getMarque()->getNom();
-			}
-		}
-		$em->flush();
-		return new aeReponse(1, $r, "Check utilisateurs terminé");
-		// return new aeReponse(2, array(), "Check User pas encore programmé…");
+		return new aeReponse(2, array(), "Check User pas encore programmé…");
 	}
 
 	//////////////////////////
