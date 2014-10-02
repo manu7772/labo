@@ -105,7 +105,7 @@ class categorie extends entitiesGeneric {
 				// FIN : Lignes de personnalisation du service
 				//////////////////////////////////////////
 				$this->service['reloaded'] = true;
-				$this->service['defaut'] = $this->getRepo()->defaultMenu()->getSlug();
+				$this->service['defaut'] = $this->getRepo()->defaultMenu("menu_01")->getSlug();
 				// --> éléments ayant un menu
 				$this->getRepo();
 				// echo($this->serviceNom." => Version getRepo() : ".$this->getRepo()->getVersion()."<br />");

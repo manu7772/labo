@@ -32,14 +32,15 @@ class imageAetools {
 		"original"	=> array("nom"	=> "original"),
 		"article"	=> array("nom"	=> "article",	"x"	=> 205,		"y"	=> 156,		"mode"	=> "cut",	"type" => null,				"ext" => null),
 		"tn152"		=> array("nom"	=> "tn152",		"x"	=> 152,		"y"	=> 152,		"mode"	=> "cut",	"type" => null,				"ext" => null),
-		"tn265in"	=> array("nom"	=> "tn265",		"x"	=> 265,		"y"	=> 265,		"mode"	=> "in",	"type" => null,				"ext" => null),
+		"tn265in"	=> array("nom"	=> "tn265in",	"x"	=> 265,		"y"	=> 265,		"mode"	=> "in",	"type" => null,				"ext" => null),
 		"tn200"		=> array("nom"	=> "tn200",		"x"	=> 200,		"y"	=> 200,		"mode"	=> "cut",	"type" => null,				"ext" => null),
-		"tn200in"	=> array("nom"	=> "tn200",		"x"	=> 200,		"y"	=> 200,		"mode"	=> "in",	"type" => null,				"ext" => null),
+		"tn200in"	=> array("nom"	=> "tn200in",	"x"	=> 200,		"y"	=> 200,		"mode"	=> "in",	"type" => null,				"ext" => null),
 		"tn128"		=> array("nom"	=> "tn128",		"x"	=> 128,		"y"	=> 128,		"mode"	=> "cut",	"type" => null,				"ext" => null),
 		"tn64"		=> array("nom"	=> "tn64",		"x"	=> 64,		"y"	=> 64,		"mode"	=> "cut",	"type" => null,				"ext" => null),
+		"tn64in"	=> array("nom"	=> "tn64in",	"x"	=> 64,		"y"	=> 64,		"mode"	=> "in",	"type" => null,				"ext" => null),
 		"tn32"		=> array("nom"	=> "tn32",		"x"	=> 32,		"y"	=> 32,		"mode"	=> "cut",	"type" => null,				"ext" => null),
 		"logo"		=> array("nom"	=> "logo",		"x"	=> 172,		"y"	=> 55,		"mode"	=> "in",	"type" => null,				"ext" => null),
-		"version"	=> array("nom"	=> "version",	"x"	=> 270,		"y"	=> 60,		"mode"	=> "cut",	"type" => null,				"ext" => null),
+		// "version"	=> array("nom"	=> "version",	"x"	=> 270,		"y"	=> 60,		"mode"	=> "cut",	"type" => null,				"ext" => null),
 		"optim"		=> array("nom"	=> "optim",		"x"	=> 800,		"y"	=> 600,		"mode"	=> "in",	"type" => null,				"ext" => null),
 		"favicons"	=> array("nom"	=> "favicons",	"x"	=> 16,		"y"	=> 16,		"mode"	=> "in",	"type" => "image/png",		"ext" => 'ico')
 		);
@@ -51,13 +52,13 @@ class imageAetools {
 		"ambiance"		=> array("optim", "tn200", "tn128", "tn64"),
 		"article"		=> array("optim", "article", "tn200", "tn128", "tn64"),
 		"diaporama"		=> array("optim", "tn200", "tn128", "tn64"),
-		"logo"			=> array("optim", "tn200", "tn128", "tn64", "logo"),
+		"logo"			=> array("optim", "tn200", "tn128", "tn64", "tn64in", "logo", "favicons"),
 		"site"			=> array("optim", "tn200in", "tn64"),
 		"atelier"		=> array("optim", "tn265in", "tn200in", "tn152", "tn64"),
 		"evenement"		=> array("optim", "tn200in", "tn64"),
 		"partenaire"	=> array("optim", "tn200in", "tn64"),
 		"magasin"		=> array("optim", "tn200in", "tn64"),
-		"version"		=> array("optim", "version", "tn200", "tn64"),
+		"version"		=> array("optim", "tn200", "tn64"),
 		"admin"			=> array("optim", "tn200", "tn128", "tn64", "optim")
 		);
 
@@ -76,6 +77,10 @@ class imageAetools {
 			$this->formatsValides[image_type_to_mime_type($it)]["type"] = image_type_to_mime_type($it);
 			$this->formatsValides[image_type_to_mime_type($it)]["maxSize"] = 6000;
 			$this->imgMimeType[$it] = image_type_to_mime_type($it);
+		}
+		// création des dossiers
+		foreach ($this->dossiers as $nom => $contenus) {
+			$this->aetools->verifDossierAndCreate($nom);
 		}
 		// $this->echoFixtures("!!!!!!!!!!!!!!!!!!!!!!!!!! RUN INIT IMAGES TOOL !!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		return $this;
