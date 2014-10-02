@@ -73,10 +73,21 @@ class imageAetools {
 		$this->aetools->setWebPath("images/");
 		foreach($this->imgTypes as $it) {
 			$this->formatsValides[image_type_to_mime_type($it)]["type"] = image_type_to_mime_type($it);
-			$this->formatsValides[image_type_to_mime_type($it)]["maxSize"] = 3600;
+			$this->formatsValides[image_type_to_mime_type($it)]["maxSize"] = 6000;
 			$this->imgMimeType[$it] = image_type_to_mime_type($it);
 		}
+		// $this->echoFixtures("!!!!!!!!!!!!!!!!!!!!!!!!!! RUN INIT IMAGES TOOL !!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		return $this;
+	}
+
+	public function finishFixtures() {
+		if($this->modeFixtures === true) {
+			$this->echoFixtures("---> CHECK FIXTURES : nettoyage complet des données images\n");
+			$this->echoFixtures("---> CHECK FIXTURES : suppression image courante\n");
+			$this->deleteCurtImages();
+			$this->echoFixtures("---> CHECK FIXTURES : suppression images déclinaisons\n");
+			$this->deleteAllNewImages();
+		}
 	}
 
 	/**
@@ -157,7 +168,6 @@ class imageAetools {
 		// $this->curtImage["declinaisons"]	= array des déclinaisons de l'image
 		// $this->curtImage["image"]		= image
 		// $this->curtImage["objet"]		= objet entité image
-		$this->aetools->setWebPath("images/");
 		$this->curtImage["objet"] = $image;
 		if($this->modeFixtures === true) {
 			$this->curtImage["file"] = "src/AcmeGroup/SiteBundle/Resources/public/images_fixtures/".$this->curtImage["objet"]->getFichierOrigine();
@@ -167,7 +177,7 @@ class imageAetools {
 		$this->curtImage["type"] = getimagesize($this->curtImage["file"]);
 
 		if($this->checkCurrentTypeValide() === true) {
-			$this->echoFixtures("Format valide !!!");
+			$this->echoFixtures("Format valide !!! --> ");
 			switch($this->curtImage["type"]["mime"]) {
 				case image_type_to_mime_type(IMAGETYPE_JPEG):
 					$this->echoFixtures(image_type_to_mime_type(IMAGETYPE_JPEG)."\n");
@@ -297,6 +307,7 @@ class imageAetools {
 				$this->appliDeclinaisons[$nom] = $this->dossiers[$nom];
 			}
 		}
+		return $this->appliDeclinaisons;
 		// $this->echoFixtures("<pre>");var_dump($this->appliDeclinaisons);$this->echoFixtures("</pre>");
 	}
 
@@ -325,6 +336,9 @@ class imageAetools {
 	*/
 	public function deleteAllNewImages() {
 		foreach($this->newImages as $nom => $newImage) $this->deleteImage($nom);
+		$this->newImages = null;
+		unset($this->newImages);
+		$this->newImages = array();
 	}
 
 	/**
@@ -333,9 +347,15 @@ class imageAetools {
 	*
 	*/
 	public function deleteCurtImages() {
-		imagedestroy($this->curtImage["image"]);
+		if(isset($this->curtImage["image"])) {
+			$d = imagedestroy($this->curtImage["image"]);
+			unset($this->curtImage["image"]);
+			if($d === true) $this->echoFixtures("---> Desctruction image courante\n");
+				else $this->echoFixtures("---> ALERTE : Desctruction image échouée !!!\n");
+		}
 		$this->curtImage = null;
 		unset($this->curtImage);
+		$this->curtImage = array();
 	}
 
 	/**
@@ -345,11 +365,13 @@ class imageAetools {
 	* @param $nom
 	*/
 	public function deleteImage($nom) {
-		if(is_array($this->newImages[$nom])) {
-			imagedestroy($this->newImages[$nom]["image"]);
-			$this->newImages[$nom] = null;
-			unset($this->newImages[$nom]);
+		if(isset($this->newImages[$nom]["image"])) {
+			$d = imagedestroy($this->newImages[$nom]["image"]);
+			if($d === true) $this->echoFixtures("---> Desctruction image déclinaison ".$nom."\n");
+				else $this->echoFixtures("---> ALERTE : Desctruction image déclinaison ".$nom." échouée !!!\n");
 		}
+		$this->newImages[$nom] = null;
+		unset($this->newImages[$nom]);
 	}
 
 	/**
@@ -362,8 +384,7 @@ class imageAetools {
 	protected function generateAllThumb($listOfDeclinaisons = null) {
 		$this->aetools->setWebPath("images/");
 		if($listOfDeclinaisons === null) {
-			$this->checkDeclinaisons();
-			$listOfDeclinaisons = $this->appliDeclinaisons;
+			$listOfDeclinaisons = $this->checkDeclinaisons();
 		}
 		foreach($listOfDeclinaisons as $nom => $declin) {
 			$this->thumb_image($nom, $declin["x"], $declin["y"], $declin["mode"], $declin["type"], $declin["ext"]);
@@ -469,7 +490,8 @@ class imageAetools {
 			if($this->aetools->getAeReponse()->getResult() === true) $this->echoFixtures($this->aetools->getAeReponse()->getMessage()."\n");
 		}
 		$this->echoFixtures("Déclinaison -> ".$destination."\n");
-		$this->deleteAllNewImages();
+		$this->deleteImage($nom);
+		// $this->deleteAllNewImages();
 		return $this;
 	}
 

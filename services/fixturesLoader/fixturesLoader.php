@@ -40,11 +40,11 @@ class fixturesLoader {
 		$this->EntityService = $EntityService;
 
 		if($this->loadXML() !== null) {
-				echo("--- OK ---\n\n");
+				echo("--- OK : ".$this->EntityService->getNameFixturesFile()." ---\n\n");
 				return true;
 			}
 			else {
-				echo("--- ECHEC : fichier XML non trouvé ---\n\n");
+				echo("--- Fichier XML ".$this->EntityService->getNameFixturesFile()." non présent ---\n\n");
 				return false;
 			}
 	}
@@ -58,7 +58,7 @@ class fixturesLoader {
 			echo("XML non trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
 			$r = null;
 		}
-		return $r;
+		// return $r;
 	}
 
 	### Parse des données XML (total)
@@ -228,7 +228,8 @@ class fixturesLoader {
 			function($matches) {
 				if((count($matches) > 3) || ($matches[1] == 'IMG')) {
 					$meth = 'findBy'.ucfirst($matches[2]);
-					$repo = $this->manager->getRepository("AcmeGroup\\LaboBundle\\Entity\\image");
+					// $repo = $this->manager->getRepository("AcmeGroup\\LaboBundle\\Entity\\image");
+					$repo = $this->manager->getRepository("AcmeGroupLaboBundle:image");
 					$image = $repo->$meth($matches[3]);
 					if(count($image) > 0) return ("{{ asset('images/original/".$image[0]->getFichierNom()."') }}");
 				}
