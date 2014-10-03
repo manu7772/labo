@@ -25,7 +25,7 @@ class imageAetools {
 	protected $formatsValides;
 	protected $maxFixtImageWidth = 1024;
 	protected $imgTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF);
-	protected $dossiers = array(
+	protected $dossiers = array( // a0dcb1336bd75979967e66b7490968e8-1412280035
 		// nom : nom du dossier
 		// x et y : dimensions en pixels
 		// mode : mode de rééchantillonnage (voir méthode "thumb_image()")
@@ -72,13 +72,14 @@ class imageAetools {
 		$this->em = $this->container->get('doctrine')->getManager();
 		$this->repo = $this->em->getRepository("AcmeGroupLaboBundle:image");
 		$this->aetools = $this->container->get("acmeGroup.aetools");
-		$this->aetools->setWebPath("images/");
 		foreach($this->imgTypes as $it) {
 			$this->formatsValides[image_type_to_mime_type($it)]["type"] = image_type_to_mime_type($it);
 			$this->formatsValides[image_type_to_mime_type($it)]["maxSize"] = 6000;
 			$this->imgMimeType[$it] = image_type_to_mime_type($it);
 		}
 		// création des dossiers
+		$this->aetools->setWebPath("images/");
+		$this->aetools->verifDossierAndCreate("original");
 		foreach ($this->dossiers as $nom => $contenus) {
 			$this->aetools->verifDossierAndCreate($nom);
 		}
@@ -156,6 +157,7 @@ class imageAetools {
 	*/
 	public function loadImageOriginal(image $imageObj) {
 		$this->curtImage["objet"] = $imageObj;
+		// $this->aetools->setWebPath("images/");
 		$this->loadImageFile($this->getUploadRootDir()."original/".$this->curtImage["objet"]->getFichierNom());
 	}
 
@@ -232,6 +234,7 @@ class imageAetools {
 			return false;
 		}
 		// enregistrement dans le dossier "original"
+		$this->aetools->setWebPath("images/");
 		$this->aetools->verifDossierAndCreate("original");
 		$this->echoFixtures("COPY : ".$this->curtImage["file"]."\nVERS : ".$this->getUploadRootDir()."original/".$this->curtImage["objet"]->getFichierNom()."\n");
 		if($this->modeFixtures === true) {

@@ -37,7 +37,7 @@ class imageType extends AbstractType {
 				"required"  => false,
 				"label"     => 'Nom de l\'image'
 				))
-			->add('descriptif', 'textarea', array(
+			->add('descriptif', 'richtext', array(
 				"required"  => false,
 				'label'		=> 'Description de l\'image',
 				))
