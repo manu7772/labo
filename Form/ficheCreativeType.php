@@ -144,56 +144,58 @@ class ficheCreativeType extends AbstractType {
                         //  ));
                     }
                 }
-                // Si ROLE_EDITOR, on change ces champs :
-                if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_ADMIN, on change ces champs :
-                if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_SUPER_ADMIN, on change ces champs :
-                if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    $form
-                        ->add('dateCreation', 'datepicker2alldates', array(
-                            "required"  => false,
-                            "label"     => 'Date de création'
-                            ))
-                        ->add('datePublication', 'datepicker2alldates', array(
-                            "required"  => false,
-                            "label"     => 'Date de publication'
-                            ))
-                        ->add('dateExpiration', 'datepicker2alldates', array(
-                            "required"  => false,
-                            "label"     => 'Date d\'expiration'
-                            ))
-                        ->add('versions', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:version',
-                            'property'  => 'nom',
-                            'multiple'  => true,
-                            'expanded'  => false,
-                            "required"  => true,
-                            "label"     => 'Versions du site',
-                            ))
-                        ->add('propUser', 'entity', array(
-                            'class'     => 'AcmeGroupUserBundle:User',
-                            'property'  => 'username',
-                            'multiple'  => false,
-                            'expanded'  => false,
-                            "required"  => false,
-                            "label"     => 'Possesseur',
-                            'empty_value' => '(aucun possesseur)',
-                            "query_builder" => function(\AcmeGroup\UserBundle\Entity\UserRepository $user) {
-                                return $user->getEditorsAndMore();
-                                }
-                            ))
-                        ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
-                            'property'  => 'nom',
-                            'multiple'  => false,
-                            "label"     => 'Statut'
-                            ))
-                        ;
+                if($user !== "anon.") {
+                    // Si ROLE_EDITOR, on change ces champs :
+                    if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_ADMIN, on change ces champs :
+                    if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_SUPER_ADMIN, on change ces champs :
+                    if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+                        $form
+                            ->add('dateCreation', 'datepicker2alldates', array(
+                                "required"  => false,
+                                "label"     => 'Date de création'
+                                ))
+                            ->add('datePublication', 'datepicker2alldates', array(
+                                "required"  => false,
+                                "label"     => 'Date de publication'
+                                ))
+                            ->add('dateExpiration', 'datepicker2alldates', array(
+                                "required"  => false,
+                                "label"     => 'Date d\'expiration'
+                                ))
+                            ->add('versions', 'entity', array(
+                                'class'     => 'AcmeGroupLaboBundle:version',
+                                'property'  => 'nom',
+                                'multiple'  => true,
+                                'expanded'  => false,
+                                "required"  => true,
+                                "label"     => 'Versions du site',
+                                ))
+                            ->add('propUser', 'entity', array(
+                                'class'     => 'AcmeGroupUserBundle:User',
+                                'property'  => 'username',
+                                'multiple'  => false,
+                                'expanded'  => false,
+                                "required"  => false,
+                                "label"     => 'Possesseur',
+                                'empty_value' => '(aucun possesseur)',
+                                "query_builder" => function(\AcmeGroup\UserBundle\Entity\UserRepository $user) {
+                                    return $user->getEditorsAndMore();
+                                    }
+                                ))
+                            ->add('statut', 'entity', array(
+                                'class'     => 'AcmeGroupLaboBundle:statut',
+                                'property'  => 'nom',
+                                'multiple'  => false,
+                                "label"     => 'Statut'
+                                ))
+                            ;
+                    }
                 }
             }
         );

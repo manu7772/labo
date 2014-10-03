@@ -71,17 +71,19 @@ class dureeMensualiteType extends AbstractType {
                         //  ));
                     }
                 }
-                // Si ROLE_EDITOR, on change ces champs :
-                if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_ADMIN, on change ces champs :
-                if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_SUPER_ADMIN, on change ces champs :
-                if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    //
+                if($user !== "anon.") {
+                    // Si ROLE_EDITOR, on change ces champs :
+                    if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_ADMIN, on change ces champs :
+                    if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_SUPER_ADMIN, on change ces champs :
+                    if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+                        //
+                    }
                 }
             }
         );

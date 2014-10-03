@@ -122,35 +122,37 @@ class pagewebType extends AbstractType {
 							);
                     }
                 }
-				// Si ROLE_EDITOR, on change ces champs :
-				if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-					$form->add('nom', 'text', array(
-							"label"     => 'Nom',
-							'disabled'  => true
-							))
-						->add('fichierhtml', 'text', array(
-							"label"     => 'Template (html)',
-							'required'  => false,
-							'disabled'  => true
-							))
-						->add('route', 'text', array(
-							"label"     => "Nom de la route",
-							"required"  => true,
-							'disabled'  => true
-							)
-					);
-				}
-				// Si ROLE_ADMIN, on change ces champs :
-				if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-					//
-				}
-				// Si ROLE_SUPER_ADMIN, on change ces champs :
-				if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-					$form->add('nom', 'text', array(
-							"label"     => 'Nom',
-							'disabled'  => false
-							)
+                if($user !== "anon.") {
+					// Si ROLE_EDITOR, on change ces champs :
+					if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+						$form->add('nom', 'text', array(
+								"label"     => 'Nom',
+								'disabled'  => true
+								))
+							->add('fichierhtml', 'text', array(
+								"label"     => 'Template (html)',
+								'required'  => false,
+								'disabled'  => true
+								))
+							->add('route', 'text', array(
+								"label"     => "Nom de la route",
+								"required"  => true,
+								'disabled'  => true
+								)
 						);
+					}
+					// Si ROLE_ADMIN, on change ces champs :
+					if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+						//
+					}
+					// Si ROLE_SUPER_ADMIN, on change ces champs :
+					if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+						$form->add('nom', 'text', array(
+								"label"     => 'Nom',
+								'disabled'  => false
+								)
+							);
+					}
 				}
 			}
 		);

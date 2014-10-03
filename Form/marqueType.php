@@ -92,24 +92,26 @@ class marqueType extends AbstractType {
                         //  ));
                     }
                 }
-                // Si ROLE_EDITOR, on change ces champs :
-                if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_ADMIN, on change ces champs :
-                if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_SUPER_ADMIN, on change ces champs :
-                if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    $form
-                        ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
-                            'property'  => 'nom',
-                            'multiple'  => false,
-                            "label"     => 'Statut de la marque'
-                            ))
-                        ;
+                if($user !== "anon.") {
+                    // Si ROLE_EDITOR, on change ces champs :
+                    if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_ADMIN, on change ces champs :
+                    if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_SUPER_ADMIN, on change ces champs :
+                    if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+                        $form
+                            ->add('statut', 'entity', array(
+                                'class'     => 'AcmeGroupLaboBundle:statut',
+                                'property'  => 'nom',
+                                'multiple'  => false,
+                                "label"     => 'Statut de la marque'
+                                ))
+                            ;
+                    }
                 }
             }
         );
