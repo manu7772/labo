@@ -85,7 +85,7 @@ class version extends entitiesGeneric {
 				$this->service['email'] = $this->serviceData->getEmail();
 				$this->service['couleur'] = $this->serviceData->getCouleurFond();
 				$this->service['telpublic'] = $this->serviceData->getTelpublic();
-				$this->service['fax'] = $this->serviceData->getFax();
+				// $this->service['fax'] = $this->serviceData->getFax();
 				if($this->serviceData->getAdresse() !== null) {
 					$this->service['adresse']['nom'] = $this->serviceData->getAdresse()->getNom();
 					$this->service['adresse']['adresse'] = $this->serviceData->getAdresse()->getAdresse();
