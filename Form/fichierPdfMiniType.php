@@ -33,7 +33,8 @@ class fichierPdfMiniType extends AbstractType {
         $builder
             // ->add('dateCreation')
             ->add('file', 'file', array(
-                "label"     => "fichier (format PDF)"
+                "label"     => "fichier (format PDF)",
+                "required"  => false,
                 ))
             ->add('nom', 'text', array(
                 "label"     => "Nom",

@@ -326,6 +326,27 @@ abstract class evenement {
 	}
 
 	/**
+	 * Set texte
+	 *
+	 * @param string $texte
+	 * @return evenement
+	 */
+	public function setTexte($texte) {
+		$this->texte = $texte;
+	
+		return $this;
+	}
+
+	/**
+	 * Get texte
+	 *
+	 * @return string 
+	 */
+	public function getTexte() {
+		return $this->texte;
+	}
+
+	/**
 	 * Set dateCreation
 	 *
 	 * @param \DateTime $dateCreation
