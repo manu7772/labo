@@ -35,9 +35,13 @@ class evenementType extends AbstractType {
 				"required"  => true,
 				"label"     => 'Nom de l\'evenement'
 				))
-			->add('descriptif', 'richtext', array(
+			->add('descriptif', 'text', array(
 				"required"  => false,
 				"label"     => 'Texte descriptif'
+				))
+			->add('texte', 'richtext', array(
+				"required"  => false,
+				"label"     => 'Texte complet de l\'évènement',
 				))
 			->add('dateExpiration', 'datepicker', array(
 				"required"  => false,

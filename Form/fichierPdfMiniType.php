@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
-class fichierPdfType extends AbstractType {
+class fichierPdfMiniType extends AbstractType {
 
     private $controller;
     private $securityContext;

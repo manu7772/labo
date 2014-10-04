@@ -58,9 +58,16 @@ abstract class evenement {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="descriptif", type="text", nullable=true, unique=false)
+	 * @ORM\Column(name="descriptif", type="string", length=255, nullable=true, unique=false)
 	 */
 	protected $descriptif;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="texte", type="text", nullable=true, unique=false)
+	 */
+	protected $texte;
 
 	/**
 	 * @var \DateTime
