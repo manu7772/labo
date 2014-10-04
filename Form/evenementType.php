@@ -35,7 +35,7 @@ class evenementType extends AbstractType {
 				"required"  => true,
 				"label"     => 'Nom de l\'evenement'
 				))
-			->add('descriptif', 'text', array(
+			->add('descriptif', 'richtext', array(
 				"required"  => false,
 				"label"     => 'Texte descriptif'
 				))
@@ -78,7 +78,7 @@ class evenementType extends AbstractType {
 				'property'  => 'nom',
 				'multiple'  => false,
 				"label"     => 'Type d\'évènement',
-				"required"  => false
+				"required"  => true
 				))
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
