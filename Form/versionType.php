@@ -61,7 +61,7 @@ class versionType extends AbstractType {
                 'required'  => true,
                 "label"     => 'Image d\'entête',
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('Version'));
+                    return $i->findImageByTypes(array('version'));
                     },
                 'empty_value' => 'Sélectionner…'
                 ))
@@ -72,14 +72,25 @@ class versionType extends AbstractType {
                 'required'  => false,
                 "label"     => 'Logo',
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('Logo'));
+                    return $i->findImageByTypes(array('logo'));
                     },
                 'empty_value' => 'Sélectionner…'
                 ))
-            ->add('favicon', new imageMiniType($this->controller), array(
-                "required"  => false,
-                "label"     => "Favicon (PNG / JPEG / GIF)"
+            ->add('favicon', 'entity', array(
+                'class'     => 'AcmeGroupLaboBundle:image',
+                'property'  => 'nom',
+                'multiple'  => false,
+                'required'  => true,
+                "label"     => 'Favicon',
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                    return $i->findImageByTypes(array('favicon'));
+                    },
+                'empty_value' => 'Sélectionner…'
                 ))
+            // ->add('favicon', new imageMiniType($this->controller), array(
+            //     "required"  => false,
+            //     "label"     => "Favicon (PNG / JPEG / GIF)"
+            //     ))
             ->add('defaut', 'checkbox', array(
                 "label"     => 'Version par défaut',
                 'required'  => false

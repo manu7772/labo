@@ -34,6 +34,8 @@
 					{% else %}
 					<li><a href="{{ url('labo_home') }}">Administration site</a></li>
 					{% endif %}
+					<li class="divider"></li>
+					<li><a href="{{ url('labo_page_imageByType', {classEntite: Url_encode('image@typeImages:nom:favicon')}) }}">Favicons</a></li>
 				</ul>
 			</li>
 			<li class="dropdown">

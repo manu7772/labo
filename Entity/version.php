@@ -634,7 +634,7 @@ abstract class version {
 	 * @return version
 	 */
 	public function setFavicon(\AcmeGroup\LaboBundle\Entity\image $favicon = null) {
-		$this->favicon = $favicon;
+		if($favicon !== null) $this->favicon = $favicon;
 	
 		return $this;
 	}
