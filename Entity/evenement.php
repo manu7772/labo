@@ -30,7 +30,7 @@ abstract class evenement {
 	protected $statut;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\partenaire")
+	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\partenaire")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	private $partenaires;
