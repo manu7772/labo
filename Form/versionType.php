@@ -69,7 +69,7 @@ class versionType extends AbstractType {
                 'class'     => 'AcmeGroupLaboBundle:image',
                 'property'  => 'nom',
                 'multiple'  => false,
-                'required'  => true,
+                'required'  => false,
                 "label"     => 'Logo',
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
                     return $i->findImageByTypes(array('Logo'));
@@ -77,7 +77,7 @@ class versionType extends AbstractType {
                 'empty_value' => 'Sélectionner…'
                 ))
             ->add('favicon', new imageMiniType($this->controller), array(
-                "required"  => true,
+                "required"  => false,
                 "label"     => "Favicon (PNG / JPEG / GIF)"
                 ))
             ->add('defaut', 'checkbox', array(
