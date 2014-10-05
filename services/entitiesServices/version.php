@@ -85,6 +85,14 @@ class version extends entitiesGeneric {
 				$this->service['email'] = $this->serviceData->getEmail();
 				$this->service['couleur'] = $this->serviceData->getCouleurFond();
 				$this->service['telpublic'] = $this->serviceData->getTelpublic();
+				// réseaux sociaux
+				$this->service['reseaux-sociaux'] = array();
+				if($this->serviceData->getResofacebook() !== null)
+					$this->service['reseaux-sociaux']['facebook'] = $this->serviceData->getResofacebook();
+				if($this->serviceData->getResotwitter() !== null)
+					$this->service['reseaux-sociaux']['twitter'] = $this->serviceData->getResotwitter();
+				if($this->serviceData->getResogoogleplus() !== null)
+					$this->service['reseaux-sociaux']['google+'] = $this->serviceData->getResogoogleplus();
 				// $this->service['fax'] = $this->serviceData->getFax();
 				if($this->serviceData->getAdresse() !== null) {
 					$this->service['adresse']['nom'] = $this->serviceData->getAdresse()->getNom();

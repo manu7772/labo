@@ -18,6 +18,8 @@
 				{% if app.session.get("version").shutdown != null %}{% set ver = "Tous sites" %}{% else %}{% set ver = app.session.get('version').nom %}{% endif %}
 				<a href="{{ url('acme_site_home') }}?versionDefine={{ app.session.get('version').slug }}" class="dropdown-toggle" data-toggle="dropdown">{{ ver }} <b class="caret"></b></a>
 				<ul class="dropdown-menu">
+					<li><a href="{{ url('labo_page_entite', {action: 'liste', classEntite: Url_encode('version')}) }}">Editer versions</a></li>
+					<li class="divider"></li>
 					{% for key,site in app.session.get("version").liste %}
 					{% if key == app.session.get("version").slug and app.session.get("version").shutdown == null %}{% set check = ' class="disabled"' %}{% else %}{% set check = '' %}{% endif %}
 					{% if app.session.get('aetools').bundleName == 'LaboBundle' %}{% set rte = 'labo_home' %}{% else %}{% set rte = 'acme_site_home' %}{% endif %}
@@ -76,6 +78,9 @@
 					<li><a href="{{ url('labo_page_vente', {type: 'termine'}) }}">Ventes terminées</a></li>
 					<li><a href="{{ url('labo_page_vente', {type: 'annule'}) }}">Ventes annulées</a></li>
 					<li><a href="{{ url('labo_page_vente', {type: 'erreur'}) }}">Echecs paiement</a></li>
+					<li class="divider"></li>
+					<li><a href="{{ url('labo_page_entite', {classEntite: Url_encode('partenaire')}) }}">Partenaires</a></li>
+					<li><a href="{{ url('labo_page_imageByType', {classEntite: Url_encode('image@typeImages:nom:partenaire')}) }}">Photos partenaires</a></li>
 					<li class="divider"></li>
 					<li><a href="{{ url('labo_page_entite', {classEntite: Url_encode('magasin')}) }}">Magasins</a></li>
 					<li><a href="{{ url('labo_page_imageByType', {classEntite: Url_encode('image@typeImages:nom:magasin')}) }}">Photos magasins</a></li>

@@ -88,6 +88,18 @@ class versionType extends AbstractType {
                 'label'     => "Template maître",
                 'required'  => true
                 ))
+            ->add('resofacebook', 'text', array(
+                'label'     => "Page Facebook (url)",
+                'required'  => false
+                ))
+            ->add('resotwitter', 'text', array(
+                'label'     => "Page Twitter (url)",
+                'required'  => false
+                ))
+            ->add('resogoogleplus', 'text', array(
+                'label'     => "Page Google+ (url)",
+                'required'  => false
+                ))
         ;
         // $builder = $this->addHiddenValues($builder);
 
