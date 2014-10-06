@@ -37,7 +37,7 @@ class imageType extends AbstractType {
 				"required"  => false,
 				"label"     => 'Nom de l\'image'
 				))
-			->add('descriptif', 'textarea', array(
+			->add('descriptif', 'richtext', array(
 				"required"  => false,
 				'label'		=> 'Description de l\'image',
 				))
@@ -100,38 +100,40 @@ class imageType extends AbstractType {
 						;
                     }
                 }
-                // Si ROLE_EDITOR, on change ces champs :
-                if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_ADMIN, on change ces champs :
-                if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_SUPER_ADMIN, on change ces champs :
-				if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    $form
-						->add('typeImages', 'entity', array(
-							'class'     => 'AcmeGroupLaboBundle:typeImage',
-							'property'  => 'nom',
-							'multiple'  => true,
-							"label"     => 'Types de l\'image'
-							))
-           			    ->add('dateCreation', 'datepicker2alldates', array(
-                            "required"  => false,
-                            "label"     => 'Date de création'
-                            ))
-                        ->add('dateExpiration', 'datepicker2alldates', array(
-                            "required"  => false,
-                            "label"     => 'Date d\'expiration'
-                            ))
-						->add('statut', 'entity', array(
-							'class'     => 'AcmeGroupLaboBundle:statut',
-							'property'  => 'nom',
-							'multiple'  => false,
-							"label"     => 'Statut de l\'image'
-							))
-                        ;
+                if($user !== "anon.") {
+                	// Si ROLE_EDITOR, on change ces champs :
+                	if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+                	    //
+                	}
+                	// Si ROLE_ADMIN, on change ces champs :
+                	if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+                	    //
+                	}
+                	// Si ROLE_SUPER_ADMIN, on change ces champs :
+					if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+                	    $form
+							->add('typeImages', 'entity', array(
+								'class'     => 'AcmeGroupLaboBundle:typeImage',
+								'property'  => 'nom',
+								'multiple'  => true,
+								"label"     => 'Types de l\'image'
+								))
+           				    ->add('dateCreation', 'datepicker2alldates', array(
+                	            "required"  => false,
+                	            "label"     => 'Date de création'
+                	            ))
+                	        ->add('dateExpiration', 'datepicker2alldates', array(
+                	            "required"  => false,
+                	            "label"     => 'Date d\'expiration'
+                	            ))
+							->add('statut', 'entity', array(
+								'class'     => 'AcmeGroupLaboBundle:statut',
+								'property'  => 'nom',
+								'multiple'  => false,
+								"label"     => 'Statut de l\'image'
+								))
+                	        ;
+					}
 				}
 			});
     }

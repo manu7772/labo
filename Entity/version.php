@@ -68,6 +68,27 @@ abstract class version {
 	/**
 	 * @var string
 	 *
+	 * @ORM\Column(name="resofacebook", type="string", length=200, nullable=true, unique=false)
+	 */
+	protected $resofacebook;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="resotwitter", type="string", length=200, nullable=true, unique=false)
+	 */
+	protected $resotwitter;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="resogoogleplus", type="string", length=200, nullable=true, unique=false)
+	 */
+	protected $resogoogleplus;
+
+	/**
+	 * @var string
+	 *
 	 * @ORM\Column(name="tvaIntra", type="string", length=100, nullable=true, unique=false)
 	 */
 	protected $tvaIntra;
@@ -110,6 +131,15 @@ abstract class version {
 	protected $nomDomaine;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="email", type="string", length=200, nullable=true, unique=false)
+	 * @Assert\Email(message = "Vous devez indiquer un email valide et complet.")
+	 * 
+	 */
+	protected $email;
+
+	/**
 	 * @var integer
 	 *
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
@@ -121,7 +151,7 @@ abstract class version {
 	 * @var integer
 	 *
 	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image", cascade={"persist", "remove"})
-	 * @ORM\JoinColumn(nullable=true)
+	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	protected $favicon;
 
@@ -176,6 +206,9 @@ abstract class version {
 		$this->fichierCSS = null;
 		$this->defaut = false;
 		$this->templateIndex = "Site";
+		$this->resofacebook = null;
+		$this->resotwitter = null;
+		$this->resogoogleplus = null;
 	}
 
 
@@ -235,6 +268,69 @@ abstract class version {
 	 */
 	public function getNom() {
 		return $this->nom;
+	}
+
+	/**
+	 * Set resofacebook
+	 *
+	 * @param string $resofacebook
+	 * @return version
+	 */
+	public function setResofacebook($resofacebook) {
+		$this->resofacebook = $resofacebook;
+	
+		return $this;
+	}
+
+	/**
+	 * Get resofacebook
+	 *
+	 * @return string 
+	 */
+	public function getResofacebook() {
+		return $this->resofacebook;
+	}
+
+	/**
+	 * Set resotwitter
+	 *
+	 * @param string $resotwitter
+	 * @return version
+	 */
+	public function setResotwitter($resotwitter) {
+		$this->resotwitter = $resotwitter;
+	
+		return $this;
+	}
+
+	/**
+	 * Get resotwitter
+	 *
+	 * @return string 
+	 */
+	public function getResotwitter() {
+		return $this->resotwitter;
+	}
+
+	/**
+	 * Set resogoogleplus
+	 *
+	 * @param string $resogoogleplus
+	 * @return version
+	 */
+	public function setResogoogleplus($resogoogleplus) {
+		$this->resogoogleplus = $resogoogleplus;
+	
+		return $this;
+	}
+
+	/**
+	 * Get resogoogleplus
+	 *
+	 * @return string 
+	 */
+	public function getResogoogleplus() {
+		return $this->resogoogleplus;
 	}
 
 	/**
@@ -427,6 +523,27 @@ abstract class version {
 	}
 
 	/**
+	 * Set email
+	 *
+	 * @param string $email
+	 * @return version
+	 */
+	public function setEmail($email = null) {
+		$this->email = $email;
+	
+		return $this;
+	}
+
+	/**
+	 * Get email
+	 *
+	 * @return string 
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
+
+	/**
 	 * Set couleurFond
 	 *
 	 * @param string $couleurFond
@@ -495,7 +612,7 @@ abstract class version {
 	 * @param \AcmeGroup\LaboBundle\Entity\image $logo
 	 * @return version
 	 */
-	public function setLogo(\AcmeGroup\LaboBundle\Entity\image $logo) {
+	public function setLogo(\AcmeGroup\LaboBundle\Entity\image $logo = null) {
 		$this->logo = $logo;
 	
 		return $this;
@@ -516,8 +633,8 @@ abstract class version {
 	 * @param \AcmeGroup\LaboBundle\Entity\image $favicon
 	 * @return version
 	 */
-	public function setFavicon(\AcmeGroup\LaboBundle\Entity\image $favicon) {
-		$this->favicon = $favicon;
+	public function setFavicon(\AcmeGroup\LaboBundle\Entity\image $favicon = null) {
+		if($favicon !== null) $this->favicon = $favicon;
 	
 		return $this;
 	}

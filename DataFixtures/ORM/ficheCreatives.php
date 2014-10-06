@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 // Entité
-use labo\Bundle\TestmanuBundle\Entity\ficheCreative;
+use acmeGroup\LaboBundle\Entity\ficheCreative;
 
 class ficheCreatives extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $ord			= 300;			// Ordre de chargement fixtures
-	private $entity			= "labo\\Bundle\\TestmanuBundle\\Entity\\ficheCreative";	// nom de l'entité
+	private $entity			= "ficheCreative";	// nom de l'entité
 	private $container;
 	private $manager;
 

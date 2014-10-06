@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 // Entité
-use labo\Bundle\TestmanuBundle\Entity\typeRemise;
+use acmeGroup\LaboBundle\Entity\typeRemise;
 
 class typeRemises extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
     private $ord            = 50;           // Ordre de chargement fixtures
-    private $entity         = "labo\\Bundle\\TestmanuBundle\\Entity\\typeRemise";
+    private $entity         = "typeRemise";
     private $container;
     private $manager;
 

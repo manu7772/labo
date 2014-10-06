@@ -33,6 +33,14 @@ abstract class collection {
     /**
      * @var array
      *
+     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+     * @ORM\JoinColumn(nullable=true, unique=false)
+     */
+    protected $firstmedia;
+
+    /**
+     * @var array
+     *
      * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\image")
      * @ORM\JoinColumn(nullable=true, unique=false)
      */
@@ -95,6 +103,7 @@ abstract class collection {
         $this->dateMaj = null;
         $this->dateExpiration = null;
 
+        $this->firstmedia = null;
         $this->medias = new ArrayCollection();
         $this->versions = new ArrayCollection();
         $this->parametres = array();
@@ -159,6 +168,29 @@ abstract class collection {
     public function getDescriptif()
     {
         return $this->descriptif;
+    }
+
+    /**
+     * Set firstmedia
+     *
+     * @param string $firstmedia
+     * @return collection
+     */
+    public function setFirstmedia($firstmedia)
+    {
+        $this->firstmedia = $firstmedia;
+    
+        return $this;
+    }
+
+    /**
+     * Get firstmedia
+     *
+     * @return string 
+     */
+    public function getFirstmedia()
+    {
+        return $this->firstmedia;
     }
 
     /**

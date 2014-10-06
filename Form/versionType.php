@@ -50,6 +50,8 @@ class versionType extends AbstractType {
                 ))
             ->add('nomDomaine', 'text', array(
                 'label' => 'Nom de domaine'))
+            ->add('email', 'text', array(
+                'label' => 'Adresse email principale'))
             ->add('couleurFond', 'text', array(
                 'label' => 'Couleur principale #'))
             ->add('imageEntete', 'entity', array(
@@ -59,7 +61,7 @@ class versionType extends AbstractType {
                 'required'  => true,
                 "label"     => 'Image d\'entête',
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('Version'));
+                    return $i->findImageByTypes(array('version'));
                     },
                 'empty_value' => 'Sélectionner…'
                 ))
@@ -67,17 +69,28 @@ class versionType extends AbstractType {
                 'class'     => 'AcmeGroupLaboBundle:image',
                 'property'  => 'nom',
                 'multiple'  => false,
-                'required'  => true,
+                'required'  => false,
                 "label"     => 'Logo',
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('Logo'));
+                    return $i->findImageByTypes(array('logo'));
                     },
                 'empty_value' => 'Sélectionner…'
                 ))
-            ->add('favicon', new imageMiniType($this->controller), array(
-                "required"  => true,
-                "label"     => "Favicon (PNG / JPEG / GIF)"
+            ->add('favicon', 'entity', array(
+                'class'     => 'AcmeGroupLaboBundle:image',
+                'property'  => 'nom',
+                'multiple'  => false,
+                'required'  => true,
+                "label"     => 'Favicon',
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                    return $i->findImageByTypes(array('favicon'));
+                    },
+                'empty_value' => 'Sélectionner…'
                 ))
+            // ->add('favicon', new imageMiniType($this->controller), array(
+            //     "required"  => false,
+            //     "label"     => "Favicon (PNG / JPEG / GIF)"
+            //     ))
             ->add('defaut', 'checkbox', array(
                 "label"     => 'Version par défaut',
                 'required'  => false
@@ -85,6 +98,18 @@ class versionType extends AbstractType {
             ->add('templateIndex', 'text', array(
                 'label'     => "Template maître",
                 'required'  => true
+                ))
+            ->add('resofacebook', 'text', array(
+                'label'     => "Page Facebook (url)",
+                'required'  => false
+                ))
+            ->add('resotwitter', 'text', array(
+                'label'     => "Page Twitter (url)",
+                'required'  => false
+                ))
+            ->add('resogoogleplus', 'text', array(
+                'label'     => "Page Google+ (url)",
+                'required'  => false
                 ))
         ;
         // $builder = $this->addHiddenValues($builder);
@@ -117,17 +142,19 @@ class versionType extends AbstractType {
                         //  ));
                     }
                 }
-                // Si ROLE_EDITOR, on change ces champs :
-                if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_ADMIN, on change ces champs :
-                if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_SUPER_ADMIN, on change ces champs :
-                if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    //
+                if($user !== "anon.") {
+                    // Si ROLE_EDITOR, on change ces champs :
+                    if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_ADMIN, on change ces champs :
+                    if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_SUPER_ADMIN, on change ces champs :
+                    if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+                        //
+                    }
                 }
             }
         );

@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
-class fichierPdfType extends AbstractType {
+class fichierPdfMiniType extends AbstractType {
 
     private $controller;
     private $securityContext;
@@ -33,7 +33,8 @@ class fichierPdfType extends AbstractType {
         $builder
             // ->add('dateCreation')
             ->add('file', 'file', array(
-                "label"     => "fichier (format PDF)"
+                "label"     => "fichier (format PDF)",
+                "required"  => false,
                 ))
             ->add('nom', 'text', array(
                 "label"     => "Nom",
@@ -73,17 +74,19 @@ class fichierPdfType extends AbstractType {
                         //  ));
                     }
                 }
-                // Si ROLE_EDITOR, on change ces champs :
-                if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_ADMIN, on change ces champs :
-                if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_SUPER_ADMIN, on change ces champs :
-                if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    //
+                if($user !== "anon.") {
+                    // Si ROLE_EDITOR, on change ces champs :
+                    if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_ADMIN, on change ces champs :
+                    if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_SUPER_ADMIN, on change ces champs :
+                    if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+                        //
+                    }
                 }
             }
         );

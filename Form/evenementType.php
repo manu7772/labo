@@ -39,6 +39,10 @@ class evenementType extends AbstractType {
 				"required"  => false,
 				"label"     => 'Texte descriptif'
 				))
+			->add('texte', 'richtext', array(
+				"required"  => false,
+				"label"     => 'Texte complet de l\'évènement',
+				))
 			->add('dateExpiration', 'datepicker', array(
 				"required"  => false,
 				"label"     => 'Date d\'expiration'
@@ -50,6 +54,17 @@ class evenementType extends AbstractType {
 			->add('dateFin', 'datepicker', array(
 				"required"  => false,
 				"label"     => 'Date de fin'
+				))
+			->add('partenaires', 'entity', array(
+				'class'     => 'AcmeGroupLaboBundle:partenaire',
+				'property'  => 'nom',
+				'multiple'  => true,
+				"label"     => 'Partenaires de l\'évènement',
+				"required"  => false,
+                // 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                //     return $i->findImageByTypes(array('evenement'));
+                //     },
+                'empty_value' => '(aucun partenaire)'
 				))
 			->add('image', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:image',
@@ -67,7 +82,7 @@ class evenementType extends AbstractType {
 				'property'  => 'nom',
 				'multiple'  => false,
 				"label"     => 'Type d\'évènement',
-				"required"  => false
+				"required"  => true
 				))
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
@@ -111,47 +126,49 @@ class evenementType extends AbstractType {
                         //  ));
                     }
                 }
-				// Si ROLE_EDITOR, on change ces champs :
-				if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-					//
-				}
-				// Si ROLE_ADMIN, on change ces champs :
-				if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-					//
-				}
-				// Si ROLE_SUPER_ADMIN, on change ces champs :
-				if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-					$form
-						->add('dateCreation', 'datepicker2alldates', array(
-							"required"  => false,
-							"label"     => 'Date de création'
-							))
-						->add('dateExpiration', 'datepicker2alldates', array(
-							"required"  => false,
-							"label"     => 'Date d\'expiration'
-							))
-						->add('dateDebut', 'datepicker2alldates', array(
-							"required"  => true,
-							"label"     => 'Date de début'
-							))
-						->add('dateFin', 'datepicker2alldates', array(
-							"required"  => false,
-							"label"     => 'Date de fin'
-							))
-						->add('versions', 'entity', array(
-							'class'     => 'AcmeGroupLaboBundle:version',
-							'property'  => 'nom',
-							'multiple'  => true,
-							'expanded'  => true,
-							"label"     => 'Affectations version'
-							))
-                        ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
-                            'property'  => 'nom',
-                            'multiple'  => false,
-                            "label"     => 'Statut'
-                            ))
-                        ;
+                if($user !== "anon.") {
+					// Si ROLE_EDITOR, on change ces champs :
+					if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+						//
+					}
+					// Si ROLE_ADMIN, on change ces champs :
+					if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+						//
+					}
+					// Si ROLE_SUPER_ADMIN, on change ces champs :
+					if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+						$form
+							->add('dateCreation', 'datepicker2alldates', array(
+								"required"  => false,
+								"label"     => 'Date de création'
+								))
+							->add('dateExpiration', 'datepicker2alldates', array(
+								"required"  => false,
+								"label"     => 'Date d\'expiration'
+								))
+							->add('dateDebut', 'datepicker2alldates', array(
+								"required"  => true,
+								"label"     => 'Date de début'
+								))
+							->add('dateFin', 'datepicker2alldates', array(
+								"required"  => false,
+								"label"     => 'Date de fin'
+								))
+							->add('versions', 'entity', array(
+								'class'     => 'AcmeGroupLaboBundle:version',
+								'property'  => 'nom',
+								'multiple'  => true,
+								'expanded'  => true,
+								"label"     => 'Affectations version'
+								))
+                	        ->add('statut', 'entity', array(
+                	            'class'     => 'AcmeGroupLaboBundle:statut',
+                	            'property'  => 'nom',
+                	            'multiple'  => false,
+                	            "label"     => 'Statut'
+                	            ))
+                	        ;
+					}
 				}
 			}
 		);

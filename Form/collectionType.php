@@ -43,6 +43,17 @@ class collectionType extends AbstractType {
 				"required"  => false,
 				"label"     => 'Date d\'expiration'
 				))
+			->add('firstmedia', 'entity', array(
+				'class'     => 'AcmeGroupLaboBundle:image',
+				'property'  => 'nom',
+				'multiple'  => false,
+				"label"     => 'Premier média',
+				"required"  => false,
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                    return $i->findImageByTypes(array('diaporama','universel','ambiance'));
+                    },
+                'empty_value' => '(aucun)'
+				))
 			->add('medias', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:image',
 				'property'  => 'nom',
@@ -50,9 +61,9 @@ class collectionType extends AbstractType {
 				"label"     => 'Médias',
 				"required"  => false,
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('diaporama'));
+                    return $i->findImageByTypes(array('diaporama','universel','ambiance'));
                     },
-                'empty_value' => '(utiliser image standard)'
+                'empty_value' => '(aucun)'
 				))
             ->add('statut', 'entity', array(
                 // "disabled"  => true,
@@ -107,24 +118,26 @@ class collectionType extends AbstractType {
                         //  ));
                     }
                 }
-				// Si ROLE_EDITOR, on change ces champs :
-				if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-					//
-				}
-				// Si ROLE_ADMIN, on change ces champs :
-				if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-					//
-				}
-				// Si ROLE_SUPER_ADMIN, on change ces champs :
-				if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    $form
-                        ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
-                            'property'  => 'nom',
-                            'multiple'  => false,
-                            "label"     => 'Statut'
-                            ))
-                        ;
+                if($user !== "anon.") {
+					// Si ROLE_EDITOR, on change ces champs :
+					if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+						//
+					}
+					// Si ROLE_ADMIN, on change ces champs :
+					if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+						//
+					}
+					// Si ROLE_SUPER_ADMIN, on change ces champs :
+					if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+                	    $form
+                	        ->add('statut', 'entity', array(
+                	            'class'     => 'AcmeGroupLaboBundle:statut',
+                	            'property'  => 'nom',
+                	            'multiple'  => false,
+                	            "label"     => 'Statut'
+                	            ))
+                	        ;
+					}
 				}
 			}
 		);

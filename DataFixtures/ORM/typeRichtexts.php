@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 // Entité
-use labo\Bundle\TestmanuBundle\Entity\typeRichtext;
+use acmeGroup\LaboBundle\Entity\typeRichtext;
 
 class typeRichtexts extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $ord			= 60;				// Ordre de chargement fixtures
-	private $entity			= "labo\\Bundle\\TestmanuBundle\\Entity\\typeRichtext";	// nom de l'entité
+	private $entity			= "typeRichtext";	// nom de l'entité
 	private $container;
 	private $manager;
 

@@ -117,10 +117,11 @@ class categorieRepository extends NestedTreeRepository {
 	* defaultMenu
 	* Renvoie l'instance de la version par défaut (ou null)
 	*/
-	public function defaultMenu() {
+	public function defaultMenu($nommenu = null) {
+		if($nommenu === null) $nommenu = "catégories";
 		$qb = $this->createQueryBuilder('element')
 			->where('element.nom = :nom')
-			->setParameter('nom', "catégories")
+			->setParameter('nom', $nommenu)
 		;
 		$qb = $this->withVersion($qb);
 		$qb = $this->defaultStatut($qb);

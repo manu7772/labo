@@ -167,35 +167,37 @@ class magasinType extends AbstractType {
                         //  ));
                     }
                 }
-                // Si ROLE_EDITOR, on change ces champs :
-                if(in_array("ROLE_EDITOR", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_ADMIN, on change ces champs :
-                if(in_array("ROLE_ADMIN", $user->GetRoles())) {
-                    //
-                }
-                // Si ROLE_SUPER_ADMIN, on change ces champs :
-                if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
-                    $form
-                        ->add('statut', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:statut',
-                            'property'  => 'nom',
-                            'multiple'  => false,
-                            "label"     => 'Statut du magasin'
-                            ))
-                        ->add('image', 'entity', array(
-                            'class'     => 'AcmeGroupLaboBundle:image',
-                            'property'  => 'nom',
-                            'multiple'  => false,
-                            "label"     => 'Image de l\'article',
-                            "required"  => false,
-                            // 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                            //     return $i->findImageByTypes(array('magasin'));
-                            //     },
-                            'empty_value' => '(utiliser image standard)'
-                            ))
-                        ;
+                if($user !== "anon.") {
+                    // Si ROLE_EDITOR, on change ces champs :
+                    if(in_array("ROLE_EDITOR", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_ADMIN, on change ces champs :
+                    if(in_array("ROLE_ADMIN", $user->GetRoles())) {
+                        //
+                    }
+                    // Si ROLE_SUPER_ADMIN, on change ces champs :
+                    if(in_array("ROLE_SUPER_ADMIN", $user->GetRoles())) {
+                        $form
+                            ->add('statut', 'entity', array(
+                                'class'     => 'AcmeGroupLaboBundle:statut',
+                                'property'  => 'nom',
+                                'multiple'  => false,
+                                "label"     => 'Statut du magasin'
+                                ))
+                            ->add('image', 'entity', array(
+                                'class'     => 'AcmeGroupLaboBundle:image',
+                                'property'  => 'nom',
+                                'multiple'  => false,
+                                "label"     => 'Image de l\'article',
+                                "required"  => false,
+                                // 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                                //     return $i->findImageByTypes(array('magasin'));
+                                //     },
+                                'empty_value' => '(utiliser image standard)'
+                                ))
+                            ;
+                    }
                 }
             }
         );

@@ -30,6 +30,12 @@ abstract class evenement {
 	protected $statut;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\partenaire")
+	 * @ORM\JoinColumn(nullable=true, unique=false)
+	 */
+	private $partenaires;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\typeEvenement")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
@@ -52,9 +58,16 @@ abstract class evenement {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="descriptif", type="string", length=255, nullable=true)
+	 * @ORM\Column(name="descriptif", type="string", length=255, nullable=true, unique=false)
 	 */
 	protected $descriptif;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="texte", type="text", nullable=true, unique=false)
+	 */
+	protected $texte;
 
 	/**
 	 * @var \DateTime
@@ -92,6 +105,13 @@ abstract class evenement {
 	protected $image;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="imageurl", type="string", length=255, nullable=true, unique=false)
+	 */
+	private $imageurl;
+
+	/**
 	 * @var array
 	 *
 	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
@@ -113,6 +133,9 @@ abstract class evenement {
 		$this->dateCreation = new \Datetime();
 		$this->dateMaj = null;
 		$this->dateExpiration = null;
+		$this->imageurl = null;
+		$this->partenaire = null;
+		$this->partenaires = new ArrayCollection();
 		$this->versions = new ArrayCollection();
 	}
 
@@ -166,6 +189,36 @@ abstract class evenement {
 	 */
 	public function getStatut() {
 		return $this->statut;
+	}
+
+	/**
+	 * Add partenaire
+	 *
+	 * @param \AcmeGroup\LaboBundle\Entity\partenaire $partenaire
+	 * @return evenement
+	 */
+	public function addPartenaire(\AcmeGroup\LaboBundle\Entity\partenaire $partenaire = null) {
+		$this->partenaires[] = $partenaire;
+	
+		return $this;
+	}
+
+	/**
+	 * Remove partenaire
+	 *
+	 * @param \AcmeGroup\LaboBundle\Entity\partenaire $partenaire
+	 */
+	public function removePartenaire(\AcmeGroup\LaboBundle\Entity\partenaire $partenaire) {
+		$this->partenaires->removeElement($partenaire);
+	}
+
+	/**
+	 * Get partenaires
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getPartenaires() {
+		return $this->partenaires;
 	}
 
 	/**
@@ -273,6 +326,27 @@ abstract class evenement {
 	}
 
 	/**
+	 * Set texte
+	 *
+	 * @param string $texte
+	 * @return evenement
+	 */
+	public function setTexte($texte) {
+		$this->texte = $texte;
+	
+		return $this;
+	}
+
+	/**
+	 * Get texte
+	 *
+	 * @return string 
+	 */
+	public function getTexte() {
+		return $this->texte;
+	}
+
+	/**
 	 * Set dateCreation
 	 *
 	 * @param \DateTime $dateCreation
@@ -354,6 +428,27 @@ abstract class evenement {
 	 */
 	public function getImage() {
 		return $this->image;
+	}
+
+	/**
+	 * Set imageurl
+	 *
+	 * @param string $imageurl
+	 * @return evenement
+	 */
+	public function setImageurl($imageurl = null) {
+		$this->imageurl = $imageurl;
+	
+		return $this;
+	}
+
+	/**
+	 * Get imageurl
+	 *
+	 * @return string 
+	 */
+	public function getImageurl() {
+		return $this->imageurl;
 	}
 
 	/**

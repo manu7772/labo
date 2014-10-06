@@ -33,28 +33,28 @@ abstract class adresse {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="adresse", type="text")
+	 * @ORM\Column(name="adresse", type="text", nullable=true, unique=false)
 	 */
 	protected $adresse;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="cp", type="string", length=10)
+	 * @ORM\Column(name="cp", type="string", length=10, nullable=true, unique=false)
 	 */
 	protected $cp;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="ville", type="string", length=255)
+	 * @ORM\Column(name="ville", type="string", length=255, nullable=true, unique=false)
 	 */
 	protected $ville;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="commentaire", type="text")
+	 * @ORM\Column(name="commentaire", type="text", nullable=true, unique=false)
 	 */
 	protected $commentaire;
 

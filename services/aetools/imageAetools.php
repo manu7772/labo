@@ -23,22 +23,24 @@ class imageAetools {
 	protected $modes = array("cut", "in", "deform", "no");
 	protected $appliDeclinaisons = array();
 	protected $formatsValides;
+	protected $maxFixtImageWidth = 1024;
 	protected $imgTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF);
-	protected $dossiers = array(
+	protected $dossiers = array( // a0dcb1336bd75979967e66b7490968e8-1412280035
 		// nom : nom du dossier
 		// x et y : dimensions en pixels
 		// mode : mode de rééchantillonnage (voir méthode "thumb_image()")
 		"original"	=> array("nom"	=> "original"),
 		"article"	=> array("nom"	=> "article",	"x"	=> 205,		"y"	=> 156,		"mode"	=> "cut",	"type" => null,				"ext" => null),
 		"tn152"		=> array("nom"	=> "tn152",		"x"	=> 152,		"y"	=> 152,		"mode"	=> "cut",	"type" => null,				"ext" => null),
-		"tn265in"	=> array("nom"	=> "tn265",		"x"	=> 265,		"y"	=> 265,		"mode"	=> "in",	"type" => null,				"ext" => null),
+		"tn265in"	=> array("nom"	=> "tn265in",	"x"	=> 265,		"y"	=> 265,		"mode"	=> "in",	"type" => null,				"ext" => null),
 		"tn200"		=> array("nom"	=> "tn200",		"x"	=> 200,		"y"	=> 200,		"mode"	=> "cut",	"type" => null,				"ext" => null),
-		"tn200in"	=> array("nom"	=> "tn200",		"x"	=> 200,		"y"	=> 200,		"mode"	=> "in",	"type" => null,				"ext" => null),
+		"tn200in"	=> array("nom"	=> "tn200in",	"x"	=> 200,		"y"	=> 200,		"mode"	=> "in",	"type" => null,				"ext" => null),
 		"tn128"		=> array("nom"	=> "tn128",		"x"	=> 128,		"y"	=> 128,		"mode"	=> "cut",	"type" => null,				"ext" => null),
 		"tn64"		=> array("nom"	=> "tn64",		"x"	=> 64,		"y"	=> 64,		"mode"	=> "cut",	"type" => null,				"ext" => null),
+		"tn64in"	=> array("nom"	=> "tn64in",	"x"	=> 64,		"y"	=> 64,		"mode"	=> "in",	"type" => null,				"ext" => null),
 		"tn32"		=> array("nom"	=> "tn32",		"x"	=> 32,		"y"	=> 32,		"mode"	=> "cut",	"type" => null,				"ext" => null),
 		"logo"		=> array("nom"	=> "logo",		"x"	=> 172,		"y"	=> 55,		"mode"	=> "in",	"type" => null,				"ext" => null),
-		"version"	=> array("nom"	=> "version",	"x"	=> 270,		"y"	=> 60,		"mode"	=> "cut",	"type" => null,				"ext" => null),
+		// "version"	=> array("nom"	=> "version",	"x"	=> 270,		"y"	=> 60,		"mode"	=> "cut",	"type" => null,				"ext" => null),
 		"optim"		=> array("nom"	=> "optim",		"x"	=> 800,		"y"	=> 600,		"mode"	=> "in",	"type" => null,				"ext" => null),
 		"favicons"	=> array("nom"	=> "favicons",	"x"	=> 16,		"y"	=> 16,		"mode"	=> "in",	"type" => "image/png",		"ext" => 'ico')
 		);
@@ -50,13 +52,13 @@ class imageAetools {
 		"ambiance"		=> array("optim", "tn200", "tn128", "tn64"),
 		"article"		=> array("optim", "article", "tn200", "tn128", "tn64"),
 		"diaporama"		=> array("optim", "tn200", "tn128", "tn64"),
-		"logo"			=> array("optim", "tn200", "tn128", "tn64", "logo"),
+		"logo"			=> array("optim", "tn200", "tn128", "tn64", "tn64in", "logo", "favicons"),
 		"site"			=> array("optim", "tn200in", "tn64"),
 		"atelier"		=> array("optim", "tn265in", "tn200in", "tn152", "tn64"),
 		"evenement"		=> array("optim", "tn200in", "tn64"),
 		"partenaire"	=> array("optim", "tn200in", "tn64"),
 		"magasin"		=> array("optim", "tn200in", "tn64"),
-		"version"		=> array("optim", "version", "tn200", "tn64"),
+		"version"		=> array("optim", "tn200", "tn64"),
 		"admin"			=> array("optim", "tn200", "tn128", "tn64", "optim")
 		);
 
@@ -68,15 +70,31 @@ class imageAetools {
 			$this->modeFixtures = false;
 		}
 		$this->em = $this->container->get('doctrine')->getManager();
-		$this->repo = $this->em->getRepository("AcmeGroup\\LaboBundle\\Entity\\image");
+		$this->repo = $this->em->getRepository("AcmeGroupLaboBundle:image");
 		$this->aetools = $this->container->get("acmeGroup.aetools");
-		$this->aetools->setWebPath("images/");
 		foreach($this->imgTypes as $it) {
 			$this->formatsValides[image_type_to_mime_type($it)]["type"] = image_type_to_mime_type($it);
-			$this->formatsValides[image_type_to_mime_type($it)]["maxSize"] = 3600;
+			$this->formatsValides[image_type_to_mime_type($it)]["maxSize"] = 6000;
 			$this->imgMimeType[$it] = image_type_to_mime_type($it);
 		}
+		// création des dossiers
+		$this->aetools->setWebPath("images/");
+		$this->aetools->verifDossierAndCreate("original");
+		foreach ($this->dossiers as $nom => $contenus) {
+			$this->aetools->verifDossierAndCreate($nom);
+		}
+		// $this->echoFixtures("!!!!!!!!!!!!!!!!!!!!!!!!!! RUN INIT IMAGES TOOL !!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		return $this;
+	}
+
+	public function finishFixtures() {
+		if($this->modeFixtures === true) {
+			$this->echoFixtures("---> CHECK FIXTURES : nettoyage complet des données images\n");
+			$this->echoFixtures("---> CHECK FIXTURES : suppression image courante\n");
+			$this->deleteCurtImages();
+			$this->echoFixtures("---> CHECK FIXTURES : suppression ".count($this->newImages)." images déclinaisons\n");
+			$this->deleteAllNewImages();
+		}
 	}
 
 	/**
@@ -139,6 +157,7 @@ class imageAetools {
 	*/
 	public function loadImageOriginal(image $imageObj) {
 		$this->curtImage["objet"] = $imageObj;
+		// $this->aetools->setWebPath("images/");
 		$this->loadImageFile($this->getUploadRootDir()."original/".$this->curtImage["objet"]->getFichierNom());
 	}
 
@@ -157,7 +176,6 @@ class imageAetools {
 		// $this->curtImage["declinaisons"]	= array des déclinaisons de l'image
 		// $this->curtImage["image"]		= image
 		// $this->curtImage["objet"]		= objet entité image
-		$this->aetools->setWebPath("images/");
 		$this->curtImage["objet"] = $image;
 		if($this->modeFixtures === true) {
 			$this->curtImage["file"] = "src/AcmeGroup/SiteBundle/Resources/public/images_fixtures/".$this->curtImage["objet"]->getFichierOrigine();
@@ -167,7 +185,7 @@ class imageAetools {
 		$this->curtImage["type"] = getimagesize($this->curtImage["file"]);
 
 		if($this->checkCurrentTypeValide() === true) {
-			$this->echoFixtures("Format valide !!!");
+			$this->echoFixtures("Format valide !!! --> ");
 			switch($this->curtImage["type"]["mime"]) {
 				case image_type_to_mime_type(IMAGETYPE_JPEG):
 					$this->echoFixtures(image_type_to_mime_type(IMAGETYPE_JPEG)."\n");
@@ -190,11 +208,33 @@ class imageAetools {
 					return false;
 				break;
 			}
+			// Mode fixtures : réduit le fichier si trop grand
+			// if(($this->modeFixtures === true) && ($this->curtImage["type"][0] > $this->maxFixtImageWidth)) {
+			// 	$ratio = $this->curtImage["type"][1] / $this->curtImage["type"][0];
+			// 	echo "Mémoire PHP : ".memory_get_usage()." (Création original avant réduction : ".$this->curtImage["objet"]->getFichierOrigine().")\n";
+			// 	$newimg = imagecreatetruecolor($this->maxFixtImageWidth, round($this->maxFixtImageWidth * $ratio));
+			// 	imagealphablending($newimg, false);
+			// 	imagesavealpha($newimg, true);
+			// 	$newimg = imagecopyresampled(
+			// 		$newimg,
+			// 		$this->curtImage["image"],
+			// 		0,0,0,0,
+			// 		$this->maxFixtImageWidth,
+			// 		round($this->maxFixtImageWidth * $ratio),
+			// 		$this->curtImage["type"][0],
+			// 		$this->curtImage["type"][1]
+			// 	);
+			// 	imagedestroy($this->curtImage["image"]);
+			// 	$this->curtImage["image"] = $newimg;
+			// 	imagedestroy($newimg);
+			// }
+			echo "Mémoire PHP : ".memory_get_usage()." (Création original : ".$this->curtImage["objet"]->getFichierOrigine().")\n";
 		} else {
 			$this->echoFixtures("Format non supporté !!!");
 			return false;
 		}
 		// enregistrement dans le dossier "original"
+		$this->aetools->setWebPath("images/");
 		$this->aetools->verifDossierAndCreate("original");
 		$this->echoFixtures("COPY : ".$this->curtImage["file"]."\nVERS : ".$this->getUploadRootDir()."original/".$this->curtImage["objet"]->getFichierNom()."\n");
 		if($this->modeFixtures === true) {
@@ -297,6 +337,7 @@ class imageAetools {
 				$this->appliDeclinaisons[$nom] = $this->dossiers[$nom];
 			}
 		}
+		return $this->appliDeclinaisons;
 		// $this->echoFixtures("<pre>");var_dump($this->appliDeclinaisons);$this->echoFixtures("</pre>");
 	}
 
@@ -315,6 +356,7 @@ class imageAetools {
 		$this->newImages[$nom]["image"] = imagecreatetruecolor($tailleX, $tailleY);
 		imagealphablending($this->newImages[$nom]["image"], false);
 		imagesavealpha($this->newImages[$nom]["image"], true);
+		echo "Mémoire PHP : ".memory_get_usage()." (Création thumb : ".$nom.")\n";
 		return $this;
 	}
 
@@ -325,6 +367,9 @@ class imageAetools {
 	*/
 	public function deleteAllNewImages() {
 		foreach($this->newImages as $nom => $newImage) $this->deleteImage($nom);
+		$this->newImages = null;
+		unset($this->newImages);
+		$this->newImages = array();
 	}
 
 	/**
@@ -333,9 +378,17 @@ class imageAetools {
 	*
 	*/
 	public function deleteCurtImages() {
-		imagedestroy($this->curtImage["image"]);
+		$nom = $this->curtImage["objet"]->getFichierOrigine();
+		if(isset($this->curtImage["image"])) {
+			$d = imagedestroy($this->curtImage["image"]);
+			unset($this->curtImage["image"]);
+			if($d === true) $this->echoFixtures("---> Desctruction image courante\n");
+				else $this->echoFixtures("---> ALERTE : Desctruction image échouée !!!\n");
+		}
 		$this->curtImage = null;
 		unset($this->curtImage);
+		$this->curtImage = array();
+		echo "Mémoire PHP : ".memory_get_usage()." (destruction originale ".$nom.")\n";
 	}
 
 	/**
@@ -345,11 +398,14 @@ class imageAetools {
 	* @param $nom
 	*/
 	public function deleteImage($nom) {
-		if(is_array($this->newImages[$nom])) {
-			imagedestroy($this->newImages[$nom]["image"]);
-			$this->newImages[$nom] = null;
-			unset($this->newImages[$nom]);
+		if(isset($this->newImages[$nom]["image"])) {
+			$d = imagedestroy($this->newImages[$nom]["image"]);
+			if($d === true) $this->echoFixtures("---> Desctruction image thumb ".$nom."\n");
+				else $this->echoFixtures("---> ALERTE : Desctruction image thumb ".$nom." échouée !!!\n");
 		}
+		$this->newImages[$nom] = null;
+		unset($this->newImages[$nom]);
+		echo "Mémoire PHP : ".memory_get_usage()." (destruction thumb ".$nom.")\n";
 	}
 
 	/**
@@ -362,8 +418,7 @@ class imageAetools {
 	protected function generateAllThumb($listOfDeclinaisons = null) {
 		$this->aetools->setWebPath("images/");
 		if($listOfDeclinaisons === null) {
-			$this->checkDeclinaisons();
-			$listOfDeclinaisons = $this->appliDeclinaisons;
+			$listOfDeclinaisons = $this->checkDeclinaisons();
 		}
 		foreach($listOfDeclinaisons as $nom => $declin) {
 			$this->thumb_image($nom, $declin["x"], $declin["y"], $declin["mode"], $declin["type"], $declin["ext"]);
@@ -469,7 +524,8 @@ class imageAetools {
 			if($this->aetools->getAeReponse()->getResult() === true) $this->echoFixtures($this->aetools->getAeReponse()->getMessage()."\n");
 		}
 		$this->echoFixtures("Déclinaison -> ".$destination."\n");
-		$this->deleteAllNewImages();
+		$this->deleteImage($nom);
+		// $this->deleteAllNewImages();
 		return $this;
 	}
 

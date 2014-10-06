@@ -7,6 +7,8 @@ namespace labo\Bundle\TestmanuBundle\services\fixturesLoader;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+define("BASEFOLDER", __DIR__."/../../../../../../../..");
+
 class fixturesLoader {
 
 	private $bundleSave;
@@ -36,19 +38,12 @@ class fixturesLoader {
 		$this->parsList = array();
 		$this->manager = $manager;
 		$this->EntityService = $EntityService;
-
-		if($this->loadXML() !== null) {
-				echo("--- OK ---\n\n");
-				return true;
-			}
-			else {
-				echo("--- ECHEC : fichier XML non trouvé ---\n\n");
-				return false;
-			}
+		// chargement
+		$this->loadXML();
 	}
 
 	private function loadXML() {
-		$XMLfile = __DIR__."/../../SiteBundle/Resources/public/xml/".$this->EntityService->getNameFixturesFile();
+		$XMLfile = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/xml/".$this->EntityService->getNameFixturesFile();
 		if(file_exists($XMLfile)) {
 			echo("XML trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
 			$r = $this->parseX(@simplexml_load_file($XMLfile));
@@ -56,7 +51,7 @@ class fixturesLoader {
 			echo("XML non trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
 			$r = null;
 		}
-		return $r;
+		// return $r;
 	}
 
 	### Parse des données XML (total)
@@ -153,36 +148,19 @@ class fixturesLoader {
 			}
 		}
 
-		// Désactive partiellement le chargement d'image si entité = "image" (ou plutôt contient la méthode "setFixturesDeactivate()")
-		// if(method_exists($this->parsList, "setFixturesDeactivate")) {
-		// 	$this->parsList->setFixturesDeactivate(true); // Court-circuit FIXTURES ------ !!!
-		// 	$path = "src/AcmeGroup/SiteBundle/Resources/public/images_fixtures/";
-		// 	if(file_exists($path.$this->parsList->getFichierOrigine())) {
-		// 		$file = $path.$this->parsList->getFichierOrigine();
-		// 		echo('Chargement image '.$this->parsList->getFichierOrigine()." ---------\n");
-		// 		$img = getimagesize($file);
-		// 		$this->parsList->setTailleX($img[0]);
-		// 		$this->parsList->setTailleY($img[1]);
-		// 		$this->parsList->setTailleMo(filesize($file));
-		// 		echo("------------------------------\n");
-		// 	}
-		// }
 		// ajout du parent (concerne les entités Tree uniquement)
 		if($cpt_parent !== null) {
 			if (method_exists($this->parsList, "setParent")) $this->parsList->setParent($cpt_parent);
 			if (method_exists($this->parsList, "addParent")) $this->parsList->addParent($cpt_parent);
 		}
 		// Persist & flush
+		echo "Mémoire PHP : ".memory_get_usage()." --> ";
 		$this->manager->persist($this->parsList);
 		$this->manager->flush();
+		echo memory_get_usage()."\n";
 		echo("* Entité enregistrée en BDD *\n\n");
 		return $this->parsList; // renvoie l'objet enregistré
 	}
-
-
-
-
-
 
 
 	/**
@@ -205,7 +183,7 @@ class fixturesLoader {
 				$file[1] = $file[0];
 				$file[0] = $dossier;
 			} else $dossier = $file[0];
-			$importFile = "src/AcmeGroup/SiteBundle/Resources/public/".$file[0]."/".$file[1];
+			$importFile = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/".$file[0]."/".$file[1];
 			echo("Import : ".$importFile."\n");
 			if(file_exists($importFile)) {
 				$txt = @file_get_contents($importFile);
@@ -226,7 +204,8 @@ class fixturesLoader {
 			function($matches) {
 				if((count($matches) > 3) || ($matches[1] == 'IMG')) {
 					$meth = 'findBy'.ucfirst($matches[2]);
-					$repo = $this->manager->getRepository("AcmeGroup\\LaboBundle\\Entity\\image");
+					// $repo = $this->manager->getRepository("AcmeGroup\\LaboBundle\\Entity\\image");
+					$repo = $this->manager->getRepository("AcmeGroupLaboBundle:image");
 					$image = $repo->$meth($matches[3]);
 					if(count($image) > 0) return ("{{ asset('images/original/".$image[0]->getFichierNom()."') }}");
 				}

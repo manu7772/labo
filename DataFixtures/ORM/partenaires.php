@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 // Entité
-use acmeGroup\LaboBundle\Entity\typeEvenement;
+use acmeGroup\LaboBundle\Entity\partenaire;
 
-class typeEvenements extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
-	private $ord			= 61;				// Ordre de chargement fixtures
-	private $entity			= "typeEvenement";	// nom de l'entité
+class partenaires extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
+	private $ord			= 315;			// Ordre de chargement fixtures
+	private $entity			= "partenaire";	// nom de l'entité
 	private $container;
 	private $manager;
 
