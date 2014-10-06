@@ -12,6 +12,10 @@ use labo\Bundle\TestmanuBundle\Entity\laboBaseRepository;
  */
 class partenaireRepository extends laboBaseRepository {
 
+	/**
+	 *
+	 *
+	 */
 	public function findAllWithFlux() {
 		$qb = $this->createQueryBuilder('element');
 		$qb->where('element.urlflux != :uf')

@@ -34,6 +34,15 @@ class version extends entitiesGeneric {
 		$this->init["version"] = true;
 		$this->service = array();
 		$this->serviceData = false;
+		// vérifie si le nom de domaine est différent
+		$BASEHOST = $event->getRequest()->getHost();
+		// $PRECHOST = $event->getRequest()->getSession()->get("hote");
+		$PRECHOST = $this->flashBag->get("hote");
+		$this->flashBag->add("hote", $BASEHOST);
+		// echo("<span style='display:none2;'>Base HOST : ".$BASEHOST." ( ".$PRECHOST." )<br /></span>");
+		if($PRECHOST !== $BASEHOST) {
+			$changeHost = $BASEHOST;
+		} else $changeHost = null;
 		// Changement de version en GET ou POST (versionDefine=slug_de_la_version)
 		$serviceChange = $event->getRequest()->request->get($this->serviceNom."Define"); // POST en priorité
 		if($serviceChange === null) $serviceChange = $event->getRequest()->query->get($this->serviceNom."Define"); // GET
@@ -47,8 +56,17 @@ class version extends entitiesGeneric {
 			// || ($reloadAll["reloadAll"] === true)
 			|| ($this->service['shutdown'] !== null)
 			|| ($serviceChange !== null) 
-			|| ($reLoad === true)) { // ---> !!! recharge !!!
+			|| ($reLoad === true)
+			|| ($changeHost !== null)) { // ---> !!! recharge !!!
 
+			if(($changeHost !== null) && ($serviceChange === null)) {
+				// Charge la version suivant le nom de domaine appelant
+				$dom = $this->getRepo()->findByNomDomaine($changeHost);
+				if(count($dom) > 0) {
+					$this->serviceData = $dom[0];
+				}
+				if(true === is_object($this->serviceData)) $this->service['find'] = "host";
+			}
 			if($serviceChange !== null) {
 				// Charge la version suivant le slug
 				$this->serviceData = $this->getRepo()->findOneBySlug($serviceChange);
@@ -79,6 +97,7 @@ class version extends entitiesGeneric {
 				if(is_object($this->serviceData->getFavicon()))
 					$this->service['favicon'] = "images/favicons/".preg_replace('`\.([[:alnum:]]+)$`' , ".ico", $this->serviceData->getFavicon()->getFichierNom());
 				else $this->service['favicon'] = null;
+				$this->service['hote'] = $BASEHOST;
 				$this->service['domaine'] = $this->serviceData->getNomDomaine();
 				$this->service['accroche'] = $this->serviceData->getAccroche();
 				$this->service['descriptif'] = $this->serviceData->getDescriptif();

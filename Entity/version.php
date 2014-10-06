@@ -508,7 +508,8 @@ abstract class version {
 	 * @return version
 	 */
 	public function setNomDomaine($nomDomaine) {
-		$this->nomDomaine = $nomDomaine;
+		preg_match('#^[\w.]*\.(\w+\.[a-z]{2,6})[\w/._-]*$#',str_replace(array("http://", "https://"), "", $nomDomaine),$match);
+		$this->nomDomaine = $match[1];
 	
 		return $this;
 	}
