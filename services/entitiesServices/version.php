@@ -61,9 +61,9 @@ class version extends entitiesGeneric {
 
 			if(($changeHost !== null) && ($serviceChange === null)) {
 				// Charge la version suivant le nom de domaine appelant
-				$dom = $this->getRepo()->findByNomDomaine($changeHost);
-				if(count($dom) > 0) {
-					$this->serviceData = $dom[0];
+				$hote = $this->getRepo()->findByHote($changeHost);
+				if(count($hote) > 0) {
+					$this->serviceData = $hote[0];
 				}
 				if(true === is_object($this->serviceData)) $this->service['find'] = "host";
 			}

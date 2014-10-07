@@ -133,6 +133,15 @@ abstract class version {
 	/**
 	 * @var string
 	 *
+	 * @ORM\Column(name="hote", type="string", length=200, nullable=true, unique=false)
+	 * @Assert\Url(message = "Vous devez indiquer une URL valide et complète.")
+	 * 
+	 */
+	protected $hote;
+
+	/**
+	 * @var string
+	 *
 	 * @ORM\Column(name="email", type="string", length=200, nullable=true, unique=false)
 	 * @Assert\Email(message = "Vous devez indiquer un email valide et complet.")
 	 * 
@@ -508,9 +517,9 @@ abstract class version {
 	 * @return version
 	 */
 	public function setNomDomaine($nomDomaine) {
-		preg_match('#^[\w.]*\.(\w+\.[a-z]{2,6})[\w/._-]*$#',str_replace(array("http://", "https://"), "", $nomDomaine),$match);
-		$this->nomDomaine = $match[1];
-	
+		$this->nomDomaine = $nomDomaine;
+		$this->setHote();
+
 		return $this;
 	}
 
@@ -521,6 +530,27 @@ abstract class version {
 	 */
 	public function getNomDomaine() {
 		return $this->nomDomaine;
+	}
+
+	/**
+	 * Set hote
+	 *
+	 * @return version
+	 */
+	public function setHote() {
+		preg_match('#^[\w.]*\.(\w+\.[a-z]{2,6})[\w/._-]*$#',str_replace(array("http://", "https://"), "", $this->getNomDomaine()), $match);
+		$this->hote = $match[1];
+	
+		return $this;
+	}
+
+	/**
+	 * Get hote
+	 *
+	 * @return string 
+	 */
+	public function getHote() {
+		return $this->hote;
 	}
 
 	/**

@@ -32,7 +32,7 @@ class imageMiniType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('file', 'file', array(
-                "required"  => true,
+                "required"  => false,
 				"label"     => "Fichier (png/jpeg/gif)"
 				))
             ->add('statut', 'entity', array(
