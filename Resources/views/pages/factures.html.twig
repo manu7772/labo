@@ -27,7 +27,8 @@
 			<th class="center">Nb art.</th>
 			<th>Total € TTC</th>
 			<th>Livraison</th>
-			<th class="center">code transaction</th>
+			<th class="center">code tr.</th>
+			<th>Concessionnaire réf. (cp)</th>
 			<th>Action</th>
 		</tr>
 		{% for facture in factures %}
@@ -48,7 +49,15 @@
 			<td class="center">{{ facture.nbArticles }}</td>
 			<td class="right">{{ facture.prixtotal|number_format(2, ",", "") }} €</td>
 			<td>{{ facture.livraisonTxt }}</td>
-			<td class="center">{{ facture.bankresponsecode }}</td>
+			<td class="center">{{ facture.bankresponsecode }} / {{ facture.responsecode }}</td>
+			{% if facture.propUser.magasin is not null %}
+			{% if facture.propUser.magasin.email is not null %}{% set mail = ' style="color:green;">' ~ facture.propUser.magasin.email %}{% else %}{% set mail = ' style="color:red;">Pas de mail' %}{% endif %}
+			<td title="{{ facture.propUser.magasin.nommagasin }} / {{ facture.propUser.magasin.adresse }} {{ facture.propUser.magasin.cp }} {{ facture.propUser.magasin.ville }}">
+				{{ facture.propUser.magasin.nommagasin }} ({{ facture.propUser.magasin.cp }})<br /><span{{ mail|raw }}</span>
+			</td>
+			{% else %}
+			<td>(aucun concessionnaire)</td>
+			{% endif %}
 			<td>
 				<!-- <div class="btn-group"> -->
 					{% if facture.stade == 0 %}

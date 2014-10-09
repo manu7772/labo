@@ -482,6 +482,7 @@ class LaboController extends Controller {
 			$data[$i]["reference"] = $facture->getReference();
 			$data[$i]["mode de livraison"] = $facture->getLivraison();
 			$data[$i]["Prix"] = $facture->getPrixtotal();
+			$magasin = $facture->getPropUser()->getMagasin();
 			if($data[$i]["mode de livraison"] == "poste") {
 				$data[$i]["nom"] = $facture->getNom();
 				$data[$i]["prénom"] = $facture->getPrenom();
@@ -491,7 +492,6 @@ class LaboController extends Controller {
 				$data[$i]["telephone"] = $facture->getTel();
 				$data[$i]["email"] = $facture->getEmail();
 			} else {
-				$magasin = $facture->getPropUser()->getMagasin();
 				$data[$i]["nom"] = $magasin->getNommagasin();
 				$data[$i]["responsable"] = $magasin->getResponsable();
 				$data[$i]["adresse"] = $magasin->getAdresse();
@@ -500,7 +500,14 @@ class LaboController extends Controller {
 				$data[$i]["telephone"] = $magasin->getTelephone();
 				$data[$i]["email"] = $magasin->getEmail();
 			}
-			$data[$i]["Statut"] = $facture->getStadeTxt();
+			if(is_object($magasin)) {
+				if(trim($magasin->getNommagasin()."") !== "") $nomag = "(".$magasin->getId().") ".$magasin->getNommagasin()." / ".$magasin->getCp()." / ".$magasin->getVille();
+					else $nomag = "(sans nom / id = ".$magasin->getId().")";
+			} else {
+				$nomag = "(aucun)";
+			}
+			$data[$i]["concessionnaire référent"] = $nomag;
+			$data[$i]["statut"] = $facture->getStadeTxt();
 			$j = 0;
 			foreach($facture->getDetailbyarticle() as $id => $article) {
 				$data[$i]["article_".$id] = $article["nom"]." = ".$article["quantite"]." x ".$article["prix"];
@@ -509,7 +516,13 @@ class LaboController extends Controller {
 			$i++;
 		}
 
+		$dd = array();
 		$handle = fopen('php://memory', 'r+');
+		foreach($data[0] as $nom => $d) {
+			if(substr($nom, 0, 8) === "article_") $dd[] = "liste des articles";
+				else $dd[] = $nom;
+		}
+		fputcsv($handle, $dd);
 		foreach($data as $d) fputcsv($handle, $d);
 		rewind($handle);
 		$content = stream_get_contents($handle);

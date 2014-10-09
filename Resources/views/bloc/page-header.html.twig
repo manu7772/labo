@@ -3,10 +3,12 @@
 		{% if ssentiteName is defined %}
 		<small> | {{ ssentiteName|upper }}</small>
 		{% endif %}
+		{% if action2 is defined %}
 		{% if action2 == "annule" %}
 		<a href="{{ url(ROUTE, {action: 'liste', classEntite: Url_encode(URLclassEntite)}) }}">
 			<button type="button" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-arrow-left"></span> Retour</button>
 		</a>
+		{% endif %}
 		{% endif %}
 	</h1>
 	{% if comment is defined %}<p>{{ comment|capitalize }}</p>{% endif %}
