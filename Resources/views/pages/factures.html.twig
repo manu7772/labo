@@ -54,7 +54,7 @@
 			{% if facture.propUser.magasin.email is not null %}
 				{% set mail = ' ><a href="mailto:' ~ facture.propUser.magasin.email ~ '"><span class="glyphicon glyphicon-envelope"></span></a> ' ~ facture.propUser.magasin.email %}
 			{% else %}
-				{% set mail = ' style="color:red;"><a href="' ~ url('labo_page_entite', {classEntite: Url_encode('magasin'), action: 'edit', element: facture.propUser.magasin.id }) }} ~ '" title="Editer le concessionnaire pour ajouter le mail"><span class="glyphicon glyphicon-exclamation-sign"></span></a> Pas de mail' %}
+				{% set mail = ' style="color:red;"><a href="' ~ url('labo_page_entite', {classEntite: Url_encode('magasin'), action: 'edit', element: facture.propUser.magasin.id }) ~ '" title="Editer le concessionnaire pour ajouter le mail"><span class="glyphicon glyphicon-exclamation-sign"></span></a> Pas de mail' %}
 			{% endif %}
 			<td title="{{ facture.propUser.magasin.nommagasin }} / {{ facture.propUser.magasin.adresse }} {{ facture.propUser.magasin.cp }} {{ facture.propUser.magasin.ville }}">
 				{{ facture.propUser.magasin.nommagasin }} ({{ facture.propUser.magasin.cp }})<br /><span{{ mail|raw }}</span>
