@@ -47,7 +47,7 @@
 			<td title="{{ facture.dateCreation|date('d/m/Y \\- H:i:s') }}">{{ facture.dateCreation|date('d/m/Y') }}</td>
 			<td>{{ facture.nom }}</td>
 			<td class="center">{{ facture.nbArticles }}</td>
-			<td class="right">{{ facture.prixtotal|number_format(2, ",", "") }} €</td>
+			<td class="right">{{ facture.prixtotal|number_format(2, ",", "") }}&nbsp;€</td>
 			<td>{{ facture.livraisonTxt }}</td>
 			<td class="center">{{ facture.bankresponsecode }} / {{ facture.responsecode }}</td>
 			{% if facture.propUser.magasin is not null %}
