@@ -51,7 +51,11 @@
 			<td>{{ facture.livraisonTxt }}</td>
 			<td class="center">{{ facture.bankresponsecode }} / {{ facture.responsecode }}</td>
 			{% if facture.propUser.magasin is not null %}
-			{% if facture.propUser.magasin.email is not null %}{% set mail = ' style="color:green;">' ~ facture.propUser.magasin.email %}{% else %}{% set mail = ' style="color:red;">Pas de mail' %}{% endif %}
+			{% if facture.propUser.magasin.email is not null %}
+				{% set mail = ' ><a href="mailto:' ~ facture.propUser.magasin.email ~ '"><span class="glyphicon glyphicon-envelope"></span></a> ' ~ facture.propUser.magasin.email %}
+			{% else %}
+				{% set mail = ' style="color:red;"><a href="' ~ url('labo_page_entite', {classEntite: Url_encode('magasin'), action: 'edit', element: facture.propUser.magasin.id }) }} ~ '" title="Editer le concessionnaire pour ajouter le mail"><span class="glyphicon glyphicon-exclamation-sign"></span></a> Pas de mail' %}
+			{% endif %}
 			<td title="{{ facture.propUser.magasin.nommagasin }} / {{ facture.propUser.magasin.adresse }} {{ facture.propUser.magasin.cp }} {{ facture.propUser.magasin.ville }}">
 				{{ facture.propUser.magasin.nommagasin }} ({{ facture.propUser.magasin.cp }})<br /><span{{ mail|raw }}</span>
 			</td>
@@ -83,7 +87,7 @@
 						<button type="button" class="btn btn-default btn-xs">Rétablir…</button>
 					</a>
 					{% elseif facture.stade == 100 %}
-					<button type="button" class="btn btn-default btn-xs" style="cursor:default;"><span class="glyphicon glyphicon-exclamation-sign"></span> Paiement échoué (erreur {{ facture.bankresponsecode }} de la banque)</button>
+					<button type="button" class="btn btn-default btn-xs" style="cursor:default;"><span class="glyphicon glyphicon-exclamation-sign"></span> Echec paiement ({{ facture.bankresponsecode }}/{{ facture.responsecode }})</button>
 					{% endif %}
 					{% if facture.stade < 3 %}
 					<a href="{{ url('labo_page_venteaction', {id: facture.id, action: 'annuler', comefrom: comefrom}) }}" title="Annuler cette commande.">
