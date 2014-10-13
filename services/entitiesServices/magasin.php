@@ -67,6 +67,16 @@ class magasin extends entitiesGeneric {
 	}
 
 	/**
+	 * Liste des magasins sans email
+	 *
+	 * @return array
+	 */
+	public function findMagSansMail() {
+		$liste = $this->getRepo()->findMagSansMail();
+		return $liste;
+	}
+
+	/**
 	 * check
 	 * @return aeReponse
 	 */

@@ -78,5 +78,14 @@ class magasinRepository extends laboBaseRepository {
 		// return $qb->getQuery()->getResult();
 	}
 
+	public function findMagSansMail() {
+		$qb = $this->createQueryBuilder("element");
+		$qb->where('element.email = :mail1')
+			->setParameter('mail1', null)
+			->orWhere('element.email = :mail2')
+			->setParameter('mail2', "")
+			;
+		return $qb->getQuery()->getResult();
+	}
 
 }
