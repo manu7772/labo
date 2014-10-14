@@ -75,6 +75,15 @@ class magasin extends entitiesGeneric {
 		$liste = $this->getRepo()->findMagSansMail();
 		return $liste;
 	}
+	/**
+	 * Liste des magasins sans email
+	 *
+	 * @return array
+	 */
+	public function getMagnomail() {
+		$liste = $this->getRepo()->findMagSansMail();
+		return $liste;
+	}
 
 	/**
 	 * check
