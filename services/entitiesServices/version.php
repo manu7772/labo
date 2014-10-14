@@ -35,7 +35,8 @@ class version extends entitiesGeneric {
 		$this->service = array();
 		$this->serviceData = false;
 		// vérifie si le nom de domaine est différent
-		$BASEHOST = $event->getRequest()->getHost();
+		// $BASEHOST = $event->getRequest()->getHost();
+		$BASEHOST = str_replace("www.", "", $event->getRequest()->getHost());
 		// $PRECHOST = $event->getRequest()->getSession()->get("hote");
 		$PRECHOST = $this->flashBag->get("hote");
 		$this->flashBag->add("hote", $BASEHOST);
