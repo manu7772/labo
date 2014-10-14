@@ -82,6 +82,9 @@ class articleType extends AbstractType {
 				"required"  => false,
 				"label"     => 'Prix de vente TTC'
 				))
+			->add('texteprix', 'text', array(
+				"label"     => 'Précision avant le prix'
+				))
 			->add('plusVisible', 'checkbox', array(
 				"label"     => 'Augmenter visibilité',
 				"required"  => false

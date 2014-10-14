@@ -146,6 +146,13 @@ abstract class article {
 
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="texteprix", type="string", length=100, nullable=true, unique=false)
+	 */
+	protected $texteprix;
+
+	/**
 	 * @var float
 	 *
 	 * @ORM\Column(name="prix", type="decimal", scale=2, nullable=true, unique=false)
@@ -625,6 +632,26 @@ abstract class article {
 	 */
 	public function getStyleAccroche() {
 		return $this->styleAccroche;
+	}
+
+	/**
+	 * Set texteprix
+	 *
+	 * @param string $texteprix
+	 * @return article
+	 */
+	public function setTexteprix($texteprix) {
+		$this->texteprix = $texteprix;
+		return $this;
+	}
+
+	/**
+	 * Get texteprix
+	 *
+	 * @return string 
+	 */
+	public function getTexteprix() {
+		return $this->texteprix;
 	}
 
 	/**
