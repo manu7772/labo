@@ -214,6 +214,14 @@ abstract class article {
 	/**
 	 * @var array
 	 *
+	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\fichierPdf", cascade={"persist", "remove"})
+	 * @ORM\JoinColumn(nullable=true, unique=true)
+	 */
+	protected $ficheTechniquePdf;
+
+	/**
+	 * @var array
+	 *
 	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\categorie")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
@@ -302,6 +310,7 @@ abstract class article {
 		// $this->demonstration = false;
 		// $this->formation = false;
 		// $this->fichierPdf = null;
+		// $this->ficheTechniquePdf = null;
 		$this->plusVisible = false;
 		$this->reseaus = new ArrayCollection();
 		$this->images = new ArrayCollection();
@@ -818,7 +827,7 @@ abstract class article {
 	 * @param \AcmeGroup\LaboBundle\Entity\fichierPdf $fichierPdf
 	 * @return article
 	 */
-	public function setFichierPdf(\AcmeGroup\LaboBundle\Entity\fichierPdf $fichierPdf) {
+	public function setFichierPdf(\AcmeGroup\LaboBundle\Entity\fichierPdf $fichierPdf = null) {
 		$this->fichierPdf = $fichierPdf;
 	
 		return $this;
@@ -831,6 +840,27 @@ abstract class article {
 	 */
 	public function getFichierPdf() {
 		return $this->fichierPdf;
+	}
+
+	/**
+	 * Set ficheTechniquePdf
+	 *
+	 * @param \AcmeGroup\LaboBundle\Entity\fichierPdf $ficheTechniquePdf
+	 * @return article
+	 */
+	public function setFicheTechniquePdf(\AcmeGroup\LaboBundle\Entity\fichierPdf $ficheTechniquePdf = null) {
+		$this->ficheTechniquePdf = $ficheTechniquePdf;
+	
+		return $this;
+	}
+
+	/**
+	 * Get ficheTechniquePdf
+	 *
+	 * @return \AcmeGroup\LaboBundle\Entity\fichierPdf 
+	 */
+	public function getFicheTechniquePdf() {
+		return $this->ficheTechniquePdf;
 	}
 
 	/**

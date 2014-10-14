@@ -129,7 +129,11 @@ class articleType extends AbstractType {
 				))
             ->add('fichierPdf', new fichierPdfMiniType($this->controller), array(
                 "required"  => false,
-                "label"     => "Fiche technique PDF"
+                "label"     => "Information produit PDF"
+                ))
+            ->add('ficheTechniquePdf', new fichierPdfMiniType($this->controller), array(
+                "required"  => false,
+                "label"     => "Fiche technique légale PDF"
                 ))
 			->add('articlesLies', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:article',
