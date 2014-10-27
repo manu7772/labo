@@ -63,6 +63,7 @@ class version extends entitiesGeneric {
 			if(($changeHost !== null) && ($serviceChange === null)) {
 				// Charge la version suivant le nom de domaine appelant
 				$hote = $this->getRepo()->findByHote($changeHost);
+				if(count($hote) < 1) $hote = $this->getRepo()->findByHote("www.".$changeHost);
 				if(count($hote) > 0) {
 					$this->serviceData = $hote[0];
 				}
