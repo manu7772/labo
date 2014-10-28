@@ -30,16 +30,23 @@ class fixturesLoader {
 	private $curtImage = array(); // image courante
 	private $newImages = array(); // image dérivée
 
+	private $listOfEnties;
+
 	public function __construct(ContainerInterface $container) {
 		$this->container = $container;
+		$EN = $this->container->get("acmeGroup.entities")
+		$this->listOfEnties = $EN->listOfEnties();
 	}
 
 	public function loadEntity($EntityService, $manager) {
-		$this->parsList = array();
-		$this->manager = $manager;
-		$this->EntityService = $EntityService;
-		// chargement
-		$this->loadXML();
+		// si l'entité existe…
+		if(in_array($EntityService, $listOfEnties)) {
+			$this->parsList = array();
+			$this->manager = $manager;
+			$this->EntityService = $EntityService;
+			// chargement
+			$this->loadXML();
+		} else return false;
 	}
 
 	private function loadXML() {
