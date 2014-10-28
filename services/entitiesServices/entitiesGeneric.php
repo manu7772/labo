@@ -721,10 +721,14 @@ class entitiesGeneric {
 	}
 
 	public function listOfEnties() {
+		$groupes = array(
+			"AcmeGroup",
+			"ensemble01"
+			);
 		$entitiesNameSpaces = $this->em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
 		foreach($entitiesNameSpaces as $ENS) {
 			$EE = explode('\\', $ENS);
-			if($EE[0] === "AcmeGroup") $r[$EE[3]] = $ENS;
+			if(in_array($EE[0], $groupes)) $r[$EE[count($EE) - 1]] = $ENS;
 		}
 		return $r;
 	}
@@ -746,12 +750,12 @@ class entitiesGeneric {
 		foreach($entitiesNameSpaces as $ENS) {
 			$EE = $this->detachEntityNameSpace($ENS);
 			if($EE[0] === "AcmeGroup") {
-				$r['classEntites'][$EE[3]]["bundleEntite"] = $ENS;
+				$r['classEntites'][$EE[count($EE) - 1]]["bundleEntite"] = $ENS;
 				$CMD = $this->em->getClassMetadata($ENS);
 				$colNoAssoc = $CMD->getColumnNames();
 				$colWtAssoc = $CMD->getAssociationNames();
-				$r['classEntites'][$EE[3]]["count"] = count(array_merge($colNoAssoc, $colWtAssoc));
-				$r['classEntites'][$EE[3]]["options"] = array();
+				$r['classEntites'][$EE[count($EE) - 1]]["count"] = count(array_merge($colNoAssoc, $colWtAssoc));
+				$r['classEntites'][$EE[count($EE) - 1]]["options"] = array();
 			}
 		}
 		return $r;
