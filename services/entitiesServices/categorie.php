@@ -22,7 +22,9 @@ class categorie extends entitiesGeneric {
 		$this->container = $container;
 		parent::__construct($this->container);
 		// récupération du paramètre de menu dans parameters.yml si existant
-		$this->menuSlug = $this->container->getParameter("menu_slug");
+		if($this->container->hasParameter('menu_slug')) {
+			$this->menuSlug = $this->container->getParameter("menu_slug");
+		} else $this->menuSlug = null;
 		if(($this->init["categorie"] === true) || ($this->modeFixtures === true)) $this->defineEntity("categorie");
 	}
 
