@@ -15,9 +15,14 @@ class categorie extends entitiesGeneric {
 	protected $actifChil;	// enfants de l'élément actif : liste des éléments enfants
 	protected $actifSlug;	// nom de l'élément de catégorie actif
 	protected $sayIfChangeOrNo = null;
+	protected $container;
+	protected $menuSlug = null;
 
-	public function __construct(ContainerInterface $container, $menuSlug = null) {
-		parent::__construct($container);
+	public function __construct(ContainerInterface $container) {
+		$this->container = $container;
+		parent::__construct($this->container);
+		// récupération du paramètre de menu dans parameters.yml si existant
+		$this->menuSlug = $this->container->getParameter("menu_slug");
 		if(($this->init["categorie"] === true) || ($this->modeFixtures === true)) $this->defineEntity("categorie");
 	}
 
@@ -105,7 +110,7 @@ class categorie extends entitiesGeneric {
 				// FIN : Lignes de personnalisation du service
 				//////////////////////////////////////////
 				$this->service['reloaded'] = true;
-				$this->service['defaut'] = $this->getRepo()->defaultMenu($menuSlug)->getSlug();
+				$this->service['defaut'] = $this->getRepo()->defaultMenu($this->menuSlug)->getSlug();
 				// --> éléments ayant un menu
 				$this->getRepo();
 				// echo($this->serviceNom." => Version getRepo() : ".$this->getRepo()->getVersion()."<br />");
