@@ -36,7 +36,7 @@ class version extends entitiesGeneric {
 		$this->serviceData = false;
 		// vérifie si le nom de domaine est différent
 		// $BASEHOST = $event->getRequest()->getHost();
-		$BASEHOST = str_replace("www.", "", $event->getRequest()->getHost());
+		$BASEHOST = str_replace(array("http://www.","www."), "", $event->getRequest()->getHost());
 		// $PRECHOST = $event->getRequest()->getSession()->get("hote");
 		$PRECHOST = $this->flashBag->get("hote");
 		$this->flashBag->add("hote", $BASEHOST);
@@ -64,6 +64,7 @@ class version extends entitiesGeneric {
 				// Charge la version suivant le nom de domaine appelant
 				$hote = $this->getRepo()->findByHote($changeHost);
 				if(count($hote) < 1) $hote = $this->getRepo()->findByHote("www.".$changeHost);
+				if(count($hote) < 1) $hote = $this->getRepo()->findByHote("http://www.".$changeHost);
 				if(count($hote) > 0) {
 					$this->serviceData = $hote[0];
 				}
