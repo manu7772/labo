@@ -41,7 +41,7 @@ class version extends entitiesGeneric {
 		$PRECHOST = $this->flashBag->get("hote");
 		$this->flashBag->add("hote", $BASEHOST);
 		// echo("<span style='display:none2;'>Base HOST : ".$BASEHOST." ( ".$PRECHOST." )<br /></span>");
-		if($PRECHOST !== $BASEHOST) {
+		if(($PRECHOST !== $BASEHOST) && ($BASEHOST !== "localhost")) {
 			$changeHost = $BASEHOST;
 		} else $changeHost = null;
 		// Changement de version en GET ou POST (versionDefine=slug_de_la_version)
