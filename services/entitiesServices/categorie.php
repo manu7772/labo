@@ -16,7 +16,7 @@ class categorie extends entitiesGeneric {
 	protected $actifSlug;	// nom de l'élément de catégorie actif
 	protected $sayIfChangeOrNo = null;
 
-	public function __construct(ContainerInterface $container) {
+	public function __construct(ContainerInterface $container, $menuSlug = null) {
 		parent::__construct($container);
 		if(($this->init["categorie"] === true) || ($this->modeFixtures === true)) $this->defineEntity("categorie");
 	}
@@ -105,8 +105,7 @@ class categorie extends entitiesGeneric {
 				// FIN : Lignes de personnalisation du service
 				//////////////////////////////////////////
 				$this->service['reloaded'] = true;
-				$this->service['defaut'] = $this->getRepo()->defaultMenu()->getSlug();
-				// $this->service['defaut'] = $this->getRepo()->defaultMenu("menu_01")->getSlug();
+				$this->service['defaut'] = $this->getRepo()->defaultMenu($menuSlug)->getSlug();
 				// --> éléments ayant un menu
 				$this->getRepo();
 				// echo($this->serviceNom." => Version getRepo() : ".$this->getRepo()->getVersion()."<br />");

@@ -76,7 +76,7 @@ services:
     # Fonctionnalités de categorie
     acmeGroup.categorie:
         class: labo\Bundle\TestmanuBundle\services\entitiesServices\categorie
-        arguments: [@service_container]
+        arguments: [@service_container, %menuSlug%]
 
     # Fonctionnalités pour articles
     acmeGroup.article:
