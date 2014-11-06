@@ -22,8 +22,10 @@ class evenementRepository extends laboBaseRepository {
 	 * @param string/array $type
 	 * @return array
 	 */
-	public function findEventsByType($type) {
+	public function findEventsByType($type, $date = null) {
 		$qb = $this->createQueryBuilder('element');
+		if($date !== null) $qb->where('element.datedebut = :date')
+			->setParameter('date', $date);
 		$qb->join('element.typeEvenement', 'te')
 			->where($qb->expr()->in('te.slug', $this->defineTypeEvents($type)));
 			// ->setParameter('slug', $type);

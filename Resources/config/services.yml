@@ -103,6 +103,11 @@ services:
         class: labo\Bundle\TestmanuBundle\services\entitiesServices\evenement
         arguments: [@service_container]
 
+    # presse
+    acmeGroup.presse:
+        class: labo\Bundle\TestmanuBundle\services\entitiesServices\presse
+        arguments: [@service_container]
+
     # factures
     acmeGroup.facture:
         class: labo\Bundle\TestmanuBundle\services\entitiesServices\facture
