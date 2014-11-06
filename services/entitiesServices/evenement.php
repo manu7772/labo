@@ -80,7 +80,7 @@ class evenement extends entitiesGeneric {
 	 * @param integer $n
 	 * @return array
 	 */
-	public function getAllEventsByType($type, $year) {
+	public function getAllEventsByType($type, $year = null) {
 		$data = $this->getRepo()->findEventsByType($type, $year);
 		return $data;
 	}
