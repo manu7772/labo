@@ -124,6 +124,14 @@ abstract class evenement {
 	 */
 	protected $propUser;
 
+	/**
+	 * @var array
+	 *
+	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\fichierPdf", cascade={"persist", "remove"})
+	 * @ORM\JoinColumn(nullable=true, unique=true)
+	 */
+	protected $fichierPdf;
+
 
 	public function __construct() {
 		$this->datedebut = new \Datetime();
@@ -500,6 +508,27 @@ abstract class evenement {
 	 */
 	public function getPropUser() {
 		return $this->propUser;
+	}
+
+	/**
+	 * Set fichierPdf
+	 *
+	 * @param \AcmeGroup\LaboBundle\Entity\fichierPdf $fichierPdf
+	 * @return evenement
+	 */
+	public function setFichierPdf(\AcmeGroup\LaboBundle\Entity\fichierPdf $fichierPdf = null) {
+		$this->fichierPdf = $fichierPdf;
+	
+		return $this;
+	}
+
+	/**
+	 * Get fichierPdf
+	 *
+	 * @return \AcmeGroup\LaboBundle\Entity\fichierPdf 
+	 */
+	public function getFichierPdf() {
+		return $this->fichierPdf;
 	}
 
 

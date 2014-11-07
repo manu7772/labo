@@ -77,6 +77,10 @@ class evenementType extends AbstractType {
                     },
                 'empty_value' => '(aucune image)'
 				))
+            ->add('fichierPdf', new fichierPdfMiniType($this->controller), array(
+                "required"  => false,
+                "label"     => "Fiche presse PDF"
+                ))
 			->add('typeEvenement', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:typeEvenement',
 				'property'  => 'nom',
