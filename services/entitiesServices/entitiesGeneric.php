@@ -1,5 +1,5 @@
 <?php
-// src/AcmeGroup/services/entitiesServices/entitiesGeneric.php
+// labo/Bundle/TestmanuBundle/services/entitiesServices/entitiesGeneric.php
 
 nameSpace labo\Bundle\TestmanuBundle\services\entitiesServices;
 

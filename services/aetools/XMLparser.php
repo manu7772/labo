@@ -1,5 +1,5 @@
 <?php
-// src/AcmeGroup/services/aetools/XMLparser.php
+// labo/Bundle/TestmanuBundle/services/aetools/XMLparser.php
 
 namespace labo\Bundle\TestmanuBundle\services\aetools;
 

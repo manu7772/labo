@@ -1,5 +1,5 @@
 <?php
-// src/AcmeGroup/services/aetools/richtextsAetools.php
+// labo/Bundle/TestmanuBundle/services/aetools/richtextsAetools.php
 
 namespace labo\Bundle\TestmanuBundle\services\aetools;
 

@@ -1,5 +1,5 @@
 <?php
-// src/AcmeGroup/services/entitiesServices/panier.php
+// labo/Bundle/TestmanuBundle/services/entitiesServices/panier.php
 
 namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 

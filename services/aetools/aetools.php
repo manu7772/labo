@@ -1,5 +1,5 @@
 <?php
-// src/AcmeGroup/services/aetools/aetools.php
+// labo/Bundle/TestmanuBundle/services/aetools/aetools.php
 
 namespace labo\Bundle\TestmanuBundle\services\aetools;
 
@@ -156,6 +156,10 @@ class aetools {
 			return true;
 		}
 		return false;
+	}
+
+	public function getBundlesList() {
+		return $this->container->getParameter('kernel.bundles');
 	}
 
 	/**

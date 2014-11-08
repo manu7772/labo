@@ -1,5 +1,5 @@
 <?php
-// src/AcmeGroup/services/aetools/html2pdf.php
+// labo/Bundle/TestmanuBundle/services/aetools/html2pdf.php
 
 namespace labo\Bundle\TestmanuBundle\services\aetools;
 

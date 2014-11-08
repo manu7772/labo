@@ -1,5 +1,5 @@
 <?php
-// src/AcmeGroup/services/entitiesServices/video.php
+// labo/Bundle/TestmanuBundle/services/entitiesServices/video.php
 
 namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 

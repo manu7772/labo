@@ -162,16 +162,6 @@ services:
 
 
     ###################################
-    ### OUTILS FIXTURES
-    ###################################
-
-    # Fixtures : fixturesLoader
-    acmeGroup.fixturesLoader:
-        class: labo\Bundle\TestmanuBundle\services\fixturesLoader\fixturesLoader
-        arguments: [@service_container, @templating]
-
-
-    ###################################
     ### ELEMENTS DE FORMULAIRES
     ###################################
 

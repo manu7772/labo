@@ -1,18 +1,25 @@
 <?php
-// labo/Bundle/TestmanuBundle/services/fixturesLoader/fixturesLoader.php
+// labo/Bundle/TestmanuBundle/DataFixtures/ORM/LoadingFixtures.php
 
-namespace labo\Bundle\TestmanuBundle\services\fixturesLoader;
-
-// container
+namespace labo\Bundle\TestmanuBundle\DataFixtures\ORM;
+   
+/*
+ * On a besoin de recourir à l'interface FixtureInterface pour définir une fixture alors on le déclare
+ * Si nous n'avions pas mis ce use, on aurait dû taper
+ * class LoadingFixtures implements Doctrine\Common\DataFixtures\FixtureInterface pour l'implémentation
+ * de l'interface FixtureInterface, ce qui avouons-le n'est pas toujours très pratique, surtout si on
+ * veut utiliser plusieurs fois l'objet / interface en question.
+ */
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
 
 define("BASEFOLDER", __DIR__."/../../../../../../../..");
-
-class fixturesLoader {
+/*
+ * Les fixtures sont des objets qui doivent obligatoireemnt implémenter l'interface FixtureInterface
+ */
+class LoadingFixtures implements FixtureInterface {
 
 	private $manager;
 	private $parsList		= array();
@@ -33,8 +40,11 @@ class fixturesLoader {
 		// servicve entités
 		$this->entitiesService = $this->container->get("acmeGroup.entities");
 		$this->listOfEnties = $this->entitiesService->listOfEnties();
+		$this->afficheEntities();
 		// services dossiers/fichiers
 		$this->aetools = $this->container->get('acmeGroup.aetools');
+		$this->listOfBundles = $this->aetools->getBundlesList();
+		var_dump($this->listOfBundles);
 		// service images
 		$this->imagetools = $this->container->get('acmeGroup.imagetools');
 		// service text utilities
@@ -54,7 +64,47 @@ class fixturesLoader {
 		}
 		$this->aetools->setWebPath();
 
-		$this->afficheEntities();
+	}
+
+	public function load(ObjectManager $manager) {
+		// // Création d'un Genre "Horreur"
+		// $Horreur = new Genre();
+		// $Horreur->setLabel("Horreur");
+		// // Enregistrment dans la base de données
+		// $manager->persist($Horreur);
+		// $manager->flush();
+		//   
+		// // Création d'un genre Action
+		// $Action = new Genre();
+		// $Action->setLabel("Action");
+		// // Enregistrment dans la base de données
+		// $manager->persist($Action);
+		// $manager->flush();
+		//   
+		// // Création d'un genre Aventure
+		// $Aventure = new Genre();
+		// $Aventure->setLabel("Aventure");
+		// // Enregistrment dans la base de données
+		// $manager->persist($Aventure);
+		// $manager->flush();
+		//   
+		// // Création d'un genre Science fiction
+		// $Science_fiction = new Genre();
+		// $Science_fiction->setLabel("Science fiction");
+		// // Enregistrment dans la base de données
+		// $manager->persist($Science_fiction);
+		// $manager->flush();
+		//   
+		// // On crée le film Matrix !
+		// $Film = new Film();
+		// $Film->setTitre("Matrix");
+		// $Film->setDescription("Un super film ou neo va se révéler être l'élu. Sa mission sera de sauver l'humanité de la matrix. Mais ... Qu'est ce que la matrice ?");
+		// $Film->getListeDesGenres()->add($Action);
+		// $Film->getListeDesGenres()->add($Science_fiction);
+		// // Enregistrment dans la base de données
+		// $manager->persist($Film);
+		// $manager->flush();  
+		echo("***** LANCEMENT DES FIXTURES *****\n");
 	}
 
 	public function loadEntity($EntityService, $manager) {
@@ -391,7 +441,6 @@ class fixturesLoader {
 		}
 	}
 
+
+
 }
-
-
-?>

@@ -1,5 +1,5 @@
 <?php
-// src/AcmeGroup/services/entitiesServices/pageweb.php
+// labo/Bundle/TestmanuBundle/services/entitiesServices/pageweb.php
 
 namespace labo\Bundle\TestmanuBundle\services\entitiesServices;
 
