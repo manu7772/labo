@@ -606,7 +606,7 @@ class twigAetools extends \Twig_Extension {
 	 * @param $cut - 
 	 * @return string
 	 */
-	private function fillOfChars($string, $n, $char = " ", $cut = true) {
+	public function fillOfChars($string, $n, $char = " ", $cut = true) {
 		if(strlen($string) !== $n) {
 			// mot de taille différente de $n
 			if(strlen($string) > $n) {

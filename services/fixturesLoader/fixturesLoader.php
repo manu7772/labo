@@ -11,32 +11,46 @@ define("BASEFOLDER", __DIR__."/../../../../../../../..");
 
 class fixturesLoader {
 
-	private $bundleSave;
 	private $manager;
 	private $parsList		= array();
-	private $cpt			= 0;
 	private $entityName;
 	private $entityObj;
 	private $EntityService;
-	private $defaultVal		= "defaultVal";
 	private $container;
-	private $sm;
-	private $conn;
-	private $imgTools;
 	private $testFormats	= array("Datetime" => "DATE_");
-
+	private $texttools;
 	private $data;
-
-	private $curtImage = array(); // image courante
-	private $newImages = array(); // image dérivée
-
+	private $entitiesService;
 	private $listOfEnties;
+	private $aetools;
+	private $imagetools;
 
 	public function __construct(ContainerInterface $container) {
 		$this->container = $container;
-		$EN = $this->container->get("acmeGroup.entities");
-		$tools = $this->container->get("acmeGroup.textutilities");
-		$this->listOfEnties = $EN->listOfEnties();
+		// servicve entités
+		$this->entitiesService = $this->container->get("acmeGroup.entities");
+		// service text utilities
+		$this->texttools = $this->container->get("acmeGroup.textutilities");
+		// services dossiers/fichiers
+		$this->aetools = $this->container->get('acmeGroup.aetools');
+		// service images
+		$this->imagetools = $this->container->get('acmeGroup.imagetools');
+		$this->listOfEnties = $this->entitiesService->listOfEnties();
+
+		//efface toutes les anciennes images
+		foreach ($this->imagetools->getAllDossiers() as $key => $value) {
+			$path = $this->aetools->setWebPath("images/".$value["nom"]."/");
+			echo("vérif dossier ".getcwd()."/"."web/images/".$value["nom"]);
+			if($path !== false) {
+				echo("\n  - ".$this->aetools->getCurrentPath()." = effacement des fichiers\n");
+				// $listFiles = $this->readAll(".+");
+				$this->aetools->findAndDeleteFiles(FORMATS_IMAGES);
+				echo("  - ".$this->aetools->getCurrentPath()." = effacement du dossier\n");
+				$this->aetools->deleteDir($this->aetools->getCurrentPath());
+			} else echo(" : non existant\n");
+		}
+		$this->aetools->setWebPath();
+
 		$this->afficheEntities();
 	}
 
@@ -369,7 +383,7 @@ class fixturesLoader {
 		echo("| Liste des entités présentes détectées par doctrine                   |\n");
 		echo("------------------------------------------------------------------------\n");
 		foreach($this->listOfEnties as $nom => $namespace) {
-			echo("| ".$tools->fillOfChars($nom, 25)." | ".$tools->fillOfChars($namespace, 40)." |\n");
+			echo("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
 			echo("------------------------------------------------------------------------\n");
 		}
 	}
