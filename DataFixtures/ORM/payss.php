@@ -44,7 +44,7 @@ class payss extends AbstractFixture implements OrderedFixtureInterface, Containe
 
         $noms = array(
             array('France', "fr", "Paris"),
-            array('Angleterre', "gb", "London"),
+            array('Angleterre', "en", "London"),
             array('Allemagne', "al", "Berlin"),
             array('Italie', "it", "Rome"),
             array('Espagne', "es", "Madrid")

@@ -70,7 +70,7 @@ class images extends AbstractFixture implements OrderedFixtureInterface, Contain
 			// 	$this->imagetools->loadImageFile($ent);
 			// 	$this->imagetools->deleteCurtImage();
 			// }
-		}
+		} else echo("Auncune ligne enregistrée.\n");
 	}
 
 

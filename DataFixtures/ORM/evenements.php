@@ -40,7 +40,7 @@ class evenements extends AbstractFixture implements OrderedFixtureInterface, Con
 
 		if($entityL !== false) {
 			echo("Lignes de l'entité enregistrées : ".$this->entity."\n");
-		}
+		} else echo("Auncune ligne enregistrée.\n");
 
 	}
 

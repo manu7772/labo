@@ -984,8 +984,8 @@ class entitiesGeneric {
 	}
 
 	/**
-	 * getNameFixturesFile
-	 * Renvoie le nom de fichier standard pour les données fixtures en xml
+	 * getDossierTextFiles
+	 * Renvoie le nom du dossier contenant les fichiers texte
 	 * @return string
 	 */
 	public function getDossierTextFiles() {

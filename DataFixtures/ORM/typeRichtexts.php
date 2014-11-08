@@ -40,7 +40,7 @@ class typeRichtexts extends AbstractFixture implements OrderedFixtureInterface, 
 
 		if($entityL !== false) {
 			echo("Lignes de l'entité enregistrées : ".$this->entity."\n");
-		}
+		} else echo("Auncune ligne enregistrée.\n");
 
     }
 
