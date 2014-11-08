@@ -1,6 +1,6 @@
 <?php
 
-namespace AcmeGroup\LaboBundle\Entity;
+namespace labo\Bundle\TestmanuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
