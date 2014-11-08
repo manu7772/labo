@@ -34,13 +34,13 @@ class fixturesLoader {
 
 	public function __construct(ContainerInterface $container) {
 		$this->container = $container;
-		$EN = $this->container->get("acmeGroup.entities")
+		$EN = $this->container->get("acmeGroup.entities");
 		$this->listOfEnties = $EN->listOfEnties();
 	}
 
 	public function loadEntity($EntityService, $manager) {
 		// si l'entité existe…
-		if(in_array($EntityService, $listOfEnties)) {
+		if(in_array($EntityService, $this->listOfEnties)) {
 			$this->parsList = array();
 			$this->manager = $manager;
 			$this->EntityService = $EntityService;
