@@ -41,7 +41,8 @@ class twigAetools extends \Twig_Extension {
 			'valueOfObject'		=> new \Twig_Function_Method($this, 'valueOfObject'),
 			'imgVolume'			=> new \Twig_Function_Method($this, 'imgVolume'),
 			'annee'				=> new \Twig_Function_Method($this, 'annee'),
-			'URIperform'			=> new \Twig_Function_Method($this, 'URIperform'),
+			'URIperform'		=> new \Twig_Function_Method($this, 'URIperform'),
+			'fillOfChars'		=> new \Twig_Function_Method($this, 'fillOfChars'),
 			);
 	}
 
@@ -595,6 +596,34 @@ class twigAetools extends \Twig_Extension {
 			);
 		$t = str_replace($search, $replace, $t);
 		return $t;
+	}
+
+	/**
+	 * Remplit un texte avec des espaces (ou $char) pour obtenir une chaîne de la longueur $n
+	 * @param $string - chaîne de caractères
+	 * @param $n - nombre de caractères voulus au total
+	 * @param $char - caractère de remplissage (espace, par défaut)
+	 * @param $cut - 
+	 * @return string
+	 */
+	private function fillOfChars($string, $n, $char = " ", $cut = true) {
+		if(strlen($string) !== $n) {
+			// mot de taille différente de $n
+			if(strlen($string) > $n) {
+				// mot plus long
+				$string = substr($string, 0, $n-1)."…";
+			} else {
+				// mot plus court
+				while(strlen($string) < $n) {$string .= $char;}
+				// recoupe si trop long finalement
+				// en effet, on peut mettre plusieurs caractères comme $char de remplissage ! ;-)
+				if(strlen($string) > $n) {
+					// mot plus long
+					$string = substr($string, 0, $n);
+				}
+			}
+		}
+		return $string;
 	}
 
 }

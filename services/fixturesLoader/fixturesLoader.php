@@ -35,7 +35,9 @@ class fixturesLoader {
 	public function __construct(ContainerInterface $container) {
 		$this->container = $container;
 		$EN = $this->container->get("acmeGroup.entities");
+		$tools = $this->container->get("acmeGroup.textutilities");
 		$this->listOfEnties = $EN->listOfEnties();
+		$this->afficheEntities();
 	}
 
 	public function loadEntity($EntityService, $manager) {
@@ -360,6 +362,16 @@ class fixturesLoader {
 	 */
 	private function emptyField() {
 		return $this->EntityService->emptyField($this->data["champSlf_collection"], $this->parsList);
+	}
+
+	private function afficheEntities() {
+		echo("------------------------------------------------------------------------\n");
+		echo("| Liste des entités présentes détectées par doctrine                   |\n");
+		echo("------------------------------------------------------------------------\n");
+		foreach($this->listOfEnties as $nom => $namespace) {
+			echo("| ".$tools->fillOfChars($nom, 25)." | ".$tools->fillOfChars($namespace, 40)." |\n");
+			echo("------------------------------------------------------------------------\n");
+		}
 	}
 
 }
