@@ -2,14 +2,7 @@
 // labo/Bundle/TestmanuBundle/DataFixtures/ORM/LoadingFixtures.php
 
 namespace labo\Bundle\TestmanuBundle\DataFixtures\ORM;
-   
-/*
- * On a besoin de recourir à l'interface FixtureInterface pour définir une fixture alors on le déclare
- * Si nous n'avions pas mis ce use, on aurait dû taper
- * class LoadingFixtures implements Doctrine\Common\DataFixtures\FixtureInterface pour l'implémentation
- * de l'interface FixtureInterface, ce qui avouons-le n'est pas toujours très pratique, surtout si on
- * veut utiliser plusieurs fois l'objet / interface en question.
- */
+
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -19,7 +12,7 @@ define("BASEFOLDER", __DIR__."/../../../../../../../..");
 /*
  * Les fixtures sont des objets qui doivent obligatoireemnt implémenter l'interface FixtureInterface
  */
-class LoadingFixtures implements FixtureInterface {
+class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 
 	private $manager;
 	private $parsList		= array();
@@ -35,8 +28,16 @@ class LoadingFixtures implements FixtureInterface {
 	private $aetools;
 	private $imagetools;
 
-	public function __construct(ContainerInterface $container) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setContainer(ContainerInterface $container = null) {
 		$this->container = $container;
+	}
+
+	public function load(ObjectManager $manager) {
+		// service text utilities
+		$this->texttools = $this->container->get("acmeGroup.textutilities");
 		// servicve entités
 		$this->entitiesService = $this->container->get("acmeGroup.entities");
 		$this->listOfEnties = $this->entitiesService->listOfEnties();
@@ -47,8 +48,6 @@ class LoadingFixtures implements FixtureInterface {
 		var_dump($this->listOfBundles);
 		// service images
 		$this->imagetools = $this->container->get('acmeGroup.imagetools');
-		// service text utilities
-		$this->texttools = $this->container->get("acmeGroup.textutilities");
 
 		//efface toutes les anciennes images
 		foreach ($this->imagetools->getAllDossiers() as $key => $value) {
@@ -63,10 +62,6 @@ class LoadingFixtures implements FixtureInterface {
 			} else echo(" : non existant\n");
 		}
 		$this->aetools->setWebPath();
-
-	}
-
-	public function load(ObjectManager $manager) {
 		// // Création d'un Genre "Horreur"
 		// $Horreur = new Genre();
 		// $Horreur->setLabel("Horreur");
@@ -433,9 +428,19 @@ class LoadingFixtures implements FixtureInterface {
 
 	private function afficheEntities() {
 		echo("------------------------------------------------------------------------\n");
-		echo("| Liste des entités présentes détectées par doctrine                   |\n");
+		echo("| Liste des entités présentes détectées par Doctrine2                  |\n");
 		echo("------------------------------------------------------------------------\n");
 		foreach($this->listOfEnties as $nom => $namespace) {
+			echo("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
+			echo("------------------------------------------------------------------------\n");
+		}
+	}
+
+	private function afficheEntities() {
+		echo("------------------------------------------------------------------------\n");
+		echo("| Liste des Bundles présents détectés par Symfony2                     |\n");
+		echo("------------------------------------------------------------------------\n");
+		foreach($this->listOfBundles as $nom => $namespace) {
 			echo("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
 			echo("------------------------------------------------------------------------\n");
 		}
