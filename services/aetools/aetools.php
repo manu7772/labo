@@ -15,7 +15,7 @@ class aetools {
 	protected $recursiveTree;
 	protected $router;
 	protected $allRoutes = array();
-	protected $nofiles = array('.', '..', '.DS_Store');
+	protected $nofiles = array('.', '..', '.DS_Store', '.gitignore');
 	protected $liste;
 	protected $service = array();
 	protected $controllerPath;		// chemin complet du controller
@@ -25,12 +25,16 @@ class aetools {
 	protected $controllerName;		// nom du controller
 	protected $methodeName;			// nom de la méthode appelée
 	protected $singleMethodeName;	// nom de la méthode appelée, sans "Action"
+	private $memo = '__self';		// memo pour savePath pour ce service
+	private $pathMemo = array();	// contenu des mémo pour savePath
+	protected $goToRoot;
 
 	protected $modeFixtures = false; // true pour mode fixtures actif
 
 	protected $listP = array("groupeName", "bundleName", "ctrlFolder", "controllerName");
 
 	public function __construct(ContainerInterface $container) {
+		$this->goToRoot = __DIR__.'/../../../../../../../../';
 		$this->container = $container;
 		$this->serviceSess = $this->container->get('request')->getSession();
 		$this->router = $this->container->get('router');
@@ -75,6 +79,7 @@ class aetools {
 
 	private function setAeReponse($result, $data = null, $message = "") {
 		$this->currentAeReponse = new aeReponse($result, $data, $message);
+		return $this->currentAeReponse;
 	}
 
 	public function getModeFixtures() {
@@ -82,31 +87,125 @@ class aetools {
 	}
 
 	public function setWebPath($path = "") {
-		$rootPath = __DIR__.'/../../../../../../../../web/'.$path;
+		$rootPath = $this->goToRoot.'web/'.$path;
 		if(file_exists($rootPath)) {
 			$this->close();
 			$this->rootPath = $rootPath;
 			$this->currentPath = $rootPath;
-			$this->recursiveTree = array(dir($this->rootPath));
+			$this->recursiveTree = array(dir($this->currentPath));
 			$this->rewind();
 			return $this;
 		} else return false;
 	}
 
 	public function setRootPath($path = "") {
-		$rootPath = __DIR__.'/../../../../../../../../'.$path;
+		$rootPath = $this->goToRoot.$path;
 		if(file_exists($rootPath)) {
 			$this->close();
 			$this->rootPath = $rootPath;
 			$this->currentPath = $rootPath;
-			$this->recursiveTree = array(dir($this->rootPath));
+			$this->recursiveTree = array(dir($this->currentPath));
 			$this->rewind();
 			return $this;
 		} else return false;
-	}	
+	}
+
+	/**
+	 * avance de $path depuis le path courant
+	 * @param string $path
+	 * @return aeReponse
+	 */
+	public function setFromCurrentPath($path = null) {
+		$rootPath = $this->getCurrentPath().$path;
+		if(file_exists($rootPath)) {
+			$this->close();
+			$this->rootPath = $rootPath;
+			$this->currentPath = $rootPath;
+			$this->recursiveTree = array(dir($this->currentPath));
+			$this->rewind();
+			return $this;
+		} else return $this->setAeReponse(false, $this->getCurrentPath(), "Path non trouvé.");
+		return $this->setAeReponse(true, $this->getCurrentPath(), "Path modifié.");
+	}
+
+	/**
+	 * sauvegarde le chemin courant avec un nom
+	 * @param $nom
+	 * @return aeReponse
+	 */
+	public function savePath($nom) {
+		$this->pathMemo[$nom] = $this->rootPath;
+		return $this->setAeReponse(true, $this->pathMemo[$nom], "Path sauvegardé sous ".$nom.".");
+	}
+
+	/**
+	 * Récupère la liste des noms des paths sauvagardés
+	 * @return aeReponse
+	 */
+	public function getSavedPaths() {
+		$chemins = array();
+		foreach($this->pathMemo as $nom) $chemins[] = $nom;
+		return $this->setAeReponse(true, $chemins, "Liste des noms de paths sauvegardés.");
+	}
+
+	/**
+	 * Supprime les paths sauvegardés (tous, ou celui nommé / ceux nommés)
+	 * @param string/array $nom
+	 * @return aeReponse
+	 */
+	public function reinitSavePath($nom = null) {
+		if($nom !== null) {
+			if(is_string($nom)) $nom = array($nom);
+			$nomsr = array();
+			foreach($nom as $n) if(isset($this->pathMemo[$n])) {
+				$nomsr[] = $n;
+				$this->pathMemo[$n] = null;
+				unset($this->pathMemo[$n]);
+			}
+			if(count($nomsr) > 1) $plur = "s"; else $plur = "";
+			return $this->setAeReponse(true, null, "Path".$plur." ".implode(", ", $nomsr)." supprimé".$plur.".");
+		} else {
+			$chemins = $this->getSavedPaths();
+			$this->pathMemo = array();
+			return $this->setAeReponse(true, $chemins, "Tous les paths ont été supprimés.");
+		}
+	}
+
+	public function restoreSavedPath($nom) {
+		if(isset($this->pathMemo[$nom])) {
+			$rootPath = $this->pathMemo[$nom];
+			if(file_exists($rootPath)) {
+				$this->close();
+				$this->rootPath = $rootPath;
+				$this->currentPath = $rootPath;
+				$this->recursiveTree = array(dir($this->rootPath));
+				$this->rewind();
+				return $this;
+			} else return $this->setAeReponse(false, null, "Ce path n'existe pas.");
+		} else return $this->setAeReponse(false, null, "Ce mémo path n'existe pas.");
+	}
 
 	public function __destruct() {
 		$this->close();
+	}
+
+	/**
+	 * Renvoie la liste des dossiers de src (donc la liste des groupes)
+	 * @return aeReponse
+	 */
+	public function getSrcGroupes() {
+		$dirs = $this->getDirs("/src/");
+		return $this->setAeReponse(true, $dirs, "Liste des groupes (/src)");
+	}
+
+	public function getDirs($path = null) {
+		$this->savePath($this->memo); 
+		if($path !== null) $this->setRootPath($path);
+		// lecture du contenu du dossier
+		while($file = @readdir()) {
+			if(is_dir($file) && !in_array($file, $this->nofiles));
+		}
+		$this->restoreSavedPath($this->memo);
 	}
 
 	/**
@@ -185,9 +284,107 @@ class aetools {
 		}
 		return false;
 	}
+
+	/**
+	 * Renvoie le contenu à partir d'un path (ou path courant)
+	 * !!! insensible à la casse par défaut
+	 * renvoie un tableau (dans aeReponse->getData()) : 
+	 * 		["path"]	= chemin
+	 * 		["nom"]		= nom du fichier
+	 * 		["full"]	= chemin + nom
+	 *		["type"]	= fichier / dossier
+	 * @param string/null - path à analyser (currentPath par défaut) -> ne pas oublier le "/" à la fin (si au début : "/web/" ou "/", on reprend à la racine du site)
+	 * @param string $motif - motif preg pour recherche de nom
+	 * @param string $genre - "fichiers" ou "dossiers" ou null (null = tous)
+	 * @param boolean $recursive - recherche récursive (true = recherche dans les sous-dossiers également)
+	 * @param boolean $casseSensitive
+	 * @return aeReponse
+	 */
+	public function exploreDir($path = null, $motif = null, $genre = null, $recursive = true, $casseSensitive = true) {
+		$this->savePath($this->memo);
+		$this->setRootPath($path);
+		$this->liste = array();
+		while (false !== ($entry = $this->exploreDirectory($path, $motif, $genre, $recursive, $casseSensitive))) {
+			$this->liste[] = $entry;
+		}
+		$this->close();
+		$this->restoreSavedPath($this->memo);
+		return $this->liste;
+	}
+
+	private function exploreDirectory($path = null, $motif = null, $genre = null, $recursive = true, $casseSensitive = true) {
+		$path2 = array();
+		// path
+		// if($path !== null) {
+		// 	if(substr($path, 0, 1) === "/") {
+		// 		// Root
+		// 		if(strlen($path) == 1) $path = null;
+		// 			else $path = substr($path, 1);
+		// 		$this->setRootPath($path);
+		// 	} else {
+		// 		// ajout au path courant
+		// 		$this->setFromCurrentPath($path);
+		// 	}
+		// }
+		// echo("Path ---> ".$this->getCurrentPath()."\n");
+		// motif
+		if($motif === null) $motif = ".+";
+		// genre fichier/dossier
+		if($genre === "dossiers") {
+			$fichier = false;
+			$dossier = true;
+		} else if($genre === "fichiers") {
+			$fichier = true;
+			$dossier = false;
+		} else {
+			$fichier = true;
+			$dossier = true;
+		}
+		// casseSensitive
+		if($casseSensitive === false) $sens = "i"; else $sens = "";
+		// parcours…
+		while(count($this->recursiveTree) > 0) {
+			$d = end($this->recursiveTree);
+			if(false !== ($entry = $d->read())) {
+				if(!in_array($entry, $this->nofiles)) {
+					if((is_file($d->path.$entry)) && (preg_match("/".$motif."/".$sens, $entry)) && ($fichier === true)) {
+						// fichier
+						$path2["path"] = $d->path;
+						$path2["nom"]  = $entry;
+						$path2["full"] = $d->path.$entry;
+						$path2["type"] = "fichier";
+						return $path2;
+					}
+					if(is_dir($d->path.$entry.$this->slash)) {
+						if((preg_match("/".$motif."/".$sens, $entry)) && ($dossier === true)) {
+							// dossier
+							$path2["path"] = $d->path;
+							$path2["nom"]  = $entry;
+							$path2["full"] = $d->path.$entry;
+							$path2["type"] = "dossier";
+						}
+						// sous-dossiers
+						if($recursive === true) {
+							if(false !== ($child = dir($d->path.$entry.$this->slash))) {
+								// $this->currentPath = $d->path.$entry.$this->slash;
+								$this->recursiveTree[] = $child;
+							}
+						}
+						if(count($path2) > 0) {
+							return $path2;
+						}
+					}
+				}
+			} else {
+				// supprime le dernier élément de recusriveTree en le fermant (close)
+				array_pop($this->recursiveTree)->close();
+			}
+		}
+		return false;
+	}
 	
 	/**
-	 * read
+	 * read - OBSOLETE
 	 * Recherche un fichier $type dans le dossier courant ou ses enfants
 	 * !!! insensible à la casse par défaut
 	 * renvoie un tableau : 
@@ -208,11 +405,11 @@ class aetools {
 					$path["full"] = $d->path.$entry;
 					
 					if(is_file($d->path.$entry)) {
-						if($type !== null) $r=preg_match("/".$type."/".$sens, $entry); else $r = true;
+						if($type !== null) $r=preg_match($this->slash.$type.$this->slash.$sens, $entry); else $r = true;
 						if($r == true || $r == 1) return $path;
 					}
-					elseif(is_dir($d->path.$entry.$this->slash)) {
-						$this->currentPath = $d->path.$entry.$this->slash;
+					else if(is_dir($d->path.$entry.$this->slash)) {
+						// $this->currentPath = $d->path.$entry.$this->slash;
 						if($child = @dir($d->path.$entry.$this->slash)) {
 							$this->recursiveTree[] = $child;
 						}
@@ -226,7 +423,7 @@ class aetools {
 	}
 
 	/**
-	 * readAll
+	 * readAll - OBSOLETE
 	 * renvoie la liste de tous les fichiers contenus dans le dossier et ses enfants
 	 * !!! insensible à la casse par défaut
 	 * renvoie un tableau : 
@@ -236,8 +433,10 @@ class aetools {
 	 * @return array
 	 */
 	public function readAll($type = null, $path = null, $casseSensitive = true) {
-		if(null !== $path) $this->setWebPath($path);
-			else $this->setWebPath($this->rootPath); // réinitialise
+		// if(null !== $path) $this->setWebPath($path);
+		// 	else $this->setWebPath($this->rootPath); // réinitialise
+		if(null !== $path) $this->setRootPath($path);
+			else $this->setRootPath(); // réinitialise
 		$this->liste = array();
 		// echo "<span style='color:white;'> Path : ".$this->getRootPath()."</span><br /><br />";
 		while (false !== ($entry = $this->read($type, $casseSensitive))) {
@@ -558,7 +757,7 @@ class aetools {
 	public function getParameters() {
 		if($this->modeFixtures === false) {
 			$r = array();
-			$params = explode("/", $this->getURL());
+			$params = explode($this->slash, $this->getURL());
 			foreach($params as $nom => $pr) if(strlen($pr) > 0) $r[$nom] = $pr;
 			// return $this->container->get("request")->attributes->all();
 			if(count($r) == 0) $r = null;
@@ -567,4 +766,26 @@ class aetools {
 	}
 
 }
+
+
+// Grâce à PHP, il est possible d'afficher le contenu d'un répertoire et de ses sous-répertoires. Voici ci-dessous une fonction permettant de parcourir récursivement les répertoires et sous-répertoires et d'en afficher les fichiers :
+
+// function ScanDirectory($Directory){
+
+//   $MyDirectory = opendir($Directory) or die('Erreur');
+//  while($Entry = @readdir($MyDirectory)) {
+//   if(is_dir($Directory.'/'.$Entry)&& $Entry != '.' && $Entry != '..') {
+//                          echo '<ul>'.$Directory;
+//    ScanDirectory($Directory.'/'.$Entry);
+//                         echo '</ul>';
+//   }
+//   else {
+//    echo '<li>'.$Entry.'</li>';
+//                 }
+//  }
+//   closedir($MyDirectory);
+// }
+
+// ScanDirectory('.');
+
 ?>

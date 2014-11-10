@@ -15,6 +15,7 @@ define("BASEFOLDER", __DIR__."/../../../../../../../..");
 class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 
 	private $manager;
+	private $connection;
 	private $parsList		= array();
 	private $entityName;
 	private $entityObj;
@@ -36,6 +37,8 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	}
 
 	public function load(ObjectManager $manager) {
+		$this->manager = $manager;
+		$this->connection = $this->manager->getConnection();
 		// service text utilities
 		$this->texttools = $this->container->get("acmeGroup.textutilities");
 		// servicve entités
@@ -45,69 +48,43 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		// services dossiers/fichiers
 		$this->aetools = $this->container->get('acmeGroup.aetools');
 		$this->listOfBundles = $this->aetools->getBundlesList();
-		var_dump($this->listOfBundles);
+		$this->afficheBundles();
 		// service images
 		$this->imagetools = $this->container->get('acmeGroup.imagetools');
 
-		//efface toutes les anciennes images
-		foreach ($this->imagetools->getAllDossiers() as $key => $value) {
-			$path = $this->aetools->setWebPath("images/".$value["nom"]."/");
-			echo("vérif dossier ".getcwd()."/"."web/images/".$value["nom"]);
-			if($path !== false) {
-				echo("\n  - ".$this->aetools->getCurrentPath()." = effacement des fichiers\n");
-				// $listFiles = $this->readAll(".+");
-				$this->aetools->findAndDeleteFiles(FORMATS_IMAGES);
-				echo("  - ".$this->aetools->getCurrentPath()." = effacement du dossier\n");
-				$this->aetools->deleteDir($this->aetools->getCurrentPath());
-			} else echo(" : non existant\n");
+		//efface le dossier images
+		$this->deleteAllImageFolders();
+
+		printf("\033[1;7;31m");
+		printf("***** LANCEMENT DES FIXTURES *****\n");
+		printf("\033[00m");
+
+		foreach($this->listOfEnties as $name => $namespace) {
+			echo("Fixtures remplissage de ".$namespace."\n");
+			$entityL = $this->loadEntity($name);
+			if($entityL !== false) {
+				echo("Lignes de l'entité enregistrées : ".$name."\n");
+			} else echo("Aucune ligne enregistrée.\n");
+			echo("\n\n");
 		}
-		$this->aetools->setWebPath();
-		// // Création d'un Genre "Horreur"
-		// $Horreur = new Genre();
-		// $Horreur->setLabel("Horreur");
-		// // Enregistrment dans la base de données
-		// $manager->persist($Horreur);
-		// $manager->flush();
-		//   
-		// // Création d'un genre Action
-		// $Action = new Genre();
-		// $Action->setLabel("Action");
-		// // Enregistrment dans la base de données
-		// $manager->persist($Action);
-		// $manager->flush();
-		//   
-		// // Création d'un genre Aventure
-		// $Aventure = new Genre();
-		// $Aventure->setLabel("Aventure");
-		// // Enregistrment dans la base de données
-		// $manager->persist($Aventure);
-		// $manager->flush();
-		//   
-		// // Création d'un genre Science fiction
-		// $Science_fiction = new Genre();
-		// $Science_fiction->setLabel("Science fiction");
-		// // Enregistrment dans la base de données
-		// $manager->persist($Science_fiction);
-		// $manager->flush();
-		//   
-		// // On crée le film Matrix !
-		// $Film = new Film();
-		// $Film->setTitre("Matrix");
-		// $Film->setDescription("Un super film ou neo va se révéler être l'élu. Sa mission sera de sauver l'humanité de la matrix. Mais ... Qu'est ce que la matrice ?");
-		// $Film->getListeDesGenres()->add($Action);
-		// $Film->getListeDesGenres()->add($Science_fiction);
-		// // Enregistrment dans la base de données
-		// $manager->persist($Film);
-		// $manager->flush();  
-		echo("***** LANCEMENT DES FIXTURES *****\n");
 	}
 
-	public function loadEntity($EntityService, $manager) {
+
+	/**
+	 * Opération finale : Checke toutes les entités pour les relier entre elles
+	 * @return boolean
+	 */
+	private function linkEntities() {
+		echo("***** RELINK DES ENTITES *****\n");
+
+	}
+
+	private function loadEntity($name) {
+		$this->EntityService = $this->container->get('acmeGroup.entities')->defineEntity($name);
 		// si l'entité existe…
-		if(in_array($EntityService, $this->listOfEnties)) {
+		if(in_array($this->EntityService->getClassEntite(), $this->listOfEnties)) {
+			$this->connection->exec("ALTER TABLE ".$name." AUTO_INCREMENT = 1;");
 			$this->parsList = array();
-			$this->manager = $manager;
-			$this->EntityService = $EntityService;
 			// chargement
 			$this->loadXML();
 		} else return false;
@@ -426,26 +403,58 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		return $this->EntityService->emptyField($this->data["champSlf_collection"], $this->parsList);
 	}
 
+
+
+	// AFFICHAGE DES INFORMATIONS
+
+	/**
+	 * Supprime tous les dossiers du dossier images
+	 */
+	private function deleteAllImageFolders() {
+		$this->afficheTitre('Vérification et suppression des dossiers web/images/');
+		foreach ($this->imagetools->getAllDossiers() as $key => $value) {
+			$path = $this->aetools->setWebPath("images/".$value["nom"]."/");
+			if($path !== false) {
+				$this->aetools->findAndDeleteFiles(FORMATS_IMAGES);
+				if($this->aetools->deleteDir($this->aetools->getCurrentPath()) === true) $result = "Dossier existant : effacé";
+					else $result = "Dossier existant : ALERTE non effacé !";
+			} else $result = "Dossier non existant";
+			echo("| ".$this->texttools->fillOfChars("Dossier ".$value["nom"], 25)." | ".$this->texttools->fillOfChars($result, 40)." |\n");
+		}
+		echo("------------------------------------------------------------------------\n");
+		echo("\n");
+		$this->aetools->setWebPath();
+	}
+
+	/**
+	 * Affiche la liste des entités
+	 */
 	private function afficheEntities() {
-		echo("------------------------------------------------------------------------\n");
-		echo("| Liste des entités présentes détectées par Doctrine2                  |\n");
-		echo("------------------------------------------------------------------------\n");
+		$this->afficheTitre('Liste des entités présentes détectées par Doctrine2');
 		foreach($this->listOfEnties as $nom => $namespace) {
 			echo("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
 			echo("------------------------------------------------------------------------\n");
 		}
+		echo("\n");
 	}
 
-	private function afficheEntities() {
-		echo("------------------------------------------------------------------------\n");
-		echo("| Liste des Bundles présents détectés par Symfony2                     |\n");
-		echo("------------------------------------------------------------------------\n");
+	/**
+	 * Affiche la liste des bundles
+	 */
+	private function afficheBundles() {
+		$this->afficheTitre('Liste des Bundles présents détectés par Symfony2');
 		foreach($this->listOfBundles as $nom => $namespace) {
 			echo("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
 			echo("------------------------------------------------------------------------\n");
 		}
+		echo("\n");
 	}
 
+	private function afficheTitre($texte) {
+		echo("------------------------------------------------------------------------\n");
+		echo("| ".$this->texttools->fillOfChars($texte, 71)." |\n");
+		echo("------------------------------------------------------------------------\n");
+	}
 
 
 }

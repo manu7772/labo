@@ -29,6 +29,7 @@ class entitiesGeneric {
 	protected $entitePreviousSave = false;	// nom de l'entité précédente mémorisée
 	protected $entiteOriginalSave = false;	// nom de l'entité d'origine mémorisée
 	protected $listOfEnties;				// liste des entités de AcmeGroup
+	protected $aslash = '\\';				// antislash
 
 	protected $classEntite;					// class name de l'entité
 	protected $serviceNom;					// nom du service -> utilisé pour mise en session
@@ -708,7 +709,7 @@ class entitiesGeneric {
 	public function detachEntityNameSpace($nameSpace) {
 		$nameSpace = $this->completeEntiteNamespace($nameSpace);
 		if($nameSpace !== null) {
-			$r = explode('\\', $nameSpace);
+			$r = explode($this->aslash, $nameSpace);
 			if(count($r) > 3) return $r;
 				else return null;
 		} else return null;
@@ -721,13 +722,20 @@ class entitiesGeneric {
 	}
 
 	public function listOfEnties() {
-		$groupes = array(
-			"AcmeGroup",
-			"ensemble01"
-			);
+		// recherche de tous les dossiers de src/ (donc tous les groupes de bundles)
+		$groupesSRC = $this->aetools->exploreDir("src/", null, "dossiers", true);
+		$groupes = array();
+		foreach($groupesSRC as $nom) $groupes[] = $nom;
+		// foreach($groupes as $groupe) {
+		// 	echo("- Groupe ".$groupe['nom']." -> ".$groupe['type']."\n");
+		// }
+		// $groupes = array(
+		// 	"AcmeGroup",
+		// 	"ensemble01"
+		// 	);
 		$entitiesNameSpaces = $this->em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
 		foreach($entitiesNameSpaces as $ENS) {
-			$EE = explode('\\', $ENS);
+			$EE = explode($this->aslash, $ENS);
 			if(in_array($EE[0], $groupes)) $r[$EE[count($EE) - 1]] = $ENS;
 		}
 		return $r;
