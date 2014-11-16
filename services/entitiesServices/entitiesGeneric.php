@@ -28,7 +28,7 @@ class entitiesGeneric {
 	protected $version;						// version (slug !!)
 	protected $entitePreviousSave = false;	// nom de l'entité précédente mémorisée
 	protected $entiteOriginalSave = false;	// nom de l'entité d'origine mémorisée
-	protected $listOfEnties;				// liste des entités de AcmeGroup
+	protected $listOfEnties = null;				// liste des entités de AcmeGroup
 	protected $aslash = '\\';				// antislash
 
 	protected $classEntite;					// class name de l'entité
@@ -88,8 +88,8 @@ class entitiesGeneric {
 			// définition du contexte
 		}
 		$this->setContext("auto");
-		$this->listOfEnties = $this->listOfEnties();
-		foreach($this->listOfEnties as $EN => $entity) $this->init[$EN] = false;
+		// $this->listOfEnties();
+		foreach($this->listOfEnties() as $EN => $entity) $this->init[$EN] = false;
 
 		// $this->loadCurrentUser();
 	}
@@ -722,23 +722,19 @@ class entitiesGeneric {
 	}
 
 	public function listOfEnties() {
-		// recherche de tous les dossiers de src/ (donc tous les groupes de bundles)
-		$groupesSRC = $this->aetools->exploreDir("src/", null, "dossiers", true);
-		$groupes = array();
-		foreach($groupesSRC as $nom) $groupes[] = $nom;
-		// foreach($groupes as $groupe) {
-		// 	echo("- Groupe ".$groupe['nom']." -> ".$groupe['type']."\n");
-		// }
-		// $groupes = array(
-		// 	"AcmeGroup",
-		// 	"ensemble01"
-		// 	);
-		$entitiesNameSpaces = $this->em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
-		foreach($entitiesNameSpaces as $ENS) {
-			$EE = explode($this->aslash, $ENS);
-			if(in_array($EE[0], $groupes)) $r[$EE[count($EE) - 1]] = $ENS;
+		if($this->listOfEnties === null) {
+			$this->listOfEnties = array();
+			// recherche de tous les dossiers de src/ (donc tous les groupes de bundles)
+			$groupesSRC = $this->aetools->exploreDir("src/", null, "dossiers", true);
+			$groupes = array();
+			foreach($groupesSRC as $nom) $groupes[] = $nom['nom'];
+			$entitiesNameSpaces = $this->em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
+			foreach($entitiesNameSpaces as $ENS) {
+				$EE = explode($this->aslash, $ENS);
+				if(in_array($EE[0], $groupes)) $this->listOfEnties[$EE[count($EE) - 1]] = $ENS;
+			}
 		}
-		return $r;
+		return $this->listOfEnties;
 	}
 
 	public function getAllEntites() {
