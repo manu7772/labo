@@ -171,8 +171,11 @@ class fichierPdf {
 	 * @return boolean
 	 */
 	public function hasThumb() {
-		if(file_exists($this->getUploadRootDir().$this->getThumbFichierNom())) return true;
-		else return false;
+		// $fnom = $this->getThumbFichierNom();
+		// if(file_exists($this->getUploadRootDir().$fnom) && ($fnom."" !== "")) return true;
+		$fnom = $this->getUploadRootDir().$this->getThumbFichierNom();
+		if(file_exists($fnom) && is_file($fnom)) return true;
+			else return false;
 	}
 
 	/**
