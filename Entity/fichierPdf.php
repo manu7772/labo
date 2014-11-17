@@ -54,11 +54,25 @@ class fichierPdf {
 	protected $fichierNom;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="thumbFichierNom", type="string", length=255, nullable=true, unique=true)
+	 */
+	protected $thumbFichierNom;
+
+	/**
 	 * @var integer
 	 *
 	 * @ORM\Column(name="tailleMo", type="integer", nullable=true, unique=false)
 	 */
 	protected $tailleMo;
+
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="nbpages", type="integer", nullable=true, unique=false)
+	 */
+	protected $nbpages;
 
 	/**
 	 * @Assert\File(maxSize="6000000")
@@ -88,6 +102,10 @@ class fichierPdf {
 
 	protected $fixturesDeactivate;
 
+	protected $fichierThumbExt;
+
+	protected $aFileName;
+
 
 	public function __construct() {
 		$this->dateCreation = new \Datetime();
@@ -96,18 +114,64 @@ class fichierPdf {
 		$this->versions = new ArrayCollection();
 		$this->tempFileName = null;
 		$this->fixturesDeactivate = false;
+		$this->thumbFichierNom = null;
+		$this->fichierThumbExt = 'png';
+		$this->aFileName = null;
+		$this->tempFilename = array();
+		// initialisation du nom du fichier
+		$this->getAFileName();
 	}
 
+	/**
+	 * initialisation du nom du fichier
+	 * @param string $ext - extentions du fichier ("pdf" par défaut)
+	 * @return string
+	 */
+	private function getAFileName($ext = "pdf", $force = false) {
+		if(($this->aFileName === null) || ($force === true)) {
+			$date = new \Datetime();
+			$this->aFileName = md5(rand(100000, 999999))."-".$date->getTimestamp();
+		}
+		return $this->aFileName.".".$ext;
+	}
 
 	public function setFile(UploadedFile $file) {
 		$this->file = $file;
 		$this->fichierExt = $this->file->guessExtension();
 		if($this->fichierNom !== null) {
-			$this->tempFilename = $this->fichierNom;
-			// $this->fichierNom = null;
-			$date = new \Datetime();
-			$this->fichierNom = md5(rand(100000, 999999))."-".$date->getTimestamp().".".$this->fichierExt;
+			$this->tempFilename['pdf'] = $this->getFichierNom();
+			$this->tempFilename['png'] = $this->getThumbFichierNom();
+			// $nom fichier PDF
+			$this->setFichierNom($this->getAFileName($this->fichierExt));
+			// thumb
+			$this->setThumbFichierNom($this->getAFileName($this->fichierThumbExt));
 		}
+	}
+
+	/**
+	 * Génération et enregistrement du thumb, au format PNG
+	 * @return boolean
+	 */
+	public function createThumb() {
+		$newPDF = $this->getUploadRootDir().$this->getFichierNom();
+		if(file_exists($newPDF)) {
+			// si le fichier PDF existe, bien sûr…
+			$image = new Imagick($newPDF);
+			$count = $image->getNumberImages();
+			$image->thumbnailImage(400);
+			$image->setCompression(Imagick::COMPRESSION_LZW);
+			$image->setCompressionQuality(90);
+			$image->writeImage($this->getUploadRootDir().$this->getThumbFichierNom());
+		}
+	}
+
+	/**
+	 * Vérifie si un thumb existe (PNG)
+	 * @return boolean
+	 */
+	public function hasThumb() {
+		if(file_exists($this->getUploadRootDir().$this->getThumbFichierNom())) return true;
+		else return false;
 	}
 
 	/**
@@ -119,8 +183,13 @@ class fichierPdf {
 		$this->fichierExt = $this->file->guessExtension();
 		$this->fichierOrigine = $this->file->getClientOriginalName();
 		$this->tailleMo = filesize($this->file);
+		// nom du fichier
 		$date = new \Datetime();
-		$this->fichierNom = md5(rand(100000, 999999))."-".$date->getTimestamp().".".$this->fichierExt;
+		$fichierNewNom = md5(rand(100000, 999999))."-".$date->getTimestamp();
+		// nom fichier PDF
+		$this->setFichierNom($this->getAFileName($this->fichierExt));
+		// thumb
+		$this->setThumbFichierNom($this->getAFileName($this->fichierThumbExt));
 	}
 
 	/**
@@ -129,40 +198,56 @@ class fichierPdf {
 	 */
 	public function upload() {
 		if($this->file === null) return;
-		if($this->tempFilename !== null) {
-			$oldFile = $this->getUploadRootDir().'/'.$this->tempFilename;
-			if(file_exists($oldFile)) unlink($oldFile);
+		if(count($this->tempFilename) > 0) {
+			foreach($this->tempFilename as $tempFilename) {
+				$oldFile = $this->getUploadRootDir().$tempFilename;
+				if(file_exists($oldFile)) unlink($oldFile);
+			}
 		}
 		$this->file->move(
 			$this->getUploadRootDir(),
 			$this->fichierNom
 		);
+		// création du thumb
+		$this->createThumb();
 	}
 
 	/**
 	 * @ORM\PreRemove()
 	 */
 	public function preRemoveUpload() {
-		$this->tempFilename = $this->getUploadRootDir().'/'.$this->fichierNom;
+		$this->tempFilename['pdf'] = $this->getUploadRootDir().$this->getFichierNom();
+		$this->tempFilename['png'] = $this->getUploadRootDir().$this->getThumbFichierNom();
 	}
 
 	/**
 	 * @ORM\PostRemove()
 	 */
 	public function removeUpload() {
-		// $this->tempFilename = $this->getUploadRootDir().'/'.$this->fichierNom;
-		if(file_exists($this->tempFilename)) unlink($this->tempFilename);
+		foreach($this->tempFilename as $tempFilename) {
+			$oldFile = $this->getUploadRootDir().$tempFilename;
+			if(file_exists($oldFile)) unlink($oldFile);
+		}
 	}
 
 	protected function getUploadDir() {
-		return "images/pdf";
+		return "images/pdf/";
 	}
 	protected function getUploadRootDir() {
 		return __DIR__.'/../../../../../../../web/'.$this->getUploadDir();
 	}
 
 	public function getWebPath() {
-		return $this->getUploadDir()."/".$this->getFichierNom();
+		return $this->getUploadDir().$this->getFichierNom();
+	}
+	public function getPdfWebPath() {
+		return $this->getUploadDir().$this->getFichierNom();
+	}
+	public function getThumbWebPath() {
+		return $this->getUploadDir().$this->getThumbFichierNom();
+	}
+	public function getPngWebPath() {
+		return $this->getUploadDir().$this->getThumbFichierNom();
 	}
 
 	/**
@@ -288,6 +373,27 @@ class fichierPdf {
 	 */
 	public function getFichierNom() {
 		return $this->fichierNom;
+	}
+
+	/**
+	 * Set thumbFichierNom
+	 *
+	 * @param string $thumbFichierNom
+	 * @return fichierPdf
+	 */
+	public function setThumbFichierNom($thumbFichierNom = null) {
+		$this->thumbFichierNom = $thumbFichierNom;
+	
+		return $this;
+	}
+
+	/**
+	 * Get thumbFichierNom
+	 *
+	 * @return string 
+	 */
+	public function getThumbFichierNom() {
+		return $this->thumbFichierNom;
 	}
 
 	/**
