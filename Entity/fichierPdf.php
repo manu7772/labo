@@ -155,12 +155,12 @@ class fichierPdf {
 	 */
 	public function createThumb() {
 		$newPDF = $this->getUploadRootDir().$this->getFichierNom();
-		if(file_exists($newPDF)) {
+		if(file_exists($newPDF) && (class_exists('\Imagick'))) {
 			// si le fichier PDF existe, bien sûr…
-			$image = new \imagick($newPDF);
+			$image = new \Imagick($newPDF);
 			$count = $image->getNumberImages();
 			$image->thumbnailImage(400);
-			$image->setCompression(\imagick::COMPRESSION_LZW);
+			$image->setCompression(\Imagick::COMPRESSION_LZW);
 			$image->setCompressionQuality(90);
 			$image->writeImage($this->getUploadRootDir().$this->getThumbFichierNom());
 		}
