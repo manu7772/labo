@@ -139,9 +139,10 @@ class fichierPdf {
 		$this->file = $file;
 		$this->fichierExt = $this->file->guessExtension();
 		if($this->fichierNom !== null) {
+			// un fichier existe déjà
 			$this->tempFilename['pdf'] = $this->getFichierNom();
 			$this->tempFilename['png'] = $this->getThumbFichierNom();
-			// $nom fichier PDF
+			// nouveau $nom fichier PDF
 			$this->setFichierNom($this->getAFileName($this->fichierExt));
 			// thumb
 			$this->setThumbFichierNom($this->getAFileName($this->fichierThumbExt));
@@ -156,10 +157,10 @@ class fichierPdf {
 		$newPDF = $this->getUploadRootDir().$this->getFichierNom();
 		if(file_exists($newPDF)) {
 			// si le fichier PDF existe, bien sûr…
-			$image = new Imagick($newPDF);
+			$image = new \imagick($newPDF);
 			$count = $image->getNumberImages();
 			$image->thumbnailImage(400);
-			$image->setCompression(Imagick::COMPRESSION_LZW);
+			$image->setCompression(\imagick::COMPRESSION_LZW);
 			$image->setCompressionQuality(90);
 			$image->writeImage($this->getUploadRootDir().$this->getThumbFichierNom());
 		}
@@ -183,9 +184,6 @@ class fichierPdf {
 		$this->fichierExt = $this->file->guessExtension();
 		$this->fichierOrigine = $this->file->getClientOriginalName();
 		$this->tailleMo = filesize($this->file);
-		// nom du fichier
-		$date = new \Datetime();
-		$fichierNewNom = md5(rand(100000, 999999))."-".$date->getTimestamp();
 		// nom fichier PDF
 		$this->setFichierNom($this->getAFileName($this->fichierExt));
 		// thumb
@@ -199,8 +197,8 @@ class fichierPdf {
 	public function upload() {
 		if($this->file === null) return;
 		if(count($this->tempFilename) > 0) {
-			foreach($this->tempFilename as $tempFilename) {
-				$oldFile = $this->getUploadRootDir().$tempFilename;
+			foreach($this->tempFilename as $fileNom) if((trim($fileNom)."") !== "") {
+				$oldFile = $this->getUploadRootDir().$fileNom;
 				if(file_exists($oldFile)) unlink($oldFile);
 			}
 		}
