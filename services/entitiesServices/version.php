@@ -94,9 +94,19 @@ class version extends entitiesGeneric {
 				$this->service['liste'] = array();
 				foreach($vers as $v) $this->service['liste'][$v->getSlug()] = $v->getNom();
 				$this->service['nom'] = $this->serviceData->getNom();
+				// image entete (normal)
 				if(is_object($this->serviceData->getImageEntete()))
 					$this->service['imageEntete'] = $this->serviceData->getImageEntete()->getFichierNom();
 				else $this->service['imageEntete'] = null;
+				// image entete Wide
+				if(is_object($this->serviceData->getImageEnteteWide()))
+					$this->service['imageEnteteWide'] = $this->serviceData->getImageEnteteWide()->getFichierNom();
+				else $this->service['imageEnteteWide'] = null;
+				// image entete Mini
+				if(is_object($this->serviceData->getImageEnteteMini()))
+					$this->service['imageEnteteMini'] = $this->serviceData->getImageEnteteMini()->getFichierNom();
+				else $this->service['imageEnteteMini'] = null;
+				// favicon
 				if(is_object($this->serviceData->getFavicon()))
 					$this->service['favicon'] = "images/favicons/".preg_replace('`\.([[:alnum:]]+)$`' , ".ico", $this->serviceData->getFavicon()->getFichierNom());
 				else $this->service['favicon'] = null;
