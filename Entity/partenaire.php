@@ -154,6 +154,12 @@ abstract class partenaire {
      */
     protected $statut;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\typePartenaire")
+     * @ORM\JoinColumn(nullable=false, unique=false)
+     */
+    protected $typePartenaire;
+
 
     public function __construct() {
         $this->dateCreation = new \Datetime();
@@ -607,6 +613,29 @@ abstract class partenaire {
      */
     public function getStatut() {
         return $this->statut;
+    }
+
+    /**
+     * Set typePartenaire
+     *
+     * @param \AcmeGroup\LaboBundle\Entity\typePartenaire $typePartenaire
+     * @return partenaire
+     */
+    public function setTypePartenaire(\AcmeGroup\LaboBundle\Entity\typePartenaire $typePartenaire)
+    {
+        $this->typePartenaire = $typePartenaire;
+    
+        return $this;
+    }
+
+    /**
+     * Get typePartenaire
+     *
+     * @return \AcmeGroup\LaboBundle\Entity\typePartenaire 
+     */
+    public function getTypePartenaire()
+    {
+        return $this->typePartenaire;
     }
 
 
