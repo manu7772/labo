@@ -44,6 +44,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		// servicve entités
 		$this->entitiesService = $this->container->get("acmeGroup.entities");
 		$this->listOfEnties = $this->entitiesService->listOfEnties();
+		$this->trieEntities();
 		$this->afficheEntities();
 		// services dossiers/fichiers
 		$this->aetools = $this->container->get('acmeGroup.aetools');
@@ -55,27 +56,65 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		//efface le dossier images
 		$this->deleteAllImageFolders();
 
-		printf("\033[1;7;31m");
-		printf("***** LANCEMENT DES FIXTURES *****\n");
-		printf("\033[00m");
+		$this->writeConsole("**********************************", "succes", true);
+		$this->writeConsole("***** LANCEMENT DES FIXTURES *****", "succes", true);
+		$this->writeConsole("**********************************", "succes", 2);
 
 		foreach($this->listOfEnties as $name => $namespace) {
-			echo("Fixtures remplissage de ".$namespace."\n");
+			$this->writeConsole("Fixtures remplissage de ".$namespace, "succes", true);
 			$entityL = $this->loadEntity($name);
 			if($entityL !== false) {
-				echo("Lignes de l'entité enregistrées : ".$name."\n");
-			} else echo("Aucune ligne enregistrée.\n");
-			echo("\n\n");
+				$this->writeConsole("Lignes de l'entité enregistrées : ".$name, "succes", 2);
+			} else $this->writeConsole("Aucune ligne enregistrée.", "error", 2);
 		}
 	}
 
+	/**
+	 * Trie les entités dans le bon ordre
+	 */
+	private function trieEntities() {
+		$ordre = array(
+			0 		=> "statut",
+			10		=> "pays",
+			20		=> "villesFrance",
+			30		=> "adresse",
+			40		=> "typeImage",
+			50		=> "typeRemise",
+			60		=> "typeEvenement",
+			70		=> "typeRichtext",
+			75		=> "typePartenaire",
+			80		=> "panier",
+			90		=> "version",
+			100		=> "tauxTVA",
+			110		=> "video",
+			120		=> "image",
+			130		=> "collection",
+			140 	=> "richtext",
+			150 	=> "reseau",
+			160		=> "marque",
+			170		=> "pageweb",
+			180		=> "categorie",
+			190		=> "magasin",
+			200		=> "ficheCreative",
+			210		=> "partenaire",
+			220		=> "evenement",
+			230		=> "article",
+			);
+		ksort($ordre);
+		$newordre = array();
+		foreach($ordre as $num => $nom) {
+			$newordre[$nom] = $this->listOfEnties[$nom];
+		}
+		$this->listOfEnties = array();
+		$this->listOfEnties = $newordre;
+	}
 
 	/**
 	 * Opération finale : Checke toutes les entités pour les relier entre elles
 	 * @return boolean
 	 */
 	private function linkEntities() {
-		echo("***** RELINK DES ENTITES *****\n");
+		printf("***** RELINK DES ENTITES *****\n");
 
 	}
 
@@ -93,10 +132,10 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	private function loadXML() {
 		$XMLfile = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/xml/".$this->EntityService->getNameFixturesFile();
 		if(file_exists($XMLfile)) {
-			echo("XML trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
+			printf("XML trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
 			$r = $this->parseX(@simplexml_load_file($XMLfile));
 		} else {
-			echo("XML non trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
+			printf("XML non trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
 			$r = null;
 		}
 		// return $r;
@@ -112,8 +151,8 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 				$nom = $att["nom"];
 				if($nom === null) $nom = $att["nomunique"];
 				if($nom === null) $nom = $att["title"];
-				echo("--------------------------------------\nNom : ".$nom."\n");
-				echo(".");
+				printf("--------------------------------------\nNom : ".$nom."\n");
+				printf(".");
 				$this->parss2($ojbc, $this->createEntry($att, null));
 			}
 			return $r = $tb;
@@ -129,10 +168,10 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	}
 
 	private function createEntry($attributs, $cpt_parent = null) {
-		echo("Begin --> ");
+		printf("Begin --> ");
 		// création de l'objet entité prérempli (liens externes par défaut)
 		$this->parsList = $this->EntityService->newObject(true);
-		echo("Entité générée\n");
+		printf("Entité générée\n");
 
 		foreach($attributs as $nom => $entityString) {
 			// réinitialise $this->data
@@ -158,21 +197,21 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 			switch($this->data["meta"]["type"]["Association"]) {
 				case "single":
 					$explodName = explode('\\',  $this->data["meta"]["type"]["targetEntity"]);
-					echo("Entité liée (single) : ".$this->data["meta"]["type"]["targetEntity"]."\n");
-					// echo("Bundle : ".$explodName[0].$explodName[1].":".$explodName[3]."\n");
+					printf("Entité liée (single) : ".$this->data["meta"]["type"]["targetEntity"]."\n");
+					// printf("Bundle : ".$explodName[0].$explodName[1].":".$explodName[3]."\n");
 					$repo = $this->manager->getRepository($explodName[0].$explodName[1].":".$explodName[3]);
-					// echo("Find : findBy".ucfirst($this->data["champExt"])." = ".$this->data["entityList"][0]."\n");
+					// printf("Find : findBy".ucfirst($this->data["champExt"])." = ".$this->data["entityList"][0]."\n");
 					$findMtd = "findBy".ucfirst($this->data["champExt"]);
 					$obj = $repo->$findMtd($this->data["entityList"][0]);
 					if(count($obj) > 0) {if(is_object($obj[0])) {$this->parsList->$set($obj[0]);}}
 					break;
 				case "collection":
 					$explodName = explode('\\',  $this->data["meta"]["type"]["targetEntity"]);
-					// echo("Entité liée (collection) : ".$this->data["meta"]["type"]["targetEntity"]."\n");
-					// echo("Bundle : ".$explodName[0].$explodName[1].":".$explodName[3]."\n");
+					// printf("Entité liée (collection) : ".$this->data["meta"]["type"]["targetEntity"]."\n");
+					// printf("Bundle : ".$explodName[0].$explodName[1].":".$explodName[3]."\n");
 					$repo = $this->manager->getRepository($explodName[0].$explodName[1].":".$explodName[3]);
 					foreach($this->data["entityList"] as $val) {
-						// echo("Find : findBy".ucfirst($this->data["champExt"])." = ".$val."\n");
+						// printf("Find : findBy".ucfirst($this->data["champExt"])." = ".$val."\n");
 						$findMtd = "findBy".ucfirst($this->data["champExt"]);
 						foreach($repo->$findMtd($val) as $obj) if(is_object($obj)) $this->parsList->$set($obj);
 					}
@@ -202,11 +241,12 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 			if (method_exists($this->parsList, "addParent")) $this->parsList->addParent($cpt_parent);
 		}
 		// Persist & flush
-		echo "Mémoire PHP : ".memory_get_usage()." --> ";
+		// printf("Mémoire PHP : ".memory_get_usage()." --> ");
 		$this->manager->persist($this->parsList);
 		$this->manager->flush();
-		echo memory_get_usage()."\n";
-		echo("* Entité enregistrée en BDD *\n\n");
+		// printf(memory_get_usage()."\n");
+		$this->writeConsole("* Entité enregistrée en BDD *", "succes", 2);
+		// printf("* Entité enregistrée en BDD *\n\n");
 		return $this->parsList; // renvoie l'objet enregistré
 	}
 
@@ -232,15 +272,15 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 				$file[0] = $dossier;
 			} else $dossier = $file[0];
 			$importFile = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/".$file[0]."/".$file[1];
-			echo("Import : ".$importFile."\n");
+			printf("Import : ".$importFile."\n");
 			if(file_exists($importFile)) {
 				$txt = @file_get_contents($importFile);
 				if($txt !== false) {
 					$txt = nl2br($txt);
 					$contenu[] = str_replace("><br />", ">", $txt);
-					echo(" --> Fichier chargé avec succès ( ".substr($txt, 0, 20)."… )\n");
-				} else echo(" --> ECHEC (lecture du fichier échouée)\n");
-			} else echo(" --> ECHEC (fichier non trouvé)\n");
+					printf(" --> Fichier chargé avec succès ( ".substr($txt, 0, 20)."… )\n");
+				} else printf(" --> ".$this->writeConsole("ECHEC", "error", false)." (lecture du fichier échouée)\n");
+			} else printf(" --> ".$this->writeConsole("ECHEC", "error", false)." (fichier non trouvé)\n");
 		}
 		return $contenu;
 	}
@@ -283,7 +323,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		}
 		$this->verifSuppStdLiens($entityString);
 		$this->compileNom();
-		// echo("Format objet ".$this->data["format"]." : ".$this->data["nom"]."\n");
+		// printf("Format objet ".$this->data["format"]." : ".$this->data["nom"]."\n");
 		// supprime les valeurs par défaut sur le champ
 		if($this->data["suppStd"] === true) $this->emptyField();
 	}
@@ -356,9 +396,9 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		$this->data["entitExt"] = $o[1];
 		$this->getTypeOfAssociation();
 
-		// echo("- champSlf : ".$this->data["champSlf"]."\n");
-		// echo("- champExt : ".$this->data["champExt"]."\n");
-		// echo("- entitExt : ".$this->data["entitExt"]."\n");
+		// printf("- champSlf : ".$this->data["champSlf"]."\n");
+		// printf("- champExt : ".$this->data["champExt"]."\n");
+		// printf("- entitExt : ".$this->data["entitExt"]."\n");
 		// ----> on a les variables $this->data["champSlf"] / $this->data["champExt"] / $o[1] :	// -> champ différent	// -> champ identique					// -> valeur simple
 		// $this->data["champSlf"] ==> champ pour méthode d'attribution		// $this->data["champSlf"] = imagePpale		// $this->data["champSlf"] = image		// $this->data["champSlf"] = nom
 		// $this->data["champExt"] ==> nom du champ externe 				// $this->data["champExt"] = nom 			// $this->data["champExt"] = nom		// $this->data["champExt"] = nom
@@ -381,15 +421,15 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		switch($this->data["meta"]["type"]["Association"]) {
 			case "single":
 				$this->data["meta"]["methode"] = "set".ucfirst($this->data["champSlf"]);
-				echo($this->data["champSlf"]." (single)\n");
+				printf($this->data["champSlf"]." (single)\n");
 				break;
 			case "collection":
 				$this->data["meta"]["methode"] = "add".ucfirst($this->data["champSlf"]);
-				echo($this->data["champSlf"]." (collection)\n");
+				printf($this->data["champSlf"]." (collection)\n");
 				break;
 			default:
 				$this->data["meta"]["methode"] = "set".ucfirst($this->data["champSlf"]);
-				echo($this->data["champSlf"]." (aucune Association)\n");
+				printf($this->data["champSlf"]." (aucune Association)\n");
 				break;
 		}
 	}
@@ -417,12 +457,14 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 			if($path !== false) {
 				$this->aetools->findAndDeleteFiles(FORMATS_IMAGES);
 				if($this->aetools->deleteDir($this->aetools->getCurrentPath()) === true) $result = "Dossier existant : effacé";
-					else $result = "Dossier existant : ALERTE non effacé !";
+					else $result = "Dossier existant : ".$this->writeConsole("ALERTE", "error", false)." non effacé !";
 			} else $result = "Dossier non existant";
-			echo("| ".$this->texttools->fillOfChars("Dossier ".$value["nom"], 25)." | ".$this->texttools->fillOfChars($result, 40)." |\n");
+			$this->writeConsole($this->texttools->fillOfChars("Dossier ".$value["nom"], 25)." | ".$this->texttools->fillOfChars($result, 40), "table_line", true);
+			// printf("| ".$this->texttools->fillOfChars("Dossier ".$value["nom"], 25)." | ".$this->texttools->fillOfChars($result, 40)." |\n");
 		}
-		echo("------------------------------------------------------------------------\n");
-		echo("\n");
+		// printf("------------------------------------------------------------------------\n");
+		// printf("\n");
+		$this->doRT();
 		$this->aetools->setWebPath();
 	}
 
@@ -432,10 +474,11 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	private function afficheEntities() {
 		$this->afficheTitre('Liste des entités présentes détectées par Doctrine2');
 		foreach($this->listOfEnties as $nom => $namespace) {
-			echo("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
-			echo("------------------------------------------------------------------------\n");
+			$this->writeConsole($this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40), "table_line", true);
+			// printf("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
+			// printf("------------------------------------------------------------------------\n");
 		}
-		echo("\n");
+		$this->doRT();
 	}
 
 	/**
@@ -444,17 +487,50 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	private function afficheBundles() {
 		$this->afficheTitre('Liste des Bundles présents détectés par Symfony2');
 		foreach($this->listOfBundles as $nom => $namespace) {
-			echo("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
-			echo("------------------------------------------------------------------------\n");
+			$this->writeConsole($this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40), "table_line", true);
+			// printf("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
+			// printf("------------------------------------------------------------------------\n");
 		}
-		echo("\n");
+		$this->doRT();
 	}
 
 	private function afficheTitre($texte) {
-		echo("------------------------------------------------------------------------\n");
-		echo("| ".$this->texttools->fillOfChars($texte, 71)." |\n");
-		echo("------------------------------------------------------------------------\n");
+		$this->writeConsole($this->texttools->fillOfChars($texte, 71), "table_titre", true);
+		// printf("------------------------------------------------------------------------\n");
+		// printf("| ".$this->texttools->fillOfChars($texte, 71)." |\n");
+		// printf("------------------------------------------------------------------------\n");
 	}
 
+	private function writeConsole($t, $color = "normal", $rt = true) {
+		if($rt !== false) {
+			if($rt === true) $rt = 1;
+			$rt2 = "";
+			for ($i=0; $i < $rt; $i++) { 
+				$rt2 .= "\n";
+			}
+			$rt = $rt2;
+		} else $rt = "";
+		switch ($color) {
+					case 'error':
+						printf("\033[1;7;31m".$t."\033[00m".$rt);
+						break;
+					case 'succes':
+						printf("\033[1;42;30m".$t."\033[00m".$rt);
+						break;
+					case 'table_titre':
+						printf("\033[1;44;36m".$t."\033[00m".$rt);
+						break;
+					case 'table_line':
+						printf("\033[1;40;37m".$t."\033[00m".$rt);
+						break;
+					default:
+						printf("\033[00m".$t.$rt);
+						break;
+				}		
+	}
+
+	private function doRT() {
+		printf("\n");
+	}
 
 }
