@@ -20,6 +20,15 @@ class evenement extends entitiesGeneric {
 	}
 
 	/**
+	 * getNewshome
+	 * Renvoie la news en page d'accueil -> évènement de type edito le plus récent
+	 * @return AcmeGroup\LaboBundle\Entity\evenement
+	 */
+	public function getNewshome($date = null) {
+		return $this->getRepo()->findNewshome($date);
+	}
+
+	/**
 	 * addFindParam
 	 * ajoute un paramètre de recherche
 	 * @return AcmeGroup\LaboBundle\services\entitiesServices\evenement
