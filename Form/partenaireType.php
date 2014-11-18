@@ -107,6 +107,18 @@ class partenaireType extends AbstractType {
                 ))
         ;
         // $builder = $this->addHiddenValues($builder);
+
+        // liste des entités
+        $listOfEntities = $this->controller->get("acmeGroup.entities")->listOfEnties();
+        if(in_array("typePartenaire", $listOfEntities)) {
+            $builder->add('typePartenaire', 'entity', array(
+                'class'     => 'AcmeGroupLaboBundle:typePartenaire',
+                'property'  => 'nom',
+                'multiple'  => false,
+                "label"     => 'Type de partenaire',
+                "required"  => false,
+            ));
+        }
     }
     
     /**

@@ -156,7 +156,7 @@ abstract class partenaire {
 
     /**
      * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\typePartenaire")
-     * @ORM\JoinColumn(nullable=false, unique=false)
+     * @ORM\JoinColumn(nullable=true, unique=false)
      */
     protected $typePartenaire;
 
