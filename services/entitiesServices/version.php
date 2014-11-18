@@ -99,13 +99,17 @@ class version extends entitiesGeneric {
 					$this->service['imageEntete'] = $this->serviceData->getImageEntete()->getFichierNom();
 				else $this->service['imageEntete'] = null;
 				// image entete Wide
-				if(is_object($this->serviceData->getImageEnteteWide()))
-					$this->service['imageEnteteWide'] = $this->serviceData->getImageEnteteWide()->getFichierNom();
-				else $this->service['imageEnteteWide'] = null;
+				if(method_exists($this->serviceData, "getImageEnteteWide")) {
+					if(is_object($this->serviceData->getImageEnteteWide()))
+						$this->service['imageEnteteWide'] = $this->serviceData->getImageEnteteWide()->getFichierNom();
+					else $this->service['imageEnteteWide'] = null;
+				}
 				// image entete Mini
-				if(is_object($this->serviceData->getImageEnteteMini()))
-					$this->service['imageEnteteMini'] = $this->serviceData->getImageEnteteMini()->getFichierNom();
-				else $this->service['imageEnteteMini'] = null;
+				if(method_exists($this->serviceData, "getImageEnteteMini")) {
+					if(is_object($this->serviceData->getImageEnteteMini()))
+						$this->service['imageEnteteMini'] = $this->serviceData->getImageEnteteMini()->getFichierNom();
+					else $this->service['imageEnteteMini'] = null;
+				}
 				// favicon
 				if(is_object($this->serviceData->getFavicon()))
 					$this->service['favicon'] = "images/favicons/".preg_replace('`\.([[:alnum:]]+)$`' , ".ico", $this->serviceData->getFavicon()->getFichierNom());
