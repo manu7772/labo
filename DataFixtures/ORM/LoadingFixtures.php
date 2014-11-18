@@ -83,6 +83,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 			60		=> "typeEvenement",
 			70		=> "typeRichtext",
 			75		=> "typePartenaire",
+			78		=> "typeMembre",
 			80		=> "panier",
 			90		=> "version",
 			100		=> "tauxTVA",
@@ -99,6 +100,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 			210		=> "partenaire",
 			220		=> "evenement",
 			230		=> "article",
+			240		=> "membre",
 			);
 		ksort($ordre);
 		$newordre = array();
