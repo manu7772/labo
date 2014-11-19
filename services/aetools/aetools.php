@@ -7,6 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
+define("ALL_FILES",	"^.+$");
+
 class aetools {
 	protected $currentAeReponse = null;	// Réponse de la dernière opération
 	protected $currentPath;
@@ -436,7 +438,7 @@ class aetools {
 		// if(null !== $path) $this->setWebPath($path);
 		// 	else $this->setWebPath($this->rootPath); // réinitialise
 		if(null !== $path) $this->setRootPath($path);
-			else $this->setRootPath(); // réinitialise
+			// else $this->setRootPath(); // réinitialise
 		$this->liste = array();
 		// echo "<span style='color:white;'> Path : ".$this->getRootPath()."</span><br /><br />";
 		while (false !== ($entry = $this->read($type, $casseSensitive))) {
@@ -515,10 +517,15 @@ class aetools {
 	 * efface le dossier $dir (préciser le chemin !)
 	 *
 	 * @param array $files
+	 * @param boolean $deleteIn - efface les fichiers contenus avant
 	 */
-	public function deletedir($dir) {
+	public function deletedir($dir, $deleteIn = false) {
 		$r = false;
 		if((file_exists($dir)) && (is_dir($dir))) {
+			if($deleteIn === true) {
+				// efface les fichiers contenus // Ne marche pas POUR L'INSTANT !!!
+				// $this->findAndDeleteFiles(ALL_FILES, $dir);
+			}
 			if(@rmdir($dir)) $r = true;
 				else $r = false;
 		} else $r = false;
@@ -531,16 +538,17 @@ class aetools {
 	 * (préciser le chemin de départ ou utilise la valeur de $rootPath)
 	 *
 	 * @param array/string $files
+	 * @param string $path - depuis root site
 	 */
 	public function findAndDeleteFiles($files, $path = null) {
 		$r = array();
-		if(null !== $path) $this->setWebPath($path);
-			else $this->setWebPath($this->rootPath); // réinitialise
+		if(null !== $path) $this->setRootPath($path);
+			// else $this->setWebPath($this->rootPath); // réinitialise
 		if(is_string($files)) $files = array($files);
 		$err = 0;
 		foreach($files as $file) {
 			// $this->readAll("^".$file."$");
-			$this->readAll($file);
+			$this->readAll($file); // --> dans $this->liste
 			if(count($this->liste) > 0) foreach($this->liste as $fichier) {
 				$res = $this->deleteFile($fichier['full']);
 				if($res === false) $err++; else $r[] = $res;

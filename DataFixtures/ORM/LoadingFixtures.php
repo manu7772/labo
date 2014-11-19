@@ -61,7 +61,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		$this->writeConsole("**********************************", "succes", 2);
 
 		foreach($this->listOfEnties as $name => $namespace) {
-			$this->writeConsole("Fixtures remplissage de ".$namespace, "succes", true);
+			$this->writeConsole("Fixtures remplissage de ".$namespace, "headline", true);
 			$entityL = $this->loadEntity($name);
 			if($entityL !== false) {
 				$this->writeConsole("Lignes de l'entité enregistrées : ".$name, "succes", 2);
@@ -247,7 +247,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		$this->manager->persist($this->parsList);
 		$this->manager->flush();
 		// printf(memory_get_usage()."\n");
-		$this->writeConsole("* Entité enregistrée en BDD *", "succes", 2);
+		$this->writeConsole("* Entité ".$this->EntityService->getName()." enregistrée en BDD *", "succes", 2);
 		// printf("* Entité enregistrée en BDD *\n\n");
 		return $this->parsList; // renvoie l'objet enregistré
 	}
@@ -397,14 +397,6 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		$this->data["champExt"] = $nom[1];
 		$this->data["entitExt"] = $o[1];
 		$this->getTypeOfAssociation();
-
-		// printf("- champSlf : ".$this->data["champSlf"]."\n");
-		// printf("- champExt : ".$this->data["champExt"]."\n");
-		// printf("- entitExt : ".$this->data["entitExt"]."\n");
-		// ----> on a les variables $this->data["champSlf"] / $this->data["champExt"] / $o[1] :	// -> champ différent	// -> champ identique					// -> valeur simple
-		// $this->data["champSlf"] ==> champ pour méthode d'attribution		// $this->data["champSlf"] = imagePpale		// $this->data["champSlf"] = image		// $this->data["champSlf"] = nom
-		// $this->data["champExt"] ==> nom du champ externe 				// $this->data["champExt"] = nom 			// $this->data["champExt"] = nom		// $this->data["champExt"] = nom
-		// $this->data["entitExt"] ==> nom de l'entité externe 				// $this->data["entitExt"] = image 			// $this->data["entitExt"] = image		// $this->data["entitExt"] = nom
 	}
 
 	/**
@@ -454,18 +446,16 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	 */
 	private function deleteAllImageFolders() {
 		$this->afficheTitre('Vérification et suppression des dossiers web/images/');
+		// $this->aetools->setWebPath("images/");
 		foreach ($this->imagetools->getAllDossiers() as $key => $value) {
 			$path = $this->aetools->setWebPath("images/".$value["nom"]."/");
 			if($path !== false) {
-				$this->aetools->findAndDeleteFiles(FORMATS_IMAGES);
+				$this->aetools->findAndDeleteFiles(ALL_FILES);
 				if($this->aetools->deleteDir($this->aetools->getCurrentPath()) === true) $result = "Dossier existant : effacé";
-					else $result = "Dossier existant : ".$this->writeConsole("ALERTE", "error", false)." non effacé !";
+					else $result = "Dossier existant : ".$this->returnConsole("!!!", "error", false)." non effacé";
 			} else $result = "Dossier non existant";
 			$this->writeConsole($this->texttools->fillOfChars("Dossier ".$value["nom"], 25)." | ".$this->texttools->fillOfChars($result, 40), "table_line", true);
-			// printf("| ".$this->texttools->fillOfChars("Dossier ".$value["nom"], 25)." | ".$this->texttools->fillOfChars($result, 40)." |\n");
 		}
-		// printf("------------------------------------------------------------------------\n");
-		// printf("\n");
 		$this->doRT();
 		$this->aetools->setWebPath();
 	}
@@ -477,8 +467,6 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		$this->afficheTitre('Liste des entités présentes détectées par Doctrine2');
 		foreach($this->listOfEnties as $nom => $namespace) {
 			$this->writeConsole($this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40), "table_line", true);
-			// printf("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
-			// printf("------------------------------------------------------------------------\n");
 		}
 		$this->doRT();
 	}
@@ -490,20 +478,19 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 		$this->afficheTitre('Liste des Bundles présents détectés par Symfony2');
 		foreach($this->listOfBundles as $nom => $namespace) {
 			$this->writeConsole($this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40), "table_line", true);
-			// printf("| ".$this->texttools->fillOfChars($nom, 25)." | ".$this->texttools->fillOfChars($namespace, 40)." |\n");
-			// printf("------------------------------------------------------------------------\n");
 		}
 		$this->doRT();
 	}
 
 	private function afficheTitre($texte) {
 		$this->writeConsole($this->texttools->fillOfChars($texte, 71), "table_titre", true);
-		// printf("------------------------------------------------------------------------\n");
-		// printf("| ".$this->texttools->fillOfChars($texte, 71)." |\n");
-		// printf("------------------------------------------------------------------------\n");
 	}
 
 	private function writeConsole($t, $color = "normal", $rt = true) {
+		printf($this->returnConsole($t, $color, $rt));
+	}
+
+	private function returnConsole($t, $color = "normal", $rt = true) {
 		if($rt !== false) {
 			if($rt === true) $rt = 1;
 			$rt2 = "";
@@ -513,22 +500,25 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 			$rt = $rt2;
 		} else $rt = "";
 		switch ($color) {
-					case 'error':
-						printf("\033[1;7;31m".$t."\033[00m".$rt);
-						break;
-					case 'succes':
-						printf("\033[1;42;30m".$t."\033[00m".$rt);
-						break;
-					case 'table_titre':
-						printf("\033[1;44;36m".$t."\033[00m".$rt);
-						break;
-					case 'table_line':
-						printf("\033[1;40;37m".$t."\033[00m".$rt);
-						break;
-					default:
-						printf("\033[00m".$t.$rt);
-						break;
-				}		
+			case 'error':
+				return "\033[1;7;31m".$t."\033[00m".$rt;
+				break;
+			case 'succes':
+				return "\033[1;42;30m".$t."\033[00m".$rt;
+				break;
+			case 'headline':
+				return "\033[1;46;34m".$t."\033[00m".$rt;
+				break;
+			case 'table_titre':
+				return "\033[1;44;36m".$t."\033[00m".$rt;
+				break;
+			case 'table_line':
+				return "\033[1;40;37m".$t."\033[00m".$rt;
+				break;
+			default:
+				return "\033[00m".$t.$rt;
+				break;
+		}		
 	}
 
 	private function doRT() {
