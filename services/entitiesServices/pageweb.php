@@ -15,7 +15,7 @@ class pageweb extends entitiesGeneric {
 
 	public function __construct(ContainerInterface $container) {
 		parent::__construct($container);
-		if(($this->init["pageweb"] === true) || ($this->modeFixtures === true)) $this->defineEntity("pageweb");
+		if(($this->init["pageweb"] === false) || ($this->modeFixtures === true)) $this->defineEntity("pageweb");
 	}
 
 	/**

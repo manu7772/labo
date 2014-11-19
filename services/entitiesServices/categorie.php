@@ -25,7 +25,7 @@ class categorie extends entitiesGeneric {
 		if($this->container->hasParameter('menu_slug')) {
 			$this->menuSlug = $this->container->getParameter("menu_slug");
 		} else $this->menuSlug = null;
-		if(($this->init["categorie"] === true) || ($this->modeFixtures === true)) $this->defineEntity("categorie");
+		if(($this->init["categorie"] === false) || ($this->modeFixtures === true)) $this->defineEntity("categorie");
 	}
 
 	/**

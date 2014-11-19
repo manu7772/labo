@@ -15,7 +15,7 @@ class version extends entitiesGeneric {
 
 	public function __construct(ContainerInterface $container) {
 		parent::__construct($container);
-		if(($this->init["categorie"] === true) || ($this->modeFixtures === true)) $this->defineEntity("version");
+		if(($this->init["categorie"] === false) || ($this->modeFixtures === true)) $this->defineEntity("version");
 	}
 
 	public function getActualVersionObj() {
