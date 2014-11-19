@@ -539,7 +539,7 @@ abstract class version {
 	 */
 	public function setHote() {
 		preg_match('#^[\w.]*\.(\w+\.[a-z]{2,6})[\w/._-]*$#',str_replace(array("http://", "https://"), "", $this->getNomDomaine()), $match);
-		$this->hote = $match[1];
+		if(count($match) > 1) $this->hote = $match[1];
 	
 		return $this;
 	}

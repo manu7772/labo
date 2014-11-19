@@ -75,6 +75,29 @@ class evenementRepository extends laboBaseRepository {
 
 
 	/**
+	 * findFuturesActu
+	 * Liste des FUTURS évènement du type $type ("all" pour tous types)
+	 *
+	 * @param string/array $type
+	 * @return array
+	 */
+	public function findFuturs($type) {
+		$this->defineTypeEvents($type);
+		// if(is_string($type)) $type = array($type);
+		$qb = $this->createQueryBuilder('element');
+		$qb->join('element.typeEvenement', 'te')
+			->where($qb->expr()->in('te.slug', $this->getTypeEvents()));
+			// ->setParameter('slug', $type);
+		// $qb = $this->excludeExpired($qb);  ///// ---->>> à voir problème sur serveur mais pas en local !!!
+		$qb = $this->withVersion($qb);
+		$qb = $this->defaultStatut($qb);
+		$qb = $this->excludeFin($qb);
+		$qb->orderBy('element.datedebut', 'ASC');
+		return $qb->getQuery()->getResult();
+	}
+
+
+	/**
 	 * getBestEvent
 	 * récupère l'évènement le plus approprié selon la date fournie (par défaut, date actuelle)
 	 * @param integer $joursAvant (nombre de jours avant la date de l'évènement)
@@ -125,7 +148,7 @@ class evenementRepository extends laboBaseRepository {
 
 	/**
 	 * defineTypeEvents
-	 * @param array/string $types
+	 * @param array/string $types ("all" pour tous types)
 	 * @return array
 	 */
 	public function defineTypeEvents($types) {
