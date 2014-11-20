@@ -167,7 +167,9 @@ class categorie extends entitiesGeneric {
 	*
 	*/
 	public function getPathInfo() {
-		return $this->container->get("request")->attributes->get('categorieSlug');
+		$categorieSlug = $this->container->get("request")->attributes->get('categorieSlug');
+		if($categorieSlug === "web") $categorieSlug = null;
+		return $categorieSlug;
 	}
 
 	/**
