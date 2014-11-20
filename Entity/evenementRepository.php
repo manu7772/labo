@@ -89,9 +89,10 @@ class evenementRepository extends laboBaseRepository {
 			->where($qb->expr()->in('te.slug', $this->getTypeEvents()));
 			// ->setParameter('slug', $type);
 		// $qb = $this->excludeExpired($qb);  ///// ---->>> à voir problème sur serveur mais pas en local !!!
-		$qb = $this->withVersion($qb);
-		$qb = $this->defaultStatut($qb);
-		$qb = $this->excludeFin($qb);
+		$qb = $this->genericFilter($qb);
+		// $qb = $this->withVersion($qb);
+		// $qb = $this->defaultStatut($qb);
+		// $qb = $this->excludeExpired($qb);
 		$qb->orderBy('element.datedebut', 'ASC');
 		return $qb->getQuery()->getResult();
 	}
