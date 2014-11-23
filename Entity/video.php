@@ -187,8 +187,8 @@ abstract class video {
 	 * @return video
 	 */
 	public function setVideoUrl($videoUrl) {
-		$this->videoUrl = $videoUrl;
-	
+		// $this->videoUrl = $videoUrl;
+		$this->videoUrl = preg_replace('#^((http|https)(://)(.)+)/(.)+$#', '$5', $videoUrl);
 		return $this;
 	}
 
