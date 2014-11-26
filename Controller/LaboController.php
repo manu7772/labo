@@ -761,6 +761,7 @@ class LaboController extends Controller {
 			$data["pageweb"] = null;
 		}
 		$data['entity']['typeRichtext'] = $this->get('acmeGroup.texttools')->typeRichtextList();
+		$data['entity']['typeEvenement'] = $this->get('acmeGroup.entities')->defineEntity('typeEvenement')->getRepo()->findAll();
 		return $this->render(':common:navbar.html.twig', $data);
 	}
 
