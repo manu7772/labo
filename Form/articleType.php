@@ -97,7 +97,7 @@ class articleType extends AbstractType {
 				"label"     => 'Image de l\'article',
 				"required"  => false,
 				'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-					return $i->findImageByTypes(array('Article'));
+					return $i->findImageByTypes(array('Article', 'Universel'));
 					},
 				'empty_value' => 'Sélectionner…'
 				))

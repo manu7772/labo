@@ -61,7 +61,7 @@ class versionType extends AbstractType {
                 'required'  => true,
                 "label"     => 'Image d\'entête',
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('version'));
+                    return $i->findImageByTypes(array('version', 'Universel'));
                     },
                 'empty_value' => 'Sélectionner…'
                 ))
@@ -72,7 +72,7 @@ class versionType extends AbstractType {
                 'required'  => false,
                 "label"     => 'Logo',
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('logo'));
+                    return $i->findImageByTypes(array('logo', 'Universel'));
                     },
                 'empty_value' => 'Sélectionner…'
                 ))

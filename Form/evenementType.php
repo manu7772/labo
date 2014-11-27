@@ -61,9 +61,6 @@ class evenementType extends AbstractType {
 				'multiple'  => true,
 				"label"     => 'Partenaires de l\'évènement',
 				"required"  => false,
-                // 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                //     return $i->findImageByTypes(array('evenement'));
-                //     },
                 'empty_value' => '(aucun partenaire)'
 				))
 			->add('image', 'entity', array(
@@ -73,7 +70,7 @@ class evenementType extends AbstractType {
 				"label"     => 'Image de l\'évènement',
 				"required"  => false,
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('evenement'));
+                    return $i->findImageByTypes(array('evenement', 'Universel'));
                     },
                 'empty_value' => '(aucune image)'
 				))

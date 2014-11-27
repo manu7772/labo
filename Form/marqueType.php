@@ -58,7 +58,7 @@ class marqueType extends AbstractType {
                 'required'  => false,
                 'label'     => 'Logo',
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('logo'));
+                    return $i->findImageByTypes(array('logo', 'Universel'));
                     }
                 ))
         ;

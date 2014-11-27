@@ -84,7 +84,7 @@ class partenaireType extends AbstractType {
                 "label"     => 'Logo partenaire',
                 "required"  => false,
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('logo'));
+                    return $i->findImageByTypes(array('logo', 'Universel'));
                     }
                 ))
             ->add('image', 'entity', array(
@@ -94,7 +94,7 @@ class partenaireType extends AbstractType {
                 "label"     => 'Image pub',
                 "required"  => false,
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('partenaire'));
+                    return $i->findImageByTypes(array('partenaire', 'Universel'));
                     }
                 ))
             ->add('adresse', new adresseType($this->controller), array(

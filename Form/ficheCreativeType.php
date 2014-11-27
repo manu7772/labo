@@ -90,7 +90,7 @@ class ficheCreativeType extends AbstractType {
                 "label"     => 'Image de l\'article',
                 "required"  => false,
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('atelier'));
+                    return $i->findImageByTypes(array('atelier', 'Universel'));
                     },
                 'empty_value' => '(aucune image)'
                 ))

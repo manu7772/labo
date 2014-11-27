@@ -128,7 +128,7 @@ class magasinType extends AbstractType {
                 "label"     => 'Image du magasin',
                 "required"  => false,
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('magasin'));
+                    return $i->findImageByTypes(array('magasin', 'Universel'));
                     },
                 'empty_value' => '(utiliser image standard)'
                 ))
