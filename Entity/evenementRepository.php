@@ -75,20 +75,50 @@ class evenementRepository extends laboBaseRepository {
 
 
 	/**
-	 * findFuturesActu
-	 * Liste des FUTURS évènement du type $type ("all" pour tous types)
+	 * findFuturs
+	 * Liste des FUTURS évènements du type $type ("all" pour tous types)
 	 *
 	 * @param string/array $type
+	 * @param string $sens = 'DESC' (défaut) ou 'ASC'
+	 * @param string $limit = nombre max de résultats (null = tous)
 	 * @return array
 	 */
 	public function findFuturs($type, $sens = 'DESC', $limit = null) {
+		$date = new \Datetime();
 		$this->defineTypeEvents($type);
 		// if(is_string($type)) $type = array($type);
 		$qb = $this->createQueryBuilder('element');
 		$qb->join('element.typeEvenement', 'te')
-			->where($qb->expr()->in('te.slug', $this->getTypeEvents()));
-			// ->setParameter('slug', $type);
-		// $qb = $this->excludeExpired($qb);  ///// ---->>> à voir problème sur serveur mais pas en local !!!
+			->where($qb->expr()->in('te.slug', $this->getTypeEvents()))
+			->andWhere('element.datedebut >= :date')
+			->setParameter("date", $date)
+			;
+		$qb = $this->genericFilter($qb);
+		// limite le nombre de résultats
+		if($limit !== null) $qb->setMaxResults($limit);
+		$qb->orderBy('element.datedebut', $sens);
+		return $qb->getQuery()->getResult();
+	}
+
+	/**
+	 * findPasses
+	 * Liste des évènements PASSÉS du type $type ("all" pour tous types)
+	 *
+	 * @param string/array $type
+	 * @param string $sens = 'DESC' (défaut) ou 'ASC'
+	 * @param string $limit = nombre max de résultats (null = tous)
+	 * @return array
+	 */
+	public function findPasses($type, $sens = 'DESC', $limit = null) {
+		$date = new \Datetime();
+		$this->defineTypeEvents($type);
+		// if(is_string($type)) $type = array($type);
+		$qb = $this->createQueryBuilder('element');
+		$qb->join('element.typeEvenement', 'te')
+			->where($qb->expr()->in('te.slug', $this->getTypeEvents()))
+			->andWhere('element.datedebut < :date')
+			->setParameter("date", $date)
+			;
 		$qb = $this->genericFilter($qb);
 		// limite le nombre de résultats
 		if($limit !== null) $qb->setMaxResults($limit);
