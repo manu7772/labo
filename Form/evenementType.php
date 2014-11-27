@@ -70,7 +70,7 @@ class evenementType extends AbstractType {
 				"label"     => 'Image de l\'évènement',
 				"required"  => false,
                 'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
-                    return $i->findImageByTypes(array('evenement', 'Universel'));
+                    return $i->findImageByTypes(array('evenement', 'universel'));
                     },
                 'empty_value' => '(aucune image)'
 				))
