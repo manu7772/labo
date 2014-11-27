@@ -91,7 +91,7 @@ class evenementRepository extends laboBaseRepository {
 		// $qb = $this->excludeExpired($qb);  ///// ---->>> à voir problème sur serveur mais pas en local !!!
 		$qb = $this->genericFilter($qb);
 		// limite le nombre de résultats
-		if($limit !== null) $qb->setMaxResults($limit)
+		if($limit !== null) $qb->setMaxResults($limit);
 		$qb->orderBy('element.datedebut', $sens);
 		return $qb->getQuery()->getResult();
 	}
