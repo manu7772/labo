@@ -81,7 +81,7 @@ class evenementRepository extends laboBaseRepository {
 	 * @param string/array $type
 	 * @return array
 	 */
-	public function findFuturs($type) {
+	public function findFuturs($type, $sens = 'DESC', $limit = null) {
 		$this->defineTypeEvents($type);
 		// if(is_string($type)) $type = array($type);
 		$qb = $this->createQueryBuilder('element');
@@ -90,10 +90,9 @@ class evenementRepository extends laboBaseRepository {
 			// ->setParameter('slug', $type);
 		// $qb = $this->excludeExpired($qb);  ///// ---->>> à voir problème sur serveur mais pas en local !!!
 		$qb = $this->genericFilter($qb);
-		// $qb = $this->withVersion($qb);
-		// $qb = $this->defaultStatut($qb);
-		// $qb = $this->excludeExpired($qb);
-		$qb->orderBy('element.datedebut', 'ASC');
+		// limite le nombre de résultats
+		if($limit !== null) $qb->setMaxResults($limit)
+		$qb->orderBy('element.datedebut', $sens);
 		return $qb->getQuery()->getResult();
 	}
 
