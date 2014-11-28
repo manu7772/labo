@@ -79,6 +79,22 @@ abstract class pageweb {
 
     /**
      * @var array
+     *
+     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+     * @ORM\JoinColumn(nullable=true, unique=false)
+     */
+    protected $firstmedia;
+
+    /**
+     * @var array
+     *
+     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+     * @ORM\JoinColumn(nullable=true, unique=false)
+     */
+    protected $medias;
+
+    /**
+     * @var array
      * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
      */
     protected $versions;
@@ -116,6 +132,7 @@ abstract class pageweb {
         $this->versions = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->richtexts = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
 
@@ -485,6 +502,59 @@ abstract class pageweb {
      */
     public function getRichtexts() {
         return $this->richtexts;
+    }
+
+    /**
+     * Set firstmedia
+     *
+     * @param string $firstmedia
+     * @return pageweb
+     */
+    public function setFirstmedia($firstmedia)
+    {
+        $this->firstmedia = $firstmedia;
+    
+        return $this;
+    }
+
+    /**
+     * Get firstmedia
+     *
+     * @return string 
+     */
+    public function getFirstmedia()
+    {
+        return $this->firstmedia;
+    }
+
+    /**
+     * Add media
+     *
+     * @param \AcmeGroup\LaboBundle\Entity\image $image
+     * @return pageweb
+     */
+    public function addMedia(\AcmeGroup\LaboBundle\Entity\image $image) {
+        $this->medias[] = $image;
+    
+        return $this;
+    }
+
+    /**
+     * Remove media
+     *
+     * @param \AcmeGroup\LaboBundle\Entity\image $image
+     */
+    public function removeMedia(\AcmeGroup\LaboBundle\Entity\image $image) {
+        $this->medias->removeElement($image);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMedias() {
+        return $this->medias;
     }
 
 

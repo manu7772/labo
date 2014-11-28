@@ -91,6 +91,28 @@ class pagewebType extends AbstractType {
 			//     'expanded'  => false,
 			//     "label"     => 'Route'
 			//     ))
+			->add('firstmedia', 'entity', array(
+				'class'     => 'AcmeGroupLaboBundle:image',
+				'property'  => 'nom',
+				'multiple'  => false,
+				"label"     => 'Première image',
+				"required"  => false,
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                    return $i->findImageByTypes(array('site', 'evenement', 'partenaire','diaporama','universel','ambiance'));
+                    },
+                'empty_value' => '(aucun)'
+				))
+			->add('medias', 'entity', array(
+				'class'     => 'AcmeGroupLaboBundle:image',
+				'property'  => 'nom',
+				'multiple'  => true,
+				"label"     => 'Autres images…',
+				"required"  => false,
+                'query_builder' => function(\AcmeGroup\LaboBundle\Entity\imageRepository $i) {
+                    return $i->findImageByTypes(array('site', 'evenement', 'partenaire','diaporama','universel','ambiance'));
+                    },
+                'empty_value' => '(aucun)'
+				))
 		;
 		// $builder = $this->addHiddenValues($builder);
 
