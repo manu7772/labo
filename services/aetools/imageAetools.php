@@ -228,7 +228,7 @@ class imageAetools {
 			// 	$this->curtImage["image"] = $newimg;
 			// 	imagedestroy($newimg);
 			// }
-			echo "Mémoire PHP : ".memory_get_usage()." (Création original : ".$this->curtImage["objet"]->getFichierOrigine().")\n";
+			$this->echoFixtures("Mémoire PHP : ".memory_get_usage()." (Création original : ".$this->curtImage["objet"]->getFichierOrigine().")\n");
 		} else {
 			$this->echoFixtures("Format non supporté !!!");
 			return false;
