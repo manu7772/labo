@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"siren"}, message="Cette entreprise est déjà enregistrée")
  */
 abstract class version {
@@ -383,6 +384,13 @@ abstract class version {
 	public function getDateCreation() {
 		return $this->dateCreation;
 	}
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDateMaj() {
+        $this->setDateMaj(new \Datetime());
+    }
 
 	/**
 	 * Set dateMaj

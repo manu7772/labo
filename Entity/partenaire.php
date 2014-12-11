@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"nom"}, message="Ce partenaire existe déjà.")
  */
 abstract class partenaire {
@@ -567,6 +568,13 @@ abstract class partenaire {
      */
     public function getDateCreation() {
         return $this->dateCreation;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDateMaj() {
+        $this->setDateMaj(new \Datetime());
     }
 
     /**

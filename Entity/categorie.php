@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks()
  * @Gedmo\Tree(type="nested")
  * @UniqueEntity(fields={"nom"}, message="Cette catégorie existe déjà")
  */
@@ -109,6 +110,13 @@ abstract class categorie {
 	protected $dateExpiration;
 
 	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="dateMaj", type="datetime", nullable=true)
+	 */
+	protected $dateMaj;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
@@ -150,6 +158,7 @@ abstract class categorie {
 
 	public function __construct() {
 		$this->dateCreation = new \Datetime();
+		$this->dateMaj = null;
 		$this->plusVisible = false;
 		$this->couleur = "FFFFFF";
 		$this->parametreUrl = "";
@@ -268,6 +277,34 @@ abstract class categorie {
 	 */
 	public function getDateExpiration() {
 		return $this->dateExpiration;
+	}
+
+	/**
+	 * @ORM\PreUpdate
+	 */
+	public function updateDateMaj() {
+		$this->setDateMaj(new \Datetime());
+	}
+
+	/**
+	 * Set dateMaj
+	 *
+	 * @param \DateTime $dateMaj
+	 * @return categorie
+	 */
+	public function setDateMaj($dateMaj) {
+		$this->dateMaj = $dateMaj;
+	
+		return $this;
+	}
+
+	/**
+	 * Get dateMaj
+	 *
+	 * @return \DateTime 
+	 */
+	public function getDateMaj() {
+		return $this->dateMaj;
 	}
 
 	/**

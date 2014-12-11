@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks()
  */
 abstract class adresse {
 
@@ -220,6 +221,13 @@ abstract class adresse {
 	 */
 	public function getDateCreation() {
 		return $this->dateCreation;
+	}
+
+	/**
+	 * @ORM\PreUpdate
+	 */
+	public function updateDateMaj() {
+		$this->setDateMaj(new \Datetime());
 	}
 
 	/**

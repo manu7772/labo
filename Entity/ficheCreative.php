@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks()
  */
 abstract class ficheCreative {
 
@@ -281,6 +282,13 @@ abstract class ficheCreative {
 	 */
 	public function getDatePublication() {
 		return $this->datePublication;
+	}
+
+	/**
+	 * @ORM\PreUpdate
+	 */
+	public function updateDateMaj() {
+		$this->setDateMaj(new \Datetime());
 	}
 
 	/**
