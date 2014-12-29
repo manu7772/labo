@@ -144,6 +144,29 @@ var majZone = function(zone) {
 	});
 }
 
+function launch_fb_register() {
+	// alert("Test inscription !");
+	$(".various").fancybox({
+		// fitToView	: true,
+		// closeBtn	: false,
+		maxWidth	: 640,
+		width		: 640,
+		// height		: '50%',
+		// autoSize	: true,
+		closeClick	: false,
+		openEffect	: 'fade',
+		closeEffect	: 'fade',
+		title 		: false,
+		padding     : 6,
+		helpers : {
+			overlay : {
+				css : {
+					'background' : backgroundFCY
+				}
+			}
+		}
+	}).trigger('click');
+}
 
 
 
@@ -261,26 +284,7 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	$(".various").fancybox({
-		// fitToView	: true,
-		// closeBtn	: false,
-		maxWidth	: 640,
-		width		: 640,
-		// height		: '50%',
-		// autoSize	: true,
-		closeClick	: false,
-		openEffect	: 'fade',
-		closeEffect	: 'fade',
-		title 		: false,
-        padding     : 6,
-		helpers : {
-			overlay : {
-				css : {
-					'background' : backgroundFCY
-				}
-			}
-		}
-	}).trigger('click');
+	setTimeout("launch_fb_register()", 8000);
 
 	$(".youtubeFancy").fancybox({
 		maxWidth	: 800,
