@@ -40,6 +40,10 @@ class AelogController extends Controller {
 				$data["listeArticles"] = $this->get("acmeGroup.article")->getRepo()->aeFindAll();
 				return $this->render('LaboTestmanuBundle:pages:statistiquesArticles.html.twig', $data);
 				break;
+			case "ventes":
+				$data["listeVentes"] = $this->get("acmeGroup.facture")->getRepo()->findAll();
+				return $this->render('LaboTestmanuBundle:pages:statistiquesVentes.html.twig', $data);
+				break;
 			default:
 				return $this->render('LaboTestmanuBundle:pages:statistiques.html.twig', $data);
 				break;

@@ -1,0 +1,29 @@
+{% extends "LaboTestmanuBundle::sitePage.html.twig" %}
+{% block title %}{{ parent() }} - Statistiques ventes d'articles{% endblock %}
+
+{% block main_contain %}
+
+<div class="row">
+	<!-- Corps complet -->
+	<h2 class="well well-sm">Ventes par article</h2>
+	<div class="well well-sm">
+		<h4>Page d'accueil <small>(acme_site_home)</small></h4>
+		<table class="table table-striped table-hover table-condensed">
+			<tr>
+				<th>Article</th>
+				<th>Ventes totales</th>
+				<th>Résultat</th>
+			</tr>
+			{% for articleNom,vente in listeVentes %}
+			<tr>
+				<td>{{ articleNom }}</td>
+				<td>{{ vente.detailbyarticle.quantite }}</td>
+				<td>{{ vente.detailbyarticle.responsecode }}/{{ vente.detailbyarticle.bankresponsecode }}</td>
+				{# <td>{{ stat.dateCreation|date('d/m/Y \\- H:i:s') }}</td> #}
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+
+{% endblock %}

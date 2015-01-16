@@ -18,7 +18,7 @@ class typeRepository extends laboBaseRepository {
 	public function defaultVal($defaults = null) {
 		if(is_string($defaults)) $defaults = array($defaults);
 		$qb = $this->createQueryBuilder('element');
-		if(is_array($defaults)) {
+		if(is_array($defaults) && (count($defaults) > 0)) {
 			// récupère les éléments listés
 			$qb->where($qb->expr()->in('element.nom', $defaults));
 		} else {
