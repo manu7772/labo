@@ -42,6 +42,27 @@ class AelogController extends Controller {
 				break;
 			case "ventes":
 				$data["listeVentes"] = $this->get("acmeGroup.facture")->getRepo()->findAll();
+				$articles = $this->get('acmeGroup.article')->getRepo()->findAll();
+				$data['articles'] = array();	
+				foreach ($articles as $key => $art) {
+					if($art->getExclureseau() === "internet") {
+						$data['articles'][$art->getNom()]['objet'] = $art;
+						$data['articles'][$art->getNom()]['ventescalc'] = 0; // nombre total de ventes
+						$data['articles'][$art->getNom()]['caventesht'] = 0; // total ventes prix HT
+						// ajoute ventes
+						foreach ($data['listeVentes'] as $key => $vente) {
+							if($vente->getResponsecode() == "00" && $vente->getResponsecode() == "00") {
+								foreach($vente->getDetailbyarticle() as $ky2 => $article) {
+									if(($article['nom'] == $art->getNom())) {
+										// vente effective
+										$data['articles'][$art->getNom()]['ventescalc'] = $data['articles'][$art->getNom()]['ventescalc'] + $article['quantite'];
+										$data['articles'][$art->getNom()]['caventesht'] = $data['articles'][$art->getNom()]['caventesht'] + $article['prixTHt'];
+									}
+								}
+							}
+						}
+					}
+				}
 				return $this->render('LaboTestmanuBundle:pages:statistiquesVentes.html.twig', $data);
 				break;
 			default:
