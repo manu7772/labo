@@ -18,7 +18,7 @@ class AelogController extends Controller {
 	 * statistiquesAction
 	 * 
 	 */
-	public function statistiquesAction($stat = 'general') {
+	public function statistiquesAction($stat = 'general', $details = null) {
 		$data = array();
 		$data["semaineEnCours"] = $this->getSemaineEnCours();
 		$data["id"] = 0;
@@ -43,27 +43,49 @@ class AelogController extends Controller {
 			case "ventes":
 				$data["listeVentes"] = $this->get("acmeGroup.facture")->getRepo()->findAll();
 				$articles = $this->get('acmeGroup.article')->getRepo()->findAll();
-				$data['articles'] = array();	
-				foreach ($articles as $key => $art) {
-					if($art->getExclureseau() === "internet") {
-						$data['articles'][$art->getNom()]['objet'] = $art;
-						$data['articles'][$art->getNom()]['ventescalc'] = 0; // nombre total de ventes
-						$data['articles'][$art->getNom()]['caventesht'] = 0; // total ventes prix HT
-						// ajoute ventes
-						foreach ($data['listeVentes'] as $key => $vente) {
-							if($vente->getResponsecode() == "00" && $vente->getResponsecode() == "00") {
-								foreach($vente->getDetailbyarticle() as $ky2 => $article) {
-									if(($article['nom'] == $art->getNom())) {
-										// vente effective
-										$data['articles'][$art->getNom()]['ventescalc'] = $data['articles'][$art->getNom()]['ventescalc'] + $article['quantite'];
-										$data['articles'][$art->getNom()]['caventesht'] = $data['articles'][$art->getNom()]['caventesht'] + $article['prixTHt'];
+				$data['articles'] = array();
+				$data_article = array();
+				if(is_string($details)) $data_article = $this->get('acmeGroup.article')->getRepo()->findBySlug($details);
+				if(count($data_article) < 1) {
+					// tous les articles
+					foreach ($articles as $key => $art) {
+						if($art->getExclureseau() === "internet") {
+							$data['articles'][$art->getNom()]['objet'] = $art;
+							$data['articles'][$art->getNom()]['ventescalc'] = 0; // nombre total de ventes
+							$data['articles'][$art->getNom()]['caventesht'] = 0; // total ventes prix HT
+							$data['articles'][$art->getNom()]['caventettc'] = 0; // total ventes prix TTC
+							// ajoute ventes
+							foreach ($data['listeVentes'] as $key => $vente) {
+								if($vente->getResponsecode() == "00" && $vente->getResponsecode() == "00") {
+									foreach($vente->getDetailbyarticle() as $ky2 => $article) {
+										if(($article['nom'] == $art->getNom())) {
+											// vente effective
+											$data['articles'][$art->getNom()]['ventescalc'] = $data['articles'][$art->getNom()]['ventescalc'] + $article['quantite'];
+											$data['articles'][$art->getNom()]['caventesht'] = $data['articles'][$art->getNom()]['caventesht'] + $article['prixTHt'];
+											$data['articles'][$art->getNom()]['caventettc'] = $data['articles'][$art->getNom()]['caventettc'] + $article['prixTTTC'];
+										}
 									}
 								}
 							}
+							// calcul des totaux
+							$data['totaux']['ventescalc'] = 0;
+							$data['totaux']['caventesht'] = 0;
+							$data['totaux']['caventettc'] = 0;
+							foreach ($data['articles'] as $art2 => $values) {
+								$data['totaux']['ventescalc'] += $values['ventescalc'];
+								$data['totaux']['caventesht'] += $values['caventesht'];
+								$data['totaux']['caventettc'] += $values['caventettc'];
+							}
+							// Ajustement des ventes sur entité article
+							// $articles[$key]->setVentes($data['articles'][$art->getNom()]['ventescalc']);
 						}
 					}
+					return $this->render('LaboTestmanuBundle:pages:statistiquesVentes.html.twig', $data);
+				} else {
+					// Etude sur 1 article
+					$data['article'] = current($data_article);
+					return $this->render('LaboTestmanuBundle:pages:statistiquesVentes1article.html.twig', $data);
 				}
-				return $this->render('LaboTestmanuBundle:pages:statistiquesVentes.html.twig', $data);
 				break;
 			default:
 				return $this->render('LaboTestmanuBundle:pages:statistiques.html.twig', $data);
