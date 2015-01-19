@@ -5,7 +5,20 @@
 
 <div class="row">
 	<!-- Corps complet -->
-	<h2 class="well well-sm">Ventes de {{ article.nom }}<br><small><a href="{{ url('labo_stats_generic', {stat: 'ventes'}) }}">Retour à la liste des articles</a></small></h2>
+	<h2 class="well well-sm">
+		{%- if article.imagePpale.fichierNom is defined -%}
+		<a href="{{ asset('images/optim/' ~ article.imagePpale.fichierNom) }}" data-fancybox-group="gallery{{ article.id }}" class="fancybox" title="{{ article.imagePpale.nom }}">
+			<img class="img-thumbnail" src="{{ asset('images/optim/' ~ article.imagePpale.fichierNom) }}" width="128" style="float:left;margin-right:20px;">
+		</a>
+		{%- for image in article.images if article.images is iterable -%}
+		<a style="display:none;" href="{{ asset('images/optim/' ~ image.fichierNom) }}" data-fancybox-group="gallery{{ article.id }}" class="fancybox vignette_fiche_produit" title="{{ image.nom }}"></a>
+		{%- endfor -%}
+		{%- else -%}
+		<img class="img-thumbnail" src="{{ asset('bundles/acmegroupsite/images/no_article.png') }}" width="250" style="float:left;margin-right:20px;">
+		{%- endif -%}
+		Ventes de {{ article.nom }}<br><small><a href="{{ url('labo_stats_generic', {stat: 'ventes'}) }}">Retour à la liste des articles</a></small>
+		<div style="clear:both;"></div>
+	</h2>
 	<div class="well well-sm">
 		<h4>Vendus par e-Boutique<br><small>Données valables depuis la création du site</small></h4>
 		<table class="table table-striped table-hover table-condensed table-bordered">
