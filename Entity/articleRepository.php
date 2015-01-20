@@ -139,6 +139,44 @@ class articleRepository extends laboBaseRepository {
 		return $qb->getQuery()->getResult();
 	}
 
+	/**
+	* findArtByReseau
+	* Liste des produits en vente en e-commerce
+	*
+	* @param string $reseauNom
+	*/
+	public function findArtECommerce() {
+		$reseauNom = "e-commerce";
+		$qb = $this->createQueryBuilder('element');
+		$qb->join('element.categories', 'c')
+			->join('element.reseaus', 'rr')
+			->where('rr.nom = :reso')
+			->setParameter('reso', $reseauNom);
+		// $qb = $this->excludeExpired($qb);
+		// $qb = $this->withVersion($qb);
+		// $qb = $this->defaultStatut($qb);
+		$qb->leftJoin('element.imagePpale', 'ip')
+			->addSelect('ip')
+			->leftJoin('element.images', 'ii')
+			->addSelect('ii')
+			->leftJoin('element.statut', 'st')
+			->addSelect('st')
+			->leftJoin('element.tauxTVA', 'tva')
+			->addSelect('tva')
+			->leftJoin('element.categories', 'cat')
+			->addSelect('cat')
+			->leftJoin('element.videos', 'vid')
+			->addSelect('vid')
+			->leftJoin('element.ficheCreatives', 'fich')
+			->addSelect('fich')
+			->leftJoin('element.reseaus', 'res')
+			->addSelect('res');
+		$qb->orderBy('element.ventes', 'DESC')
+			// ->addOrderBy('element.prix', 'ASC')
+		;
+		return $qb->getQuery()->getResult();
+	}
+
 	public function aeFindAll() {
 		$qb = $this->createQueryBuilder('element');
 		$qb = $this->withVersion($qb);

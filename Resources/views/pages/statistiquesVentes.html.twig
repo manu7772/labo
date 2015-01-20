@@ -5,7 +5,7 @@
 
 <div class="row">
 	<!-- Corps complet -->
-	<h2 class="well well-sm">Ventes par article</h2>
+	<h2 class="well well-sm">Ventes par article <small>({{ articles|length }} article{{ plur(articles) }})</small></h2>
 	<div class="well well-sm">
 		<h4>Articles vendus par e-Boutique<br><small>Données valables depuis la création du site</small></h4>
 		<table class="table table-striped table-hover table-condensed table-bordered">
@@ -40,7 +40,7 @@
 					{%- endif -%}
 				</td>
 				<td><a href="{{ url('labo_stats_generic', {stat: 'ventes', details: art.objet.slug }) }}">{{ nomart }}</a></td>
-				<td style="text-align:center;">{{ art.ventescalc }}</td>
+				<td style="text-align:center;" title="Ventes en bdd : {{ art.objet.ventes }}">{{ art.ventescalc }}</td>
 				<!-- <td style="text-align:center;">{{ art.objet.ventes }}</td> -->
 				<td style="text-align:right;">{{ art.caventesht|number_format(2, ',', '') }} €</td>
 				<td style="text-align:right;">{{ art.caventettc|number_format(2, ',', '') }} €</td>

@@ -41,13 +41,13 @@ class AelogController extends Controller {
 				return $this->render('LaboTestmanuBundle:pages:statistiquesArticles.html.twig', $data);
 				break;
 			case "ventes":
-				$data["listeVentes"] = $this->get("acmeGroup.facture")->getRepo()->findAll();
-				$articles = $this->get('acmeGroup.article')->getRepo()->findAll();
 				$data['articles'] = array();
 				$data_article = array();
 				if(is_string($details)) $data_article = $this->get('acmeGroup.article')->getRepo()->findBySlug($details);
 				if(count($data_article) < 1) {
 					// tous les articles
+					$data["listeVentes"] = $this->get("acmeGroup.facture")->getRepo()->findFactures();
+					$articles = $this->get('acmeGroup.article')->getRepo()->findArtECommerce();
 					foreach ($articles as $key => $art) {
 						if($art->getExclureseau() === "internet") {
 							$data['articles'][$art->getNom()]['objet'] = $art;
@@ -84,6 +84,7 @@ class AelogController extends Controller {
 				} else {
 					// Etude sur 1 article
 					$data['article'] = current($data_article);
+					$data["ventes"] = $this->get("acmeGroup.facture")->getRepo()->getNbVentesArticle($data['article']);
 					return $this->render('LaboTestmanuBundle:pages:statistiquesVentes1article.html.twig', $data);
 				}
 				break;

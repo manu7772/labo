@@ -29,7 +29,7 @@ class factureRepository extends laboBaseRepository {
 			->setParameter('sta', 'Actif');
 		$factures = $qb->getQuery()->getResult();
 		$cumul = 0;
-		foreach($factures as $facture) {
+		foreach($factures as $facture) if($facture->getResponsecode() == "00" && $facture->getBankresponsecode() == "00") {
 			$detail = $facture->getDetailbyarticle();
 			if(isset($detail[$article]["quantite"])) {
 				$cumul += $detail[$article]["quantite"];
@@ -121,5 +121,22 @@ class factureRepository extends laboBaseRepository {
 			->orderBy('element.dateCreation', 'ASC');
 		return $qb->getQuery()->getResult();
 	}
+
+	/**
+	 * findFactures
+	 * @return array
+	 */
+	public function findFactures() {
+		$qb = $this->createQueryBuilder('element');
+		$qb->leftJoin('element.articles', 'art')
+			->addSelect('art')
+			->leftJoin('element.statut', 'st')
+			->addSelect('st')
+			;
+		// $qb->orderBy('element.dateCreation', 'ASC');
+		return $qb->getQuery()->getResult();
+	}
+
+
 
 }
