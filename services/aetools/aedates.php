@@ -14,7 +14,7 @@ class aedates {
 		return $this;
 	}
 
-	private function getCalendEnCours() {
+	public function getCalendEnCours() {
 		$date = new \Datetime();
 		$data = array();
 		$data['date']['jourDeLannee'] = intval($date->format("z"));
@@ -25,7 +25,7 @@ class aedates {
 		return $data;
 	}
 
-	private function isDateValid($date, $tempo = "mois", $ecart = 12) {
+	public function isDateValid($date, $tempo = "mois", $ecart = 12) {
 		$tempos = array("jour", "semaine", "mois", "annee");
 		if(!in_array(strtoupper($tempo), $tempos)) $tempo = $tempo[2];
 		// date actuelle
