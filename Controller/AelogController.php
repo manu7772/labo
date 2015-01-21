@@ -20,7 +20,7 @@ class AelogController extends Controller {
 	 */
 	public function statistiquesAction($stat = 'general', $details = null) {
 		$data = array();
-		$data["semaineEnCours"] = $this->getSemaineEnCours();
+		$data = array_merge($data, $this->getCalendEnCours());
 		$data["id"] = 0;
 		$data['listtypes'] = $this->listOptions();
 		// vérification 
@@ -35,6 +35,11 @@ class AelogController extends Controller {
 		// 
 		// $statistiques = $this->get("acmeGroup.aelog");
 		// $data["statistiques"] = $statistiques->findByType($data['typedata']);
+
+		// infos
+		$data["info"]["arriere"] = 12;
+		$data["info"]["tempo"] = "mois";
+		//
 		switch($data['typedata']) {
 			case "articles":
 				$data["listeArticles"] = $this->get("acmeGroup.article")->getRepo()->aeFindAll();
@@ -90,10 +95,10 @@ class AelogController extends Controller {
 					$data['caventesht'] = 0;
 					$data['caventettc'] = 0;
 					foreach($ventes as $num => $vente) {
-						// if($vente->getResponsecode() == "00" && $vente->getBankresponsecode() == "00") $style = " style='color:green;'";
-						// 	else $style = " style='color:red;'";
 						if($vente->getResponsecode() == "00" && $vente->getBankresponsecode() == "00") {
+							// ajout à la liste si la vente est effective (sans erreur de paiement)
 							$data["listeVentes"][] = $vente;
+							// Quantités et CA HT et TTC
 							foreach($vente->getDetailbyarticle() as $k => $art) {
 								if($art['nom'] == $data['article']->getNom()) {
 									$data['ventescalc'] = $data['ventescalc'] + $art['quantite'];
@@ -101,8 +106,16 @@ class AelogController extends Controller {
 									$data['caventettc'] = $data['caventettc'] + $art['prixTTTC'];
 								}
 							}
+							// Quantités par mois
+							$data["quanites"]["mensuelle"] = array();
+							foreach($vente->getDetailbyarticle() as $k => $art) {
+								if($art['nom'] == $data['article']->getNom() && $this->isDateValid($vente->getDateCreation(), $data["info"]["tempo"], $data["info"]["arriere"])) {
+									$ddd = $vente->getDateCreation()->format("M Y");
+									if(!isset($data['periodes'][$ddd])) $data['periodes'][$ddd] = 0;
+									$data['periodes'][$ddd] = $data['periodes'][$ddd] + $art['quantite'];
+								}
+							}
 						}
-						// echo("<p".$style.">".$num." vente : ".$vente->getReference()." (".$vente->getResponsecode()."/".$vente->getBankresponsecode().")</p>");
 					}
 					$data["ventes"] = $this->get("acmeGroup.facture")->getRepo()->getNbVentesArticle($data['article']);
 					return $this->render('LaboTestmanuBundle:pages:statistiquesVentes1article.html.twig', $data);
@@ -247,10 +260,26 @@ class AelogController extends Controller {
 		return array("general", "articles", "ventes", "magasins", "autres");
 	}
 
-	private function getSemaineEnCours() {
+	private function getCalendEnCours() {
 		$date = new \Datetime();
-		return $date->format("W");
+		$data = array();
+		$data['date']['jourDeLannee'] = intval($date->format("z"));
+		$data['date']['jourDeSemaine'] = intval($date->format("w"));
+		$data['date']['semaineEnCours'] = intval($date->format("W"));
+		$data['date']['moisEnCours'] = intval($date->format("n"));
+		$data['date']['anneeEnCours'] = intval($date->format("Y"));
+		return $data;
 	}
 
+	private function isDateValid($date, $tempo = "mois", $ecart = 12) {
+		$tempos = array("jour", "semaine", "mois", "annee");
+		if(!in_array(strtoupper($tempo), $tempos)) $tempo = $tempo[2];
+		// date actuelle
+		$date = new \Datetime();
+		// date $date
+		$Fmois = intval($date->format("n"));
+		$Fannee = intval($date->format("Y"));
+		return true;
+	}
 
 }
