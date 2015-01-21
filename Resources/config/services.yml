@@ -24,6 +24,11 @@ services:
         class: labo\Bundle\TestmanuBundle\services\aetools\aetools
         arguments: [@service_container]
 
+    # Fonctionnalités de dates/heures
+    acmeGroup.aedates:
+        class: labo\Bundle\TestmanuBundle\services\aetools\aedates
+        arguments: [@service_container]
+
     # Fonctionnalités de parametres du site
     acmeGroup.parametre:
         class: labo\Bundle\TestmanuBundle\services\aetools\parametre
