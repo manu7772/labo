@@ -23,18 +23,18 @@
 		<h4>Vendus par e-Boutique<br><small>Données valables depuis la création du site</small></h4>
 		<table class="table table-striped table-hover table-condensed table-bordered">
 			<tr>
-				<th>Article</th>
+				<th>&nbsp;</th>
 				<th style="text-align:center;">Ventes</th>
 				<!-- <th style="text-align:center;">Ventes enregistrées</th> -->
 				<th style="text-align:right;">Ventes totales HT</th>
 				<th style="text-align:right;">Ventes totales TTC</th>
 			</tr>
 			<tr class="active">
-				<th>Totaux</th>
-				<th style="text-align:center;">{{ ventes }}</th>
+				<th>Période</th>
+				<th style="text-align:center;">{{ listeVentes|length }}</th>
 				<!-- <th style="text-align:center;">Ventes enregistrées</th> -->
-				<th style="text-align:right;">---</th>
-				<th style="text-align:right;">---</th>
+				<th style="text-align:right;">{{ caventesht|number_format(2, ',', '') }} €</th>
+				<th style="text-align:right;">{{ caventettc|number_format(2, ',', '') }} €</th>
 			</tr>
 		</table>
 	</div>

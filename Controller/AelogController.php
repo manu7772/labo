@@ -31,10 +31,10 @@ class AelogController extends Controller {
 			$data["typedata"] = current($data['listtypes']);
 		}
 		// Liste des pages disponibles
-		$data["pages"] = $this->get("acmeGroup.pageweb")->getRepo()->findAll();
+		// $data["pages"] = $this->get("acmeGroup.pageweb")->getRepo()->findAll();
 		// 
-		$statistiques = $this->get("acmeGroup.aelog");
-		$data["statistiques"] = $statistiques->findByType($data['typedata']);
+		// $statistiques = $this->get("acmeGroup.aelog");
+		// $data["statistiques"] = $statistiques->findByType($data['typedata']);
 		switch($data['typedata']) {
 			case "articles":
 				$data["listeArticles"] = $this->get("acmeGroup.article")->getRepo()->aeFindAll();
@@ -84,6 +84,26 @@ class AelogController extends Controller {
 				} else {
 					// Etude sur 1 article
 					$data['article'] = current($data_article);
+					$ventes = $this->get("acmeGroup.facture")->getRepo()->findFactures($data['article']);
+					$data["listeVentes"] = array();
+					$data['ventescalc'] = 0;
+					$data['caventesht'] = 0;
+					$data['caventettc'] = 0;
+					foreach($ventes as $num => $vente) {
+						// if($vente->getResponsecode() == "00" && $vente->getBankresponsecode() == "00") $style = " style='color:green;'";
+						// 	else $style = " style='color:red;'";
+						if($vente->getResponsecode() == "00" && $vente->getBankresponsecode() == "00") {
+							$data["listeVentes"][] = $vente;
+							foreach($vente->getDetailbyarticle() as $k => $art) {
+								if($art['nom'] == $data['article']->getNom()) {
+									$data['ventescalc'] = $data['ventescalc'] + $art['quantite'];
+									$data['caventesht'] = $data['caventesht'] + $art['prixTHt'];
+									$data['caventettc'] = $data['caventettc'] + $art['prixTTTC'];
+								}
+							}
+						}
+						// echo("<p".$style.">".$num." vente : ".$vente->getReference()." (".$vente->getResponsecode()."/".$vente->getBankresponsecode().")</p>");
+					}
 					$data["ventes"] = $this->get("acmeGroup.facture")->getRepo()->getNbVentesArticle($data['article']);
 					return $this->render('LaboTestmanuBundle:pages:statistiquesVentes1article.html.twig', $data);
 				}
