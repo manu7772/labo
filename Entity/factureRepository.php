@@ -133,6 +133,8 @@ class factureRepository extends laboBaseRepository {
 			->leftJoin('element.statut', 'st')
 			->addSelect('st')
 			;
+		// test : mois en cours
+		$qb = $this->betweenDates($qb, new \Datetime(date('Y').'-'.date('m').'-01'), new \Datetime());
 		// $qb->orderBy('element.dateCreation', 'ASC');
 		return $qb->getQuery()->getResult();
 	}

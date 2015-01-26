@@ -18,6 +18,7 @@ class laboBaseRepository extends EntityRepository {
 	protected $fields = array();
 	private $initCMD = false;
 	private $ClassMetadata;
+	protected $defChampDate = "dateCreation";
 
 	public function __construct(EntityManager $em, ClassMetadata $ClassMetadata) {
 		$this->ClassMetadata = $ClassMetadata;
@@ -257,11 +258,11 @@ class laboBaseRepository extends EntityRepository {
 	/***************************************************************/
 
 	/**
-	* genericFilter
-	* Sélect element de statut/expirés/version
-	* @param Doctrine\ORM\QueryBuilder $qb
-	* @return QueryBuilder
-	*/
+	 * genericFilter
+	 * Sélect element de statut/expirés/version
+	 * @param Doctrine\ORM\QueryBuilder $qb
+	 * @return QueryBuilder
+	 */
 	protected function genericFilter(\Doctrine\ORM\QueryBuilder $qb, $statut = null, $published = true, $expired = true, $version = null) {
 		$qb = $this->defaultStatut($qb, $statut);
 		$qb = $this->withVersion($qb, $version);
@@ -271,12 +272,12 @@ class laboBaseRepository extends EntityRepository {
 	}
 
 	/**
-	* defaultStatut
-	* Sélect element de statut = actif uniquement
-	* @param Doctrine\ORM\QueryBuilder $qb
-	* @param array/string $statut
-	* @return QueryBuilder
-	*/
+	 * defaultStatut
+	 * Sélect element de statut = actif uniquement
+	 * @param Doctrine\ORM\QueryBuilder $qb
+	 * @param array/string $statut
+	 * @return QueryBuilder
+	 */
 	protected function defaultStatut(\Doctrine\ORM\QueryBuilder $qb, $statut = null) {
 		if(array_key_exists("statut", $this->getFields())) {
 			if($statut === null) $statut = array("Actif");
@@ -288,12 +289,12 @@ class laboBaseRepository extends EntityRepository {
 	}
 
 	/**
-	* withVersion
-	* Sélect element de version = $version uniquement (slug)
-	* @param Doctrine\ORM\QueryBuilder $qb
-	* @param mixed $version
-	* @return QueryBuilder
-	*/
+	 * withVersion
+	 * Sélect element de version = $version uniquement (slug)
+	 * @param Doctrine\ORM\QueryBuilder $qb
+	 * @param mixed $version
+	 * @return QueryBuilder
+	 */
 	protected function withVersion(\Doctrine\ORM\QueryBuilder $qb, $version = null) {
 		if(array_key_exists("versions", $this->getFields())) {
 			if($this->version !== false || $version !== null) {
@@ -307,11 +308,11 @@ class laboBaseRepository extends EntityRepository {
 	}
 
 	/**
-	* excludeExpired
-	* Sélect elements non expirés
-	* @param Doctrine\ORM\QueryBuilder $qb
-	* @return QueryBuilder
-	*/
+	 * excludeExpired
+	 * Sélect elements non expirés
+	 * @param Doctrine\ORM\QueryBuilder $qb
+	 * @return QueryBuilder
+	 */
 	protected function excludeExpired(\Doctrine\ORM\QueryBuilder $qb) {
 		if(array_key_exists("dateExpiration", $this->getFields())) {
 			$qb->andWhere('element.dateExpiration > :date OR element.dateExpiration is null')
@@ -321,11 +322,11 @@ class laboBaseRepository extends EntityRepository {
 	}
 
 	/**
-	* excludeNotPublished
-	* Sélect elements publiés
-	* @param Doctrine\ORM\QueryBuilder $qb
-	* @return QueryBuilder
-	*/
+	 * excludeNotPublished
+	 * Sélect elements publiés
+	 * @param Doctrine\ORM\QueryBuilder $qb
+	 * @return QueryBuilder
+	 */
 	protected function excludeNotPublished(\Doctrine\ORM\QueryBuilder $qb) {
 		if(array_key_exists("datePublication", $this->getFields())) {
 			$qb->andWhere('element.datePublication < :date OR element.datePublication is null')
@@ -335,10 +336,36 @@ class laboBaseRepository extends EntityRepository {
 	}
 
 	/**
-	* rechercheStr
-	* trouve les éléments qui contiennent la chaîne $searchString
-	*
-	*/
+	 * Renvoie les éléments dont les dates sont situées entre $debut et $fin
+	 * @param Doctrine\ORM\QueryBuilder $qb
+	 * @param Datetime $debut
+	 * @param Datetime $fin
+	 *
+	 */
+	protected function betweenDates(\Doctrine\ORM\QueryBuilder $qb, $debut, $fin, $champ = null) {
+		// champ par défaut
+		if($champ === null) $champ = $this->defChampDate;
+		// préparations dates
+		$tempDates['debut'] = $debut;
+		$tempDates['fin'] = $fin;
+		foreach($tempDates as $nom => $date) {
+			if(is_string($date)) $dates[$nom] = new \Datetime($date);
+			if(is_object($date)) $dates[$nom] = $date;
+		}
+		if(array_key_exists($champ, $this->getFields()) && is_object($dates['debut']) && is_object($dates['fin'])) {
+			$qb->andWhere('element.'.$champ.' BETWEEN :debut AND :fin')
+				->setParameter('debut', $dates['debut'])
+				->setParameter('fin', $dates['fin'])
+				;
+		}
+		return $qb;
+	}
+
+	/**
+	 * rechercheStr
+	 * trouve les éléments qui contiennent la chaîne $searchString
+	 *
+	 */
 	protected function rechercheStr(\Doctrine\ORM\QueryBuilder $qb, $searchString, $searchField = null, $mode = null) {
 		if($searchField === null) {
 			$priori = array("nom", "nommagasin", "nomunique", "fichierNom");

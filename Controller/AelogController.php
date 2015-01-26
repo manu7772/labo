@@ -62,7 +62,7 @@ class AelogController extends Controller {
 							$data['articles'][$art->getNom()]['caventettc'] = 0; // total ventes prix TTC
 							// ajoute ventes
 							foreach ($data['listeVentes'] as $key => $vente) {
-								if($vente->getResponsecode() == "00" && $vente->getResponsecode() == "00") {
+								if($vente->isValidVente() === true) {
 									foreach($vente->getDetailbyarticle() as $ky2 => $article) {
 										if(($article['nom'] == $art->getNom())) {
 											// vente effective
@@ -96,7 +96,7 @@ class AelogController extends Controller {
 					$data['caventesht'] = 0;
 					$data['caventettc'] = 0;
 					foreach($ventes as $num => $vente) {
-						if($vente->getResponsecode() == "00" && $vente->getBankresponsecode() == "00") {
+						if($vente->isValidVente() === true) {
 							// ajout à la liste si la vente est effective (sans erreur de paiement)
 							$data["listeVentes"][] = $vente;
 							// Quantités et CA HT et TTC

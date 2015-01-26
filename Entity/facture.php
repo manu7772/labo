@@ -219,6 +219,9 @@ abstract class facture {
 	 */
 	protected $commentaire;
 
+	protected $venteValid;
+	protected $validResult;
+
 
 	public function __construct() {
 		$this->dateCreation = new \Datetime();
@@ -234,6 +237,8 @@ abstract class facture {
 		// "depot"		=> "Enlèvement en boutique",
 		// );
 		$this->livraison = $user->getLivraison();
+		$this->venteValid = null;
+		$this->validResult = "00";
 	}
 
 
@@ -244,6 +249,18 @@ abstract class facture {
 	 */
 	public function getId() {
 		return $this->id;
+	}
+
+	/**
+	 * Renvoie l'état de la vente
+	 * @return boolean
+	 */
+	public function isValidVente() {
+		$result = true;
+		if($this->getResponsecode() != $this->validResult) $result = false;
+		if($this->getBankresponsecode() != $this->validResult) $result = false;
+		// résultat : boolean
+		return $result;
 	}
 
 	/**
