@@ -257,8 +257,8 @@ abstract class facture {
 	 */
 	public function isValidVente() {
 		$result = true;
-		if($this->getResponsecode() != $this->validResult) $result = false;
-		if($this->getBankresponsecode() != $this->validResult) $result = false;
+		if($this->getResponsecode() !== $this->validResult) $result = false;
+		if($this->getBankresponsecode() !== $this->validResult) $result = false;
 		// résultat : boolean
 		return $result;
 	}

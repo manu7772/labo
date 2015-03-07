@@ -95,6 +95,7 @@ class AelogController extends Controller {
 					$data['ventescalc'] = 0;
 					$data['caventesht'] = 0;
 					$data['caventettc'] = 0;
+					$data['periodes'] = array();
 					foreach($ventes as $num => $vente) {
 						if($vente->isValidVente() === true) {
 							// ajout à la liste si la vente est effective (sans erreur de paiement)

@@ -53,7 +53,7 @@ abstract class statut {
 	 * Set nom
 	 *
 	 * @param string $nom
-	 * @return baseEntity
+	 * @return statut
 	 */
 	public function setNom($nom) {
 		$this->nom = $nom;
@@ -74,7 +74,7 @@ abstract class statut {
 	 * Set descriptif
 	 *
 	 * @param string $descriptif
-	 * @return baseEntity
+	 * @return statut
 	 */
 	public function setDescriptif($descriptif = null) {
 		$this->descriptif = $descriptif;
