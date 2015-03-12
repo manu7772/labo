@@ -13,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks()
  * @Gedmo\Tree(type="nested")
- * @UniqueEntity(fields={"nom"}, message="Cette catégorie existe déjà")
  */
 abstract class categorie {
 
