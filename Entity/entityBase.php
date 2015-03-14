@@ -12,10 +12,32 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"nom"}, message="Ce nom existe déjà.")
  */
 abstract class entityBase {
 
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Id
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
 	protected $id;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="nom", type="string", length=100, nullable=false, unique=false)
+	 * @Assert\NotBlank(message = "Vous devez donner un nom.")
+	 * @Assert\Length(
+	 *      min = "3",
+	 *      max = "100",
+	 *      minMessage = "Le nom doit comporter au moins {{ limit }} lettres.",
+	 *      maxMessage = "Le nom doit comporter au maximum {{ limit }} lettres."
+	 * )
+	 */
+	protected $nom;
 
 	/**
 	 * @var \DateTime
@@ -31,16 +53,28 @@ abstract class entityBase {
 	 */
 	protected $dateMaj;
 
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="dateExpiration", type="datetime", nullable=true)
+	 */
+	protected $dateExpiration;
+
+	/**
+	 * @Gedmo\Slug(fields={"nom"})
+	 * @ORM\Column(length=128, unique=true)
+	 */
+	protected $slug;
+
+
 	public function __construct() {
 		$this->dateCreation = new \Datetime();
 		$this->dateMaj = null;
+		$this->dateExpiration = null;
 	}
 
 	public function __call($name, $arguments = null) {
 		switch ($name) {
-			case 'isType':
-				return false;
-				break;
 			case 'isEntityBase':
 				return true;
 				break;
@@ -52,6 +86,36 @@ abstract class entityBase {
 				return false;
 				break;
 		}
+	}
+
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * Set nom
+	 *
+	 * @param string $nom
+	 * @return video
+	 */
+	public function setNom($nom) {
+		$this->nom = $nom;
+	
+		return $this;
+	}
+
+	/**
+	 * Get nom
+	 *
+	 * @return string 
+	 */
+	public function getNom() {
+		return $this->nom;
 	}
 
 	/**
@@ -102,6 +166,48 @@ abstract class entityBase {
 	public function getDateMaj() {
 		return $this->dateMaj;
 	}
+
+	/**
+	 * Set dateExpiration
+	 *
+	 * @param \DateTime $dateExpiration
+	 * @return entityBase
+	 */
+	public function setDateExpiration($dateExpiration) {
+		$this->dateExpiration = $dateExpiration;
+	
+		return $this;
+	}
+
+	/**
+	 * Get dateExpiration
+	 *
+	 * @return \DateTime 
+	 */
+	public function getDateExpiration() {
+		return $this->dateExpiration;
+	}
+
+	/**
+	 * Set slug
+	 *
+	 * @param integer $slug
+	 * @return entityBase
+	 */
+	public function setSlug($slug) {
+		$this->slug = $slug;
+		return $this;
+	}
+
+	/**
+	 * Get slug
+	 *
+	 * @return string
+	 */
+	public function getSlug() {
+		return $this->slug;
+	}
+
 
 
 }

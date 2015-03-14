@@ -13,6 +13,7 @@ use labo\Bundle\TestmanuBundle\Entity\entityBase;
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"nom"}, message="Ce nom existe déjà.")
  */
 abstract class typeBase extends entityBase {
 
@@ -62,6 +63,7 @@ abstract class typeBase extends entityBase {
 	// nombre de lettre max pour $nomcourt
 	protected $lengtNomCourt;
 
+
 	public function __construct() {
 		parent::__construct();
 		$this->lengtNomCourt = 3;
@@ -82,6 +84,7 @@ abstract class typeBase extends entityBase {
 				break;
 		}
 	}
+
 
 	/**
 	 * Get id

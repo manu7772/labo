@@ -12,16 +12,24 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"nom"}, message="Ce nom existe déjà.")
  */
 abstract class paramBase {
 
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Id
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
 	protected $id;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="nom", type="string", length=100, nullable=false, unique=true)
-	 * @Assert\NotBlank(message = "Vous devez remplir ce champ.")
+	 * @Assert\NotBlank(message = "Vous devez donner un nom.")
 	 * @Assert\Length(
 	 *      min = "3",
 	 *      max = "100",
@@ -52,6 +60,13 @@ abstract class paramBase {
 	 */
 	protected $dateMaj;
 
+	/**
+	 * @Gedmo\Slug(fields={"nom"})
+	 * @ORM\Column(length=128, unique=true)
+	 */
+	protected $slug;
+
+
 	public function __construct() {
 		$this->dateCreation = new \Datetime();
 		$this->dateMaj = null;
@@ -59,9 +74,6 @@ abstract class paramBase {
 
 	public function __call($name, $arguments = null) {
 		switch ($name) {
-			case 'isType':
-				return false;
-				break;
 			case 'isEntityBase':
 				return false;
 				break;
@@ -73,6 +85,15 @@ abstract class paramBase {
 				return false;
 				break;
 		}
+	}
+
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId() {
+		return $this->id;
 	}
 
 	/**
@@ -164,6 +185,26 @@ abstract class paramBase {
 	 */
 	public function getDateMaj() {
 		return $this->dateMaj;
+	}
+
+	/**
+	 * Set slug
+	 *
+	 * @param integer $slug
+	 * @return paramBase
+	 */
+	public function setSlug($slug) {
+		$this->slug = $slug;
+		return $this;
+	}
+
+	/**
+	 * Get slug
+	 *
+	 * @return string
+	 */
+	public function getSlug() {
+		return $this->slug;
 	}
 
 
