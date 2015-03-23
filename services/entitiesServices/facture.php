@@ -92,6 +92,30 @@ class facture extends entitiesGeneric {
 		return $facture;
 	}
 
+	public function videFacture($user = null) {
+		if($user === null) $user = $this->user;
+		$factures = $this->getFacturesOfUser($user);
+		if(is_array($factures)) {
+			if(count($factures) > 0) {
+				$nbsupp = 0;
+				foreach ($factures as $key => $facture) {
+					$facture->setPropUser(null);
+					$comm = trim($facture->getCommentaire()).'';
+					if($comm != '') $comm = "<br>".$comm;
+					$facture->setCommentaire("Facture détachée de ".$user->getEmail().$comm);
+					// $facture->setEtat();
+					$this->getEm()->persist($facture);
+					$nbsupp++;
+				}
+				// Normalement, flush inutile
+				// $this->getEm()->flush();
+			} else $r = new aeReponse(true, null, "Aucune facture utilisateur à détacher.");
+		} else $r = new aeReponse(false, null, "Erreur sur la requête de récupération des factures utilisateur.");
+		$r = new aeReponse(true, $factures, $nbsupp." facture(s) ont été détachées de l'utilisateur.");
+
+		return $r;
+	}
+
 	public function getFacturesOfUser($user, $tri = null, $sens = "DESC") {
 		return $this->getRepo()->getFacturesOfUser($user, $tri, $sens);
 	}

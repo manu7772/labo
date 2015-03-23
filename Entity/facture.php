@@ -152,7 +152,7 @@ abstract class facture {
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(nullable=false, unique=false)
+	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	protected $propUser;
 

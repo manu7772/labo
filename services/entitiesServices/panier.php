@@ -132,7 +132,7 @@ class panier extends entitiesGeneric {
 	}
 
 	/**
-	 * videPanier
+	 * Vide le panier de l'utilisateur $user (courant si non précisé)
 	 * @param AcmeGroup\UserBundle\Entity\User $user
 	 * @return aeReponse
 	 */
@@ -142,7 +142,7 @@ class panier extends entitiesGeneric {
 			$art = $this->getRepo()->getUserArticles($user->getId());
 			if(count($art) < 1) {
 				// Le panier est déjà vide
-				$r = new aeReponse(false, null, "Le panier est déjà vide.");
+				$r = new aeReponse(true, null, "Le panier est déjà vide.");
 			} else {
 				// Le panier contient au moins 1 article
 				foreach($art as $artsupp) $this->getEm()->remove($artsupp);

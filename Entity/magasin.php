@@ -266,7 +266,7 @@ abstract class magasin {
 		if(strlen($this->getVille()) != (strlen(substr($this->getVille(), 0, 16)))) $extV = "…";
 			else $extV = "";
 		$this->nomformenu = 
-			$this->getDepartement()."-".
+			$this->getDepartement()." - ".
 			substr($this->getVille(), 0, 16).$extV." - ".
 			substr($this->getNommagasin(), 0, 24).$extN;
 	
@@ -279,8 +279,9 @@ abstract class magasin {
 	 * @param string $nomformenu
 	 * @return magasin
 	 */
-	public function setNomformenu($nomformenu) {
+	public function setNomformenu($nomformenu = null) {
 		// $this->nomformenu = $nomformenu;
+		$this->initNomformenu();
 	
 		return $this;
 	}
