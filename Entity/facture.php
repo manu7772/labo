@@ -723,7 +723,7 @@ abstract class facture {
 	 * @param \AcmeGroup\UserBundle\Entity\User $propUser
 	 * @return facture
 	 */
-	public function setPropUser(\AcmeGroup\UserBundle\Entity\User $propUser) {
+	public function setPropUser(\AcmeGroup\UserBundle\Entity\User $propUser = null) {
 		$this->propUser = $propUser;
 		return $this;
 	}
