@@ -245,7 +245,7 @@ abstract class aelog {
      * @param $user
      * @return aelog
      */
-    public function setUser($user)
+    public function setUser($user = null)
     {
         $this->user = $user;
     

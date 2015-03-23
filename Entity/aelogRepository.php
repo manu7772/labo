@@ -63,6 +63,37 @@ class aelogRepository extends laboBaseRepository {
 	}
 
 	/**
+	 * findByUser
+	 * Renvoie les statistiques par user.
+	 * @param $userID adresse userID
+	 * @return array
+	 */
+	public function findByUser($userID, $dateDebut = null, $dateFin = null) {
+		// contrôle dates et transformation en objet Datetime
+		if(is_string($dateDebut)) $dateDebut = new \Datetime(date($dateDebut));
+		if(is_string($dateFin)) $dateFin = new \Datetime(date($dateFin));
+		if($dateFin === null) $dateFin = new \Datetime();
+		// Query
+		$qb = $this->createQueryBuilder('element');
+		// uniquement l'utilisateur $userID
+		$qb->join('element.user', 'u')
+			->where('u.id = :userID')
+			->setParameter('userID', $userID);
+		// uniquement depuis…
+		if($dateDebut !== null) {
+			$qb->andWhere('element.dateCreation >= :dateD')
+				->setParameter('dateD', $dateDebut);
+		}
+		// uniquement jusqu'à…
+		if($dateDebut !== null) {
+			$qb->andWhere('element.dateCreation <= :dateF')
+				->setParameter('dateF', $dateFin);
+		}
+		$r = $qb->getQuery()->getResult();
+		return $r;
+	}
+
+	/**
 	 * findByIp
 	 * Renvoie les statistiques par article.
 	 * @param $id - id de l'article
@@ -78,11 +109,13 @@ class aelogRepository extends laboBaseRepository {
 		$qb->where('element.url = :url')
 			->setParameter('url', "/fiche-article/".$articleSlug);
 		if($dateDebut !== null) {
-			$qb->andWhere('element.dateCreation >= :date')
-				->setParameter('date', $dateDebut);
-			}
-		$qb->andWhere('element.dateCreation <= :dateF')
-			->setParameter('dateF', $dateFin);
+			$qb->andWhere('element.dateCreation >= :dateD')
+				->setParameter('dateD', $dateDebut);
+		}
+		if($dateDebut !== null) {
+			$qb->andWhere('element.dateCreation <= :dateF')
+				->setParameter('dateF', $dateFin);
+		}
 		// ajout utilisateur
 		// $qb->leftJoin('element.user', 'u')->addSelect('u');
 		$qb = $this->withVersion($qb);
