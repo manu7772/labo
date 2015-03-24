@@ -97,7 +97,7 @@ class aelog extends entitiesGeneric {
 		return $r;
 	}
 
-	public function videLogs($user) {
+	public function videLogs($userID) {
 		if(is_object($userID)) $userID = $userID->getId();
 		$logs = $this->findByUser($userID);
 		if(is_array($logs)) {

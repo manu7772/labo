@@ -147,7 +147,7 @@ class panier extends entitiesGeneric {
 				// Le panier contient au moins 1 article
 				foreach($art as $artsupp) $this->getEm()->remove($artsupp);
 				$this->getEm()->flush();
-				$r = new aeReponse(true, null, "Le panier a été vidé.");
+				$r = new aeReponse(true, $art, "Le panier a été vidé.");
 			}
 			return $r;
 			// return new aeReponse(false, null, "L'article n'a pu être ajouté.");
