@@ -265,8 +265,10 @@ abstract class magasin {
 			else $extN = "";
 		if(strlen($this->getVille()) != (strlen(substr($this->getVille(), 0, 16)))) $extV = "…";
 			else $extV = "";
+		if(strlen($this->getCp()."") < 1) $locale = $this->getDepartement()."XXX";
+			else $locale = $this->getCp();
 		$this->nomformenu = 
-			$this->getDepartement()." - ".
+			$locale." ".
 			substr($this->getVille(), 0, 16).$extV." - ".
 			substr($this->getNommagasin(), 0, 24).$extN;
 	
