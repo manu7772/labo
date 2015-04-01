@@ -213,7 +213,7 @@ class entityListener implements EventSubscriber {
 	 */
 	public function postUpdateActions() {
 		$this->creation = false;
-		$this->update();
+		$this->upload();
 	}
 
 	/**
@@ -342,14 +342,14 @@ class entityListener implements EventSubscriber {
 				// persist
 				$r = $this->imagetools->loadImageFile($this->entity);
 				$this->imagetools->deleteCurtImages();
-				return $r;
 			} else {
 				// upadate
 				$r = $this->imagetools->checkImagesFiles($this->entity);
 				$this->imagetools->deleteCurtImages();
-				return $r;
 			}
+			return $r;
 		}
+		return null;
 	}
 
 	/**

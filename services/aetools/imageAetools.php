@@ -229,8 +229,8 @@ class imageAetools {
 
 	public function checkImagesFiles(image $image) {
 		$this->curtImage["objet"] = $image;
+		$this->curtImage["file"] = $this->getUploadRootDir()."original/".$this->curtImage["objet"]->getFichierNom();
 		$this->curtImage["type"] = getimagesize($this->curtImage["file"]);
-		$this->curtImage["file"] = $this->curtImage["objet"]->getFile();
 		switch($this->curtImage["type"]["mime"]) {
 			case image_type_to_mime_type(IMAGETYPE_JPEG):
 				$this->echoFixtures(image_type_to_mime_type(IMAGETYPE_JPEG)."\n");
