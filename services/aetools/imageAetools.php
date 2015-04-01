@@ -365,7 +365,7 @@ class imageAetools {
 		$this->newImages[$nom]["image"] = imagecreatetruecolor($tailleX, $tailleY);
 		imagealphablending($this->newImages[$nom]["image"], false);
 		imagesavealpha($this->newImages[$nom]["image"], true);
-		echo "Mémoire PHP : ".memory_get_usage()." (Création thumb : ".$nom.")\n";
+		$this->echoFixtures("Mémoire PHP : ".memory_get_usage()." (Création thumb : ".$nom.")\n");
 		return $this;
 	}
 
@@ -397,7 +397,7 @@ class imageAetools {
 		$this->curtImage = null;
 		unset($this->curtImage);
 		$this->curtImage = array();
-		echo "Mémoire PHP : ".memory_get_usage()." (destruction originale ".$nom.")\n";
+		$this->echoFixtures("Mémoire PHP : ".memory_get_usage()." (destruction originale ".$nom.")\n");
 	}
 
 	/**
@@ -414,7 +414,7 @@ class imageAetools {
 		}
 		$this->newImages[$nom] = null;
 		unset($this->newImages[$nom]);
-		echo "Mémoire PHP : ".memory_get_usage()." (destruction thumb ".$nom.")\n";
+		$this->echoFixtures("Mémoire PHP : ".memory_get_usage()." (destruction thumb ".$nom.")\n");
 	}
 
 	/**
