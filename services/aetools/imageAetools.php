@@ -208,26 +208,6 @@ class imageAetools {
 					return false;
 				break;
 			}
-			// Mode fixtures : réduit le fichier si trop grand
-			// if(($this->modeFixtures === true) && ($this->curtImage["type"][0] > $this->maxFixtImageWidth)) {
-			// 	$ratio = $this->curtImage["type"][1] / $this->curtImage["type"][0];
-			// 	echo "Mémoire PHP : ".memory_get_usage()." (Création original avant réduction : ".$this->curtImage["objet"]->getFichierOrigine().")\n";
-			// 	$newimg = imagecreatetruecolor($this->maxFixtImageWidth, round($this->maxFixtImageWidth * $ratio));
-			// 	imagealphablending($newimg, false);
-			// 	imagesavealpha($newimg, true);
-			// 	$newimg = imagecopyresampled(
-			// 		$newimg,
-			// 		$this->curtImage["image"],
-			// 		0,0,0,0,
-			// 		$this->maxFixtImageWidth,
-			// 		round($this->maxFixtImageWidth * $ratio),
-			// 		$this->curtImage["type"][0],
-			// 		$this->curtImage["type"][1]
-			// 	);
-			// 	imagedestroy($this->curtImage["image"]);
-			// 	$this->curtImage["image"] = $newimg;
-			// 	imagedestroy($newimg);
-			// }
 			$this->echoFixtures("Mémoire PHP : ".memory_get_usage()." (Création original : ".$this->curtImage["objet"]->getFichierOrigine().")\n");
 		} else {
 			$this->echoFixtures("Format non supporté !!!");
@@ -245,6 +225,35 @@ class imageAetools {
 		$this->curtImage["file"] = $this->getUploadRootDir()."original/".$this->curtImage["objet"]->getFichierNom();
 		if($generateThumb === true) $this->generateAllThumb();
 		return true;
+	}
+
+	public function checkImagesFiles(image $image) {
+		$this->curtImage["objet"] = $image;
+		$this->curtImage["type"] = getimagesize($this->curtImage["file"]);
+		$this->curtImage["file"] = $this->curtImage["objet"]->getFile();
+		switch($this->curtImage["type"]["mime"]) {
+			case image_type_to_mime_type(IMAGETYPE_JPEG):
+				$this->echoFixtures(image_type_to_mime_type(IMAGETYPE_JPEG)."\n");
+				$this->curtImage["image"] = imagecreatefromjpeg($this->curtImage["file"]); //jpeg file
+				// $this->echoFixtures(image_type_to_mime_type(IMAGETYPE_JPEG));
+			break;
+			case image_type_to_mime_type(IMAGETYPE_PNG):
+				$this->echoFixtures(image_type_to_mime_type(IMAGETYPE_PNG)."\n");
+				$this->curtImage["image"] = imagecreatefrompng($this->curtImage["file"]); //png file
+				imagealphablending($this->curtImage["image"], false);
+				imagesavealpha($this->curtImage["image"], true);
+				// $this->echoFixtures(image_type_to_mime_type(IMAGETYPE_PNG));
+			break;
+			case image_type_to_mime_type(IMAGETYPE_GIF):
+				$this->echoFixtures(image_type_to_mime_type(IMAGETYPE_GIF)."\n");
+				$this->curtImage["image"] = imagecreatefromgif($this->curtImage["file"]); //gif file
+				// $this->echoFixtures(image_type_to_mime_type(IMAGETYPE_GIF));
+			break;
+			default:
+				return false;
+			break;
+		}
+		$this->generateAllThumb(null, false);
 	}
 
 	/**
@@ -415,13 +424,13 @@ class imageAetools {
 	* 
 	* @param string $img
 	*/
-	protected function generateAllThumb($listOfDeclinaisons = null) {
+	protected function generateAllThumb($listOfDeclinaisons = null, $erase = true) {
 		$this->aetools->setWebPath("images/");
 		if($listOfDeclinaisons === null) {
 			$listOfDeclinaisons = $this->checkDeclinaisons();
 		}
 		foreach($listOfDeclinaisons as $nom => $declin) {
-			$this->thumb_image($nom, $declin["x"], $declin["y"], $declin["mode"], $declin["type"], $declin["ext"]);
+			$this->thumb_image($nom, $declin["x"], $declin["y"], $declin["mode"], $declin["type"], $declin["ext"], $erase);
 		}
 		return $this;
 	}
@@ -433,7 +442,7 @@ class imageAetools {
 	* 
 	* @param string $img
 	*/
-	protected function thumb_image($nom, $Xsize = null, $Ysize = null, $mode = "no", $type = null, $ext = null) {
+	protected function thumb_image($nom, $Xsize = null, $Ysize = null, $mode = "no", $type = null, $ext = null, $erase = true) {
 		// $mode =
 		// cut 		: remplit le format avec l'image et la coupe si besoin
 		// in 		: inclut l'image pour qu'elle soit entièrerement visible

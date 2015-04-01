@@ -245,12 +245,11 @@ jQuery(document).ready(function($) {
 		// URL
 		URL = $(this).attr("href");
 		if(URL == undefined) URL = $("a", this).first().attr("href");
+		// Choix
 		reponse = confirm(title);
 		if(reponse == 1) {
-			// alert("oui");
 			document.location = URL;
 		} else {
-			// alert("non");
 			return false;
 		}
 	});
