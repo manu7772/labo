@@ -12,6 +12,22 @@ use labo\Bundle\TestmanuBundle\Entity\laboBaseRepository;
  */
 class typeImageRepository extends laboBaseRepository {
 
+	public function __call($name, $arguments = null) {
+		switch ($name) {
+			case 'is'.ucfirst($this->getName()):
+				$reponse = true;
+				break;
+			default:
+				$reponse = false;
+				break;
+		}
+		return $reponse;
+	}
+
+	public function getName() {
+		return 'typeImageRepository';
+	}
+
 	/** Renvoie la(les) valeur(s) par défaut --> ATTENTION : dans un array()
 	* @param $defaults = liste des éléments par défaut
 	*/

@@ -7,37 +7,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
-// Tree
+use \Datetime;
+use \Imagick;
+// Slug
 use Gedmo\Mapping\Annotation as Gedmo;
+// Base
+use labo\Bundle\TestmanuBundle\Entity\base_entity;
 
 /**
  * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks
  */
-class fichierPdf {
-
-	protected $id;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="nom", type="string", length=255, nullable=true, unique=true)
-	 */
-	protected $nom;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="descriptif", type="text", nullable=true, unique=false)
-	 */
-	protected $descriptif;
-
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(name="dateCreation", type="datetime")
-	 */
-	protected $dateCreation;
+abstract class base_entity_pdf extends base_entity {
 
 	/**
 	 * @var string
@@ -79,28 +59,7 @@ class fichierPdf {
 	 */
 	protected $file;
 
-	/**
-	 * @Gedmo\Slug(fields={"fichierOrigine"})
-	 * @ORM\Column(length=128, unique=true)
-	 */
-	protected $slug;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\UserBundle\Entity\User", inversedBy="fichierPdfs")
-	 * @ORM\JoinColumn(nullable=true, unique=false)
-	 */
-	protected $propUser;
-
-	/**
-	 * @var array
-	 *
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\version")
-	 */
-	protected $versions;
-
 	protected $tempFilename;
-
-	protected $fixturesDeactivate;
 
 	protected $fichierThumbExt;
 
@@ -108,12 +67,9 @@ class fichierPdf {
 
 
 	public function __construct() {
-		$this->dateCreation = new \Datetime();
+		parent::__construct();
 		$this->fichierNom = null;
-		$this->dateMaj = null;
-		$this->versions = new ArrayCollection();
 		$this->tempFileName = null;
-		$this->fixturesDeactivate = false;
 		$this->thumbFichierNom = null;
 		$this->fichierThumbExt = 'png';
 		$this->aFileName = null;
@@ -122,6 +78,56 @@ class fichierPdf {
 		$this->getAFileName();
 	}
 
+	public function __call($name, $arguments = null) {
+		switch ($name) {
+			case 'is'.ucfirst($this->getName()):
+				$reponse = true;
+				break;
+			default:
+				$reponse = false;
+				break;
+		}
+		return $reponse;
+	}
+
+	public function getParentName() {
+		return parent::getName();
+	}
+
+	public function getName() {
+		return 'base_type';
+	}
+
+	/**
+	 * @ORM/PreUpdate
+	 * @ORM/PrePersist
+	 */
+	public function verifBase_entity_pdf() {
+		$verifMethod = 'verif'.ucfirst($this->getParentName());
+		if(method_exists($this, $verifMethod)) {
+			$this->$verifMethod();
+		}
+		$this->defineNomCourt();
+	}
+
+	/**
+	 * @Assert/True(message = "Cette entité n'est pas valide.")
+	 */
+	public function isBase_entity_pdfValid() {
+		$valid = true;
+		$validMethod = 'is'.ucfirst($this->getParentName()).'Valid';
+		if(method_exists($this, $validMethod)) {
+			$valid = $this->$validMethod();
+		}
+		// autres vérifications, si le parent est valide…
+		if($valid === true) {
+			//
+		}
+
+		return $valid;
+	}
+
+
 	/**
 	 * initialisation du nom du fichier
 	 * @param string $ext - extentions du fichier ("pdf" par défaut)
@@ -129,7 +135,7 @@ class fichierPdf {
 	 */
 	private function getAFileName($ext = "pdf", $force = false) {
 		if(($this->aFileName === null) || ($force === true)) {
-			$date = new \Datetime();
+			$date = new Datetime();
 			$this->aFileName = md5(rand(100000, 999999))."-".$date->getTimestamp();
 		}
 		return $this->aFileName.".".$ext;
@@ -155,12 +161,12 @@ class fichierPdf {
 	 */
 	public function createThumb() {
 		$newPDF = $this->getUploadRootDir().$this->getFichierNom();
-		if(file_exists($newPDF) && (class_exists('\Imagick'))) {
+		if(file_exists($newPDF) && (class_exists('Imagick'))) {
 			// si le fichier PDF existe, bien sûr…
-			$image = new \Imagick($newPDF);
+			$image = new Imagick($newPDF);
 			$count = $image->getNumberImages();
 			$image->thumbnailImage(400);
-			$image->setCompression(\Imagick::COMPRESSION_LZW);
+			$image->setCompression(Imagick::COMPRESSION_LZW);
 			$image->setCompressionQuality(90);
 			$image->writeImage($this->getUploadRootDir().$this->getThumbFichierNom());
 		}
@@ -252,49 +258,6 @@ class fichierPdf {
 	}
 
 	/**
-	 * Set nom
-	 *
-	 * @param string $nom
-	 * @return fichierPdf
-	 */
-	public function setNom($nom = null) {
-		$this->nom = $nom;
-		if($this->nom === null) $this->nom = $this->getFichierNom();
-	
-		return $this;
-	}
-
-	/**
-	 * Get nom
-	 *
-	 * @return string 
-	 */
-	public function getNom() {
-		return $this->nom;
-	}
-
-	/**
-	 * Set descriptif
-	 *
-	 * @param string $descriptif
-	 * @return fichierPdf
-	 */
-	public function setDescriptif($descriptif = null) {
-		$this->descriptif = $descriptif;
-	
-		return $this;
-	}
-
-	/**
-	 * Get descriptif
-	 *
-	 * @return string 
-	 */
-	public function getDescriptif() {
-		return $this->descriptif;
-	}
-
-	/**
 	 * Get file
 	 *
 	 * @return integer 
@@ -304,40 +267,10 @@ class fichierPdf {
 	}
 
 	/**
-	 * Get id
-	 *
-	 * @return integer 
-	 */
-	public function getId() {
-		return $this->id;
-	}
-
-	/**
-	 * Set dateCreation
-	 *
-	 * @param \DateTime $dateCreation
-	 * @return fichierPdf
-	 */
-	public function setDateCreation($dateCreation) {
-		$this->dateCreation = $dateCreation;
-	
-		return $this;
-	}
-
-	/**
-	 * Get dateCreation
-	 *
-	 * @return \DateTime 
-	 */
-	public function getDateCreation() {
-		return $this->dateCreation;
-	}
-
-	/**
 	 * Set fichierOrigine
 	 *
 	 * @param string $fichierOrigine
-	 * @return fichierPdf
+	 * @return base_entity_pdf
 	 */
 	public function setFichierOrigine($fichierOrigine) {
 		$this->fichierOrigine = $fichierOrigine;
@@ -358,7 +291,7 @@ class fichierPdf {
 	 * Set fichierNom
 	 *
 	 * @param string $fichierNom
-	 * @return fichierPdf
+	 * @return base_entity_pdf
 	 */
 	public function setFichierNom($fichierNom) {
 		$this->fichierNom = $fichierNom;
@@ -380,7 +313,7 @@ class fichierPdf {
 	 * Set thumbFichierNom
 	 *
 	 * @param string $thumbFichierNom
-	 * @return fichierPdf
+	 * @return base_entity_pdf
 	 */
 	public function setThumbFichierNom($thumbFichierNom = null) {
 		$this->thumbFichierNom = $thumbFichierNom;
@@ -401,7 +334,7 @@ class fichierPdf {
 	 * Set tailleMo
 	 *
 	 * @param integer $tailleMo
-	 * @return image
+	 * @return base_entity_pdf
 	 */
 	public function setTailleMo($tailleMo) {
 		$this->tailleMo = $tailleMo;
@@ -418,92 +351,5 @@ class fichierPdf {
 		return $this->tailleMo;
 	}
 
-	/**
-	 * Set slug
-	 *
-	 * @param integer $slug
-	 * @return baseEntity
-	 */
-	public function setSlug($slug) {
-		$this->slug = $slug;
-		return $this;
-	}    
-
-	/**
-	 * Get slug
-	 *
-	 * @return string
-	 */
-	public function getSlug() {
-		return $this->slug;
-	}
-
-	/**
-	 * Set fixturesDeactivate
-	 *
-	 */
-	public function setFixturesDeactivate($on = true) {
-		$this->fixturesDeactivate = $on;
-		return $this;
-	}
-
-	/**
-	 * Get fixturesDeactivate
-	 *
-	 */
-	public function getFixturesDeactivate() {
-		return $this->fixturesDeactivate;
-	}
-
-	/**
-	 * Set propUser
-	 *
-	 * @param \AcmeGroup\UserBundle\Entity\User $propUser
-	 * @return image
-	 */
-	public function setPropUser(\AcmeGroup\UserBundle\Entity\User $propUser = null) {
-		$this->propUser = $propUser;
-	
-		return $this;
-	}
-
-	/**
-	 * Get propUser
-	 *
-	 * @return \AcmeGroup\UserBundle\Entity\User 
-	 */
-	public function getPropUser() {
-		return $this->propUser;
-	}
-
-	/**
-	 * Add versions
-	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
-	 * @return image
-	 */
-	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
-		$this->versions[] = $versions;
-	
-		return $this;
-	}
-
-	/**
-	 * Remove versions
-	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\version $versions
-	 */
-	public function removeVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
-		$this->versions->removeElement($versions);
-	}
-
-	/**
-	 * Get versions
-	 *
-	 * @return \Doctrine\Common\Collections\Collection 
-	 */
-	public function getVersions() {
-		return $this->versions;
-	}
 
 }

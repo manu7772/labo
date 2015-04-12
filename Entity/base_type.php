@@ -8,19 +8,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
-use labo\Bundle\TestmanuBundle\Entity\base_type;
-// aeReponse
-use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
+// Base
+use labo\Bundle\TestmanuBundle\Entity\base_entity;
 
 /**
- * statut
- *
- * @ORM\Entity
- * @ORM\Table(name="statut")
- * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\statutRepository")
- * @UniqueEntity(fields={"nom"}, message="Ce statut existe déjà.")
+ * @ORM\MappedSuperclass
+ * @UniqueEntity(fields={"nomcourt"}, message="Ce nom abrégé existe déjà.")
  */
-class statut extends base_type {
+abstract class base_type extends base_entity {
+
 
 	public function __construct() {
 		parent::__construct();
@@ -43,14 +39,14 @@ class statut extends base_type {
 	}
 
 	public function getName() {
-		return 'statut';
+		return 'base_type';
 	}
 
 	/**
 	 * @ORM/PreUpdate
 	 * @ORM/PrePersist
 	 */
-	public function verifStatut() {
+	public function verifBase_type() {
 		$verifMethod = 'verif'.ucfirst($this->getParentName());
 		if(method_exists($this, $verifMethod)) {
 			$this->$verifMethod();
@@ -59,9 +55,9 @@ class statut extends base_type {
 	}
 
 	/**
-	 * @Assert/True(message = "Ce statut n'est pas valide.")
+	 * @Assert/True(message = "Cette entité n'est pas valide.")
 	 */
-	public function isStatutValid() {
+	public function isBase_typeValid() {
 		$valid = true;
 		$validMethod = 'is'.ucfirst($this->getParentName()).'Valid';
 		if(method_exists($this, $validMethod)) {
@@ -75,5 +71,6 @@ class statut extends base_type {
 		return $valid;
 	}
 
-}
 
+
+}

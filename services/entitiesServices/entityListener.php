@@ -265,7 +265,7 @@ class entityListener implements EventSubscriber {
 	 */
 	public function PreUpload() {
 		// $this->SPYwrite('- preUpload() sur '.$this->entityName);
-		if($this->entity instanceof image) {
+		if($this->entity->getParentName() === 'base_entity_image') {
 			if(null === $this->entity->getFile() && $this->modeFixtures === false) {
 				// $this->SPYwrite('- Pas d\'image pour '.$this->entityName);
 				return;
@@ -321,7 +321,7 @@ class entityListener implements EventSubscriber {
 		// 		$this->SPYwrite("- Suppression de l'image ".$this->entity->getImage()->getNom()." !!!");
 		// 	}
 		// }
-		if($this->entity instanceof image) {
+		if($this->entity->getParentName() === 'base_entity_image') {
 			// $this->imagetools->checkDeclinaisonsImage($this->entity);
 		}
 	}
@@ -337,7 +337,7 @@ class entityListener implements EventSubscriber {
 		// if(null === $this->entity->getFile()) {
 		// 	return false;
 		// }
-		if($this->entity instanceof image) {
+		if($this->entity->getParentName() === 'base_entity_image') {
 			if($this->creation === true) {
 				// persist
 				$r = $this->imagetools->loadImageFile($this->entity);
@@ -357,7 +357,7 @@ class entityListener implements EventSubscriber {
 	public function preRemoveUpload() {
 		// $this->SPYwrite('- preRemoveUpload() sur '.$this->entityName);
 		// mémorise l'image à supprimer
-		if($this->entity instanceof image) {
+		if($this->entity->getParentName() === 'base_entity_image') {
 			$this->entity->setTempFileName($this->entity->getFichierNom());
 		}
 	}
@@ -370,7 +370,7 @@ class entityListener implements EventSubscriber {
 	public function removeUpload() {
 		// $this->SPYwrite('- removeUpload() sur '.$this->entityName);
 		// Supprime l'image
-		if($this->entity instanceof image) {
+		if($this->entity->getParentName() === 'base_entity_image') {
 			$this->imagetools->unlinkEverywhereImage($this->entity->getTempFileName());
 		}
 	}

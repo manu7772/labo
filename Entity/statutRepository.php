@@ -12,14 +12,39 @@ use labo\Bundle\TestmanuBundle\Entity\laboBaseRepository;
  */
 class statutRepository extends laboBaseRepository {
 
-	/** Renvoie la(les) valeur(s) par défaut --> ATTENTION : dans un array()
-	* @param $defaults = liste des éléments par défaut
-	*/
+	public function __call($name, $arguments = null) {
+		switch ($name) {
+			case 'is'.ucfirst($this->getName()):
+				$reponse = true;
+				break;
+			default:
+				$reponse = false;
+				break;
+		}
+		return $reponse;
+	}
+
+	public function getName() {
+		return 'statutRepository';
+	}
+
+	/** 
+	 * Renvoie la(les) valeur(s) par défaut --> ATTENTION : dans un array()
+	 * @param $defaults = liste des éléments par défaut
+	 */
 	public function defaultVal($defaults = null) {
 		if($defaults === null) $defaults = array("Actif");
 		$qb = $this->createQueryBuilder('element');
 		$qb->where($qb->expr()->in('element.nom', $defaults));
 		return $qb->getQuery()->getResult();
+	}
+
+	public function getInactif() {
+		$qb = $this->createQueryBuilder('element');
+		$qb->where('element.nom = :inactif')
+			->setParameter('inactif', self::STATUT_INACTIF)
+			->setMaxResults(1);
+		return $qb->getQuery()->getOneOrNullResult();
 	}
 
 	public function defaultValClosure($role = "ROLE_USER") {

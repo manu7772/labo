@@ -8,114 +8,72 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
+use labo\Bundle\TestmanuBundle\Entity\base_type;
+// Repositories
+use labo\Bundle\TestmanuBundle\Entity\typeImageRepository;
 
 /**
- * @ORM\MappedSuperclass
+ * typeImage
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="typeImage")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\typeImageRepository")
  * @UniqueEntity(fields={"nom"}, message="Ce type d'image existe déjà")
  */
-abstract class typeImage {
+class typeImage extends base_type {
 
-	protected $id;
+	public function __construct() {
+		parent::__construct();
+	}
 
-	/**
-	 * @var string $nom
-	 *
-	 * @ORM\Column(name="nom", type="string", length=100, nullable=false, unique=true)
-	 * @Assert\NotBlank(message = "Vous devez remplir ce champ.")
-	 * @Assert\Length(
-	 *      min = "3",
-	 *      max = "100",
-	 *      minMessage = "Le nom doit comporter au moins {{ limit }} lettres.",
-	 *      maxMessage = "Le nom doit comporter au maximum {{ limit }} lettres."
-	 * )
-	 */
-	protected $nom;
+	public function __call($name, $arguments = null) {
+		switch ($name) {
+			case 'is'.ucfirst($this->getName()):
+				$reponse = true;
+				break;
+			default:
+				$reponse = false;
+				break;
+		}
+		return $reponse;
+	}
 
-	/**
-	 * @var string $descriptif
-	 *
-	 * @ORM\Column(name="descriptif", type="text", nullable=true, unique=false)
-	 */
-	protected $descriptif;
+	public function getParentName() {
+		return parent::getName();
+	}
 
-	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="editable", type="boolean")
-	 * @ORM\JoinColumn(nullable=true, unique=false)
-	 */
-	protected $editable;
-
-
-	/**
-	 * Get id
-	 *
-	 * @return integer 
-	 */
-	public function getId() {
-		return $this->id;
+	public function getName() {
+		return 'typeImage';
 	}
 
 	/**
-	 * Set nom
-	 *
-	 * @param string $nom
-	 * @return typeImage
+	 * @ORM/PreUpdate
+	 * @ORM/PrePersist
 	 */
-	public function setNom($nom) {
-		$this->nom = $nom;
-	
-		return $this;
+	public function verifTypeImage() {
+		$verifMethod = 'verif'.ucfirst($this->getParentName());
+		if(method_exists($this, $verifMethod)) {
+			$this->$verifMethod();
+		}
+		$this->defineNomCourt();
 	}
 
 	/**
-	 * Get nom
-	 *
-	 * @return string 
+	 * @Assert/True(message = "Ce type d'image n'est pas valide.")
 	 */
-	public function getNom() {
-		return $this->nom;
-	}
-	/**
-	 * Set descriptif
-	 *
-	 * @param string $descriptif
-	 * @return version
-	 */
-	public function setDescriptif($descriptif) {
-		$this->descriptif = $descriptif;
-	
-		return $this;
+	public function isTypeImageValid() {
+		$valid = true;
+		$validMethod = 'is'.ucfirst($this->getParentName()).'Valid';
+		if(method_exists($this, $validMethod)) {
+			$valid = $this->$validMethod();
+		}
+		// autres vérifications, si le parent est valide…
+		if($valid === true) {
+			//
+		}
+
+		return $valid;
 	}
 
-	/**
-	 * Get descriptif
-	 *
-	 * @return string 
-	 */
-	public function getDescriptif() {
-		return $this->descriptif;
-	}
-
-	/**
-	 * Set editable
-	 *
-	 * @param boolean $editable
-	 * @return article
-	 */
-	public function setEditable($editable) {
-		$this->editable = $editable;
-	
-		return $this;
-	}
-
-	/**
-	 * Get editable
-	 *
-	 * @return boolean 
-	 */
-	public function getEditable() {
-		return $this->editable;
-	}
 
 }

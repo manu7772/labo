@@ -8,50 +8,30 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
+use labo\Bundle\TestmanuBundle\Entity\base_entity;
+// Entities
+use labo\Bundle\TestmanuBundle\Entity\statut;
+use labo\Bundle\TestmanuBundle\Entity\adresse;
+use labo\Bundle\TestmanuBundle\Entity\image;
+// aeReponse
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 /**
- * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields={"siren"}, message="Cette entreprise est déjà enregistrée")
+ * version
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="version")
+ * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\versionRepository")
+ * @UniqueEntity(fields={"siren"}, message="Cette version existe déjà")
  */
-abstract class version {
-
-	protected $id;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="nom", type="string", length=30, nullable=false, unique=true)
-	 * @Assert\NotBlank(message = "Vous devez remplir ce champ.")
-	 * @Assert\Length(
-	 *      min = "3",
-	 *      max = "30",
-	 *      minMessage = "Le nom doit comporter au minimum {{ limit }} lettres.",
-	 *      maxMessage = "Le nom doit comporter au maximum {{ limit }} lettres."
-	 * )
-	 */
-	protected $nom;
+class version extends base_entity {
 
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="defaut", type="boolean")
+	 * @ORM\Column(name="defaut", type="boolean", nullable=false, unique=false)
 	 */
 	protected $defaut;
-
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
-	 */
-	protected $dateCreation;
-
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(name="dateMaj", type="datetime", nullable=true)
-	 */
-	protected $dateMaj;
 
 	/**
 	 * @var string
@@ -114,6 +94,20 @@ abstract class version {
 	 *
 	 */
 	protected $telpublic;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="telportable", type="string", length=25, nullable=true, unique=false)
+	 * @Assert\Length(
+	 *      min = "10",
+	 *      max = "14",
+	 *      minMessage = "Le téléphone portable doit comporter au moins {{ limit }} chiffres.",
+	 *      maxMessage = "Le téléphone portable doit comporter au plus {{ limit }} chiffres."
+	 * )
+	 *
+	 */
+	protected $telportable;
 
 	/**
 	 * @var string
@@ -183,13 +177,6 @@ abstract class version {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="fichierCSS", type="string", length=30, nullable=true, unique=false)
-	 */
-	protected $fichierCSS;
-
-	/**
-	 * @var string
-	 *
 	 * @ORM\Column(name="templateIndex", type="string", length=30, nullable=false, unique=false)
 	 */
 	protected $templateIndex;
@@ -210,17 +197,14 @@ abstract class version {
 
 
 	public function __construct() {
-		$this->dateCreation = new \Datetime();
-		$this->dateMaj = null;
+		parent::__construct();
 		$this->couleurFond = "#FFFFFF";
-		$this->fichierCSS = null;
 		$this->defaut = false;
 		$this->templateIndex = "Site";
 		$this->resofacebook = null;
 		$this->resotwitter = null;
 		$this->resogoogleplus = null;
 	}
-
 
 	/**
 	 * @Assert\True(message = "Vous devez renseigner soit le numéro TVAintra, soit le SIREN.")
@@ -230,14 +214,6 @@ abstract class version {
 		else return false;
 	}
 
-	/**
-	 * Get id
-	 *
-	 * @return integer 
-	 */
-	public function getId() {
-		return $this->id;
-	}
 
 	/**
 	 * Set slug
@@ -266,7 +242,7 @@ abstract class version {
 	 * @return version
 	 */
 	public function setNom($nom) {
-		$this->nom = $nom;
+		$this->nom = trim($nom);
 	
 		return $this;
 	}
@@ -365,55 +341,6 @@ abstract class version {
 	}
 
 	/**
-	 * Set dateCreation
-	 *
-	 * @param \DateTime $dateCreation
-	 * @return version
-	 */
-	public function setDateCreation($dateCreation) {
-		$this->dateCreation = $dateCreation;
-	
-		return $this;
-	}
-
-	/**
-	 * Get dateCreation
-	 *
-	 * @return \DateTime 
-	 */
-	public function getDateCreation() {
-		return $this->dateCreation;
-	}
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function updateDateMaj() {
-        $this->setDateMaj(new \Datetime());
-    }
-
-	/**
-	 * Set dateMaj
-	 *
-	 * @param \DateTime $dateMaj
-	 * @return article
-	 */
-	public function setDateMaj($dateMaj) {
-		$this->dateMaj = $dateMaj;
-	
-		return $this;
-	}
-
-	/**
-	 * Get dateMaj
-	 *
-	 * @return \DateTime 
-	 */
-	public function getDateMaj() {
-		return $this->dateMaj;
-	}
-
-	/**
 	 * Set accroche
 	 *
 	 * @param string $accroche
@@ -495,6 +422,27 @@ abstract class version {
 	 */
 	public function getTelpublic() {
 		return $this->telpublic;
+	}
+
+	/**
+	 * Set telportable
+	 *
+	 * @param string $telportable
+	 * @return version
+	 */
+	public function setTelportable($telportable) {
+		$this->telportable = $telportable;
+	
+		return $this;
+	}
+
+	/**
+	 * Get telportable
+	 *
+	 * @return string 
+	 */
+	public function getTelportable() {
+		return $this->telportable;
 	}
 
 	/**
@@ -604,27 +552,6 @@ abstract class version {
 	}
 
 	/**
-	 * Set fichierCSS
-	 *
-	 * @param string $fichierCSS
-	 * @return version
-	 */
-	public function setFichierCSS($fichierCSS) {
-		$this->fichierCSS = $fichierCSS;
-	
-		return $this;
-	}
-
-	/**
-	 * Get fichierCSS
-	 *
-	 * @return string 
-	 */
-	public function getFichierCSS() {
-		return $this->fichierCSS;
-	}
-
-	/**
 	 * Set templateIndex
 	 *
 	 * @param string $templateIndex
@@ -648,7 +575,7 @@ abstract class version {
 	/**
 	 * Set logo
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $logo
+	 * @param image $logo
 	 * @return version
 	 */
 	public function setLogo(\AcmeGroup\LaboBundle\Entity\image $logo = null) {
@@ -660,7 +587,7 @@ abstract class version {
 	/**
 	 * Get logo
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return image 
 	 */
 	public function getLogo() {
 		return $this->logo;
@@ -669,7 +596,7 @@ abstract class version {
 	/**
 	 * Set favicon
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $favicon
+	 * @param image $favicon
 	 * @return version
 	 */
 	public function setFavicon(\AcmeGroup\LaboBundle\Entity\image $favicon = null) {
@@ -681,7 +608,7 @@ abstract class version {
 	/**
 	 * Get favicon
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return image 
 	 */
 	public function getFavicon() {
 		return $this->favicon;
@@ -690,7 +617,7 @@ abstract class version {
 	/**
 	 * Set imageEntete
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\image $imageEntete
+	 * @param image $imageEntete
 	 * @return version
 	 */
 	public function setImageEntete(\AcmeGroup\LaboBundle\Entity\image $imageEntete = null) {
@@ -702,7 +629,7 @@ abstract class version {
 	/**
 	 * Get imageEntete
 	 *
-	 * @return \AcmeGroup\LaboBundle\Entity\image 
+	 * @return image 
 	 */
 	public function getImageEntete() {
 		return $this->imageEntete;
@@ -711,10 +638,10 @@ abstract class version {
     /**
      * Set adresse
      *
-     * @param \AcmeGroup\LaboBundle\Entity\adresse $adresse
+     * @param adresse $adresse
      * @return partenaire
      */
-    public function setAdresse(\AcmeGroup\LaboBundle\Entity\adresse $adresse = null)
+    public function setAdresse(adresse $adresse = null)
     {
         $this->adresse = $adresse;
     

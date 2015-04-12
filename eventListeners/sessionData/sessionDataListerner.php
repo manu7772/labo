@@ -5,12 +5,13 @@ namespace labo\Bundle\TestmanuBundle\eventListeners\sessionData;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use \DateTime;
 
 class sessionDataListerner {
   protected $dateFin;
 
   public function __construct($dateFin) {
-      $this->dateFin = new \Datetime($dateFin);
+      $this->dateFin = new DateTime($dateFin);
     }
 
   public function onKernelResponse(FilterResponseEvent $event) {
@@ -20,7 +21,7 @@ class sessionDataListerner {
             }
         $response = $event->getResponse();
 
-        $joursRestant = $this->dateFin->diff(new \Datetime())->days;
+        $joursRestant = $this->dateFin->diff(new DateTime())->days;
 
         if ($joursRestant > 0) {
           // On utilise notre méthode « reine »

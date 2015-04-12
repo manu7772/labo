@@ -12,25 +12,54 @@ use labo\Bundle\TestmanuBundle\Entity\laboBaseRepository;
  */
 class versionRepository extends laboBaseRepository {
 
+	public function __call($name, $arguments = null) {
+		switch ($name) {
+			case 'is'.ucfirst($this->getName()):
+				$reponse = true;
+				break;
+			default:
+				$reponse = false;
+				break;
+		}
+		return $reponse;
+	}
+
+	public function getName() {
+		return 'versionRepository';
+	}
+
 	/**
 	* defaultVal
-	* Renvoie les versions pour fixtures
+	* Renvoie les versions par défaut
+	* @return version / null
 	*/
 	public function defaultVal() {
-		$qb = $this->createQueryBuilder('element');
-		// $qb->where('element.defaut = :true')
-		// 	->setParameter('true', 1);
-		return $qb->getQuery()->getResult();
+		return $this->defaultVersion();
 	}
 
 	/**
 	* defaultVersion
 	* Renvoie l'instance de la version par défaut (ou null)
+	* @return version / null
 	*/
 	public function defaultVersion() {
 		$qb = $this->createQueryBuilder('element');
 		$qb->where('element.defaut = :true')
-			->setParameter('true', 1);
+			->setParameter('true', 1)
+			->setMaxResults(1);
+		return $qb->getQuery()->getOneOrNullResult();
+	}
+
+	/**
+	* defaultVersion
+	* Renvoie l'instance de la version en cours (ou null)
+	* @return version / null
+	*/
+	public function currentVersion() {
+		$slug = "mettre ici la version par défaut";
+		$qb = $this->createQueryBuilder('element');
+		$qb->where('element.slug = :slug')
+			->setParameter('slug', $slug);
 		return $qb->getQuery()->getOneOrNullResult();
 	}
 
