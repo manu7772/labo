@@ -126,7 +126,6 @@ abstract class version {
 	 * @var string
 	 *
 	 * @ORM\Column(name="nomDomaine", type="string", length=200, nullable=false, unique=true)
-	 * @Assert\Url(message = "Vous devez indiquer une URL valide et complète.")
 	 * 
 	 */
 	protected $nomDomaine;
@@ -135,7 +134,6 @@ abstract class version {
 	 * @var string
 	 *
 	 * @ORM\Column(name="hote", type="string", length=200, nullable=true, unique=false)
-	 * @Assert\Url(message = "Vous devez indiquer une URL valide et complète.")
 	 * 
 	 */
 	protected $hote;
