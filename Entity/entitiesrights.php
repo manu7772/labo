@@ -8,11 +8,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
-use labo\Bundle\TestmanuBundle\Entity\baseL0_entity;
+// Repositories
+use labo\Bundle\TestmanuBundle\Entity\versionRepository;
 // Entities
-use labo\Bundle\TestmanuBundle\Entity\statut;
-use labo\Bundle\TestmanuBundle\Entity\adresse;
-use labo\Bundle\TestmanuBundle\Entity\image;
+use labo\Bundle\TestmanuBundle\Entity\baseL0_entity;
+use labo\Bundle\TestmanuBundle\Entity\version;
 // aeReponse
 use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
@@ -22,7 +22,7 @@ use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
  * @ORM\Entity
  * @ORM\Table(name="entitiesrights")
  * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\entitiesrightsRepository")
- * @UniqueEntity(fields={"siren"}, message="Cette entitiesrights existe déjà")
+ * @UniqueEntity(fields={"nom"}, message="Cette entitiesrights existe déjà")
  */
 class entitiesrights extends baseL0_entity {
 
@@ -56,7 +56,9 @@ class entitiesrights extends baseL0_entity {
 		$this->globalwrites = new ArrayCollection;
 		$this->globaldeletes = new ArrayCollection;
 		// version
-		$this->version = new versionRepository()->defaultVersion();
+		$version = new versionRepository()->defaultVersion();
+			if(is_array($version)) $version = reset($version);
+			if($version instanceOf version) $this->setVersion($version);
 	}
 
 	/**
@@ -131,7 +133,7 @@ class entitiesrights extends baseL0_entity {
 	 * Set version
 	 *
 	 * @param version $version
-	 * @return baseL1_entity
+	 * @return entitiesrights
 	 */
 	public function setVersion(version $version) {
 		$this->version = $version;

@@ -42,9 +42,13 @@ abstract class baseL1_entity extends baseL0_entity {
 	public function __construct() {
 		parent::__construct();
 		// statut
-		$this->statut = reset(new statutRepository()->defaultVal());
+		$statut = new statutRepository()->defaultVal();
+			if(is_array($statut)) $statut = reset($statut);
+			if($statut instanceOf statut) $this->setStatut($statut);
 		// version
-		$this->version = new versionRepository()->defaultVersion();
+		$version = new versionRepository()->defaultVersion();
+			if(is_array($version)) $version = reset($version);
+			if($version instanceOf version) $this->setVersion($version);
 	}
 
 	/**

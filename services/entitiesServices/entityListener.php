@@ -64,18 +64,7 @@ class entityListener implements EventSubscriber {
 	public function __construct(ContainerInterface $container) {
 		// parent::__construct();
 		$this->container = $container;
-		// $this->FILESPY = fopen(__DIR__."/../../../../web/images/filespy.txt", "a+");
-		// $this->SPYwrite('---------------------------');
 	}
-
-	// public function __destruct() {
-		// fclose($this->FILESPY);
-	// }
-
-	// private function SPYwrite($t, $noEnd = true) {
-		// if($noEnd === false) $EOL = ""; else $EOL = "\r\n";
-		// fwrite($this->FILESPY, $t.$EOL);
-	// }
 
 	public function getSubscribedEvents() {
 		return array(

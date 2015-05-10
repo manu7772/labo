@@ -9,12 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use \DateTime;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
-// Repositories
-use labo\Bundle\TestmanuBundle\Entity\statutRepository;
-use labo\Bundle\TestmanuBundle\Entity\versionRepository;
-// Entities
-use labo\Bundle\TestmanuBundle\Entity\statut;
-use labo\Bundle\TestmanuBundle\Entity\version;
 // aeReponse
 use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
