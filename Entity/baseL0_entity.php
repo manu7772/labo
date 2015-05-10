@@ -15,12 +15,14 @@ use labo\Bundle\TestmanuBundle\Entity\versionRepository;
 // Entities
 use labo\Bundle\TestmanuBundle\Entity\statut;
 use labo\Bundle\TestmanuBundle\Entity\version;
+// aeReponse
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks()
  */
-abstract class base_entity {
+abstract class baseL0_entity {
 
 	/**
 	 * @var integer
@@ -74,35 +76,44 @@ abstract class base_entity {
 	protected $dateExpiration;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\statut")
-	 * @ORM\JoinColumn(nullable=false, unique=false)
-	 */
-	protected $statut;
-
-	/**
-	 * @var array
-	 *
-	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\version")
-	 * @ORM\JoinColumn(nullable=false, unique=false)
-	 */
-	protected $version;
-
-	/**
 	 * @Gedmo\Slug(fields={"nom"})
 	 * @ORM\Column(length=128, unique=true)
 	 */
 	protected $slug;
 
-	protected $sread;
-	protected $swrite;
-	protected $sdelete;
+	/**
+	 * @var array
+	 * @ORM/Column(name="thisreads", type="array", nullable=true, unique=false)
+	 */
+	protected $thisreads;
+	/**
+	 * @var array
+	 * @ORM/Column(name="thiswrites", type="array", nullable=true, unique=false)
+	 */
+	protected $thiswrites;
+	/**
+	 * @var array
+	 * @ORM/Column(name="thisdeletes", type="array", nullable=true, unique=false)
+	 */
+	protected $thisdeletes;
+
 
 	public function __construct() {
-		$this->dateCreation = new \Datetime();
+		$this->dateCreation = new DateTime();
 		$this->dateMaj = null;
 		$this->dateExpiration = null;
+		// droits
+		$this->thisreads = new ArrayCollection;
+		$this->thiswrites = new ArrayCollection;
+		$this->thisdeletes = new ArrayCollection;
 	}
 
+
+	/**
+	 * Renvoie true si la demande correspond correspond
+	 * ex. : pour l'entité "baseL0_entity" -> "isBaseL0_entity" renvoie true
+	 * @return boolean
+	 */
 	public function __call($name, $arguments = null) {
 		switch ($name) {
 			case 'is'.ucfirst($this->getName()):
@@ -115,21 +126,40 @@ abstract class base_entity {
 		return $reponse;
 	}
 
+	/**
+	 * Renvoie le nom de l'entité
+	 * @return string
+	 */
 	public function getName() {
-		return 'base_entity';
+		return 'baseL0_entity';
 	}
 
 	/**
 	 * @Assert/True(message = "Cette entité n'est pas valide.")
+	 * @return boolean
 	 */
-	public function isBase_entityValid() {
+	public function isBaseL0_entityValid() {
 		return true;
 	}
 
-	public function verifBase_entity() {
-		$inactif_statut = new statutRepository()->getInactif();
+	/**
+	 * Complète les données avant enregistrement
+	 * @return boolean
+	 */
+	public function verifBaseL0_entity() {
 		return true;
 	}
+
+	/**
+	 * Renvoie une représentation texte de l'objet.
+	 * @return string
+	 */
+	public function __toString() {
+		return __CLASS__ . '@' . spl_object_hash($this);
+	}
+
+
+
 
 	/**
 	 * Get id
@@ -144,7 +174,7 @@ abstract class base_entity {
 	 * Set nom
 	 *
 	 * @param string $nom
-	 * @return base_entity
+	 * @return baseL0_entity
 	 */
 	public function setNom($nom) {
 		$this->nom = $nom;
@@ -165,7 +195,7 @@ abstract class base_entity {
 	 * Set descriptif
 	 *
 	 * @param string $descriptif
-	 * @return base_entity
+	 * @return baseL0_entity
 	 */
 	public function setDescriptif($descriptif = null) {
 		$this->descriptif = $descriptif;
@@ -186,7 +216,7 @@ abstract class base_entity {
 	 * Set dateCreation
 	 *
 	 * @param DateTime $dateCreation
-	 * @return base_entity
+	 * @return baseL0_entity
 	 */
 	public function setDateCreation($dateCreation) {
 		$this->dateCreation = $dateCreation;
@@ -214,9 +244,9 @@ abstract class base_entity {
 	 * Set dateMaj
 	 *
 	 * @param DateTime $dateMaj
-	 * @return base_entity
+	 * @return baseL0_entity
 	 */
-	public function setDateMaj($dateMaj) {
+	public function setDateMaj($dateMaj = null) {
 		$this->dateMaj = $dateMaj;
 	
 		return $this;
@@ -235,9 +265,9 @@ abstract class base_entity {
 	 * Set dateExpiration
 	 *
 	 * @param DateTime $dateExpiration
-	 * @return base_entity
+	 * @return baseL0_entity
 	 */
-	public function setDateExpiration($dateExpiration) {
+	public function setDateExpiration($dateExpiration = null) {
 		$this->dateExpiration = $dateExpiration;
 	
 		return $this;
@@ -253,52 +283,10 @@ abstract class base_entity {
 	}
 
 	/**
-	 * Set statut
-	 *
-	 * @param statut $statut
-	 * @return tva
-	 */
-	public function setStatut(statut $statut) {
-		$this->statut = $statut;
-	
-		return $this;
-	}
-
-	/**
-	 * Get statut
-	 *
-	 * @return statut 
-	 */
-	public function getStatut() {
-		return $this->statut;
-	}
-
-	/**
-	 * Set version
-	 *
-	 * @param version $version
-	 * @return tva
-	 */
-	public function setVersion(version $version) {
-		$this->version = $version;
-	
-		return $this;
-	}
-
-	/**
-	 * Get version
-	 *
-	 * @return version 
-	 */
-	public function getVersion() {
-		return $this->version;
-	}
-
-	/**
 	 * Set slug
 	 *
 	 * @param integer $slug
-	 * @return base_entity
+	 * @return baseL0_entity
 	 */
 	public function setSlug($slug) {
 		$this->slug = $slug;
@@ -315,6 +303,102 @@ abstract class base_entity {
 	}
 
 
+	//// DROITS : LECTURE / ÉCRITURE / EFFACEMENT /////
 
+	/**
+	 * Autorise les droit à $role : lecture sur cette entité
+	 * @param string $role
+	 * @return baseL0_entity
+	 */
+	public function addThisread($role = null) {
+		if($role !== null) ($this->thisreads[] = $role);
+		return $this;
+	}
+
+	/**
+	 * Supprime les droit à $role : lecture sur cette entité
+	 * @param string $role
+	 * @return baseL0_entity
+	 */
+	public function removeThisread($role) {
+		$this->thisreads->removeElement($role);
+		return $this;
+	}
+
+	/**
+	 * Renvoie les rôles ayant-droits : lecture sur cette entité
+	 * @return ArrayCollection
+	 */
+	public function getThisreads() {
+		return $this->thisreads;
+	}
+
+	/**
+	 * Autorise les droit à $role : écriture sur cette entité
+	 * @param string $role
+	 * @return baseL0_entity
+	 */
+	public function addThiswrite($role = null) {
+		if($role !== null) ($this->thiswrites[] = $role);
+		return $this;
+	}
+
+	/**
+	 * Supprime les droit à $role : écriture sur cette entité
+	 * @param string $role
+	 * @return baseL0_entity
+	 */
+	public function removeThiswrite($role) {
+		$this->thiswrites->removeElement($role);
+		return $this;
+	}
+
+	/**
+	 * Renvoie les rôles ayant-droits : écriture sur cette entité
+	 * @return ArrayCollection
+	 */
+	public function getThiswrites() {
+		return $this->thiswrites;
+	}
+
+	/**
+	 * Autorise les droit à $role : effacement sur cette entité
+	 * @param string $role
+	 * @return baseL0_entity
+	 */
+	public function addThisdelete($role = null) {
+		if($role !== null) ($this->thisdeletes[] = $role);
+		return $this;
+	}
+
+	/**
+	 * Supprime les droit à $role : effacement sur cette entité
+	 * @param string $role
+	 * @return baseL0_entity
+	 */
+	public function removeThisdelete($role) {
+		$this->thisdeletes->removeElement($role);
+		return $this;
+	}
+
+	/**
+	 * Renvoie les rôles ayant-droits : effacement sur cette entité
+	 * @return ArrayCollection
+	 */
+	public function getThisdeletes() {
+		return $this->thisdeletes;
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
-use labo\Bundle\TestmanuBundle\Entity\base_type;
+use labo\Bundle\TestmanuBundle\Entity\baseL0_entity;
 // aeReponse
 use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
@@ -20,12 +20,17 @@ use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
  * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\statutRepository")
  * @UniqueEntity(fields={"nom"}, message="Ce statut existe déjà.")
  */
-class statut extends base_type {
+class statut extends baseL0_entity {
 
 	public function __construct() {
 		parent::__construct();
 	}
 
+	/**
+	 * Renvoie true si la demande correspond correspond
+	 * ex. : pour l'entité "baseL0_entity" -> "isBaseL0_entity" renvoie true
+	 * @return boolean
+	 */
 	public function __call($name, $arguments = null) {
 		switch ($name) {
 			case 'is'.ucfirst($this->getName()):
@@ -38,24 +43,39 @@ class statut extends base_type {
 		return $reponse;
 	}
 
+	/**
+	 * Renvoie le nom de l'entité parent
+	 * @return string
+	 */
 	public function getParentName() {
 		return parent::getName();
 	}
 
+	/**
+	 * Renvoie le nom de l'entité
+	 * @return string
+	 */
 	public function getName() {
 		return 'statut';
 	}
 
 	/**
+	 * Complète les données avant enregistrement
 	 * @ORM/PreUpdate
 	 * @ORM/PrePersist
 	 */
 	public function verifStatut() {
+		$verif = true;
 		$verifMethod = 'verif'.ucfirst($this->getParentName());
 		if(method_exists($this, $verifMethod)) {
-			$this->$verifMethod();
+			// opérations parents
+			$verif = $this->$verifMethod();
 		}
-		$this->defineNomCourt();
+		if($verif === true) {
+			// opérations pour cette entité
+			$verif = $this->defineNomCourt();
+		}
+		return $verif;
 	}
 
 	/**
@@ -71,7 +91,6 @@ class statut extends base_type {
 		if($valid === true) {
 			//
 		}
-
 		return $valid;
 	}
 

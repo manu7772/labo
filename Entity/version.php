@@ -8,11 +8,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
-use labo\Bundle\TestmanuBundle\Entity\base_entity;
+use labo\Bundle\TestmanuBundle\Entity\baseL0_entity;
 // Entities
-use labo\Bundle\TestmanuBundle\Entity\statut;
 use labo\Bundle\TestmanuBundle\Entity\adresse;
 use labo\Bundle\TestmanuBundle\Entity\image;
+use labo\Bundle\TestmanuBundle\Entity\reseausocial;
 // aeReponse
 use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
@@ -24,7 +24,10 @@ use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
  * @ORM\Entity(repositoryClass="labo\Bundle\TestmanuBundle\Entity\versionRepository")
  * @UniqueEntity(fields={"siren"}, message="Cette version existe déjà")
  */
-class version extends base_entity {
+class version extends baseL0_entity {
+
+	const TEMPLATE 			= "pageweb";
+	const COULEUR_FOND 		= "#ffffff";
 
 	/**
 	 * @var boolean
@@ -47,25 +50,12 @@ class version extends base_entity {
 	protected $accroche;
 
 	/**
-	 * @var string
+	 * @var array
 	 *
-	 * @ORM\Column(name="resofacebook", type="string", length=200, nullable=true, unique=false)
+     * @ORM\OneToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\reseausocial", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
-	protected $resofacebook;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="resotwitter", type="string", length=200, nullable=true, unique=false)
-	 */
-	protected $resotwitter;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="resogoogleplus", type="string", length=200, nullable=true, unique=false)
-	 */
-	protected $resogoogleplus;
+	protected $reseausocial;
 
 	/**
 	 * @var string
@@ -146,7 +136,7 @@ class version extends base_entity {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	protected $logo;
@@ -154,7 +144,7 @@ class version extends base_entity {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\OneToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	protected $favicon;
@@ -162,7 +152,7 @@ class version extends base_entity {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\image")
+	 * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\image", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	protected $imageEntete;
@@ -181,16 +171,10 @@ class version extends base_entity {
 	 */
 	protected $templateIndex;
 
-	/**
-	 * @Gedmo\Slug(fields={"nom"})
-	 * @ORM\Column(length=128, unique=true)
-	 */
-	protected $slug;
-
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\adresse", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="labo\Bundle\TestmanuBundle\Entity\adresse", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true, unique=false)
      */
     protected $adresse;
@@ -198,125 +182,92 @@ class version extends base_entity {
 
 	public function __construct() {
 		parent::__construct();
-		$this->couleurFond = "#FFFFFF";
-		$this->defaut = false;
-		$this->templateIndex = "Site";
-		$this->resofacebook = null;
-		$this->resotwitter = null;
-		$this->resogoogleplus = null;
+		$this->defaut 			= false;
+		$this->couleurFond 		= self::COULEUR_FOND;
+		$this->templateIndex 	= self::TEMPLATE;
+		$this->reseausocial 	= new ArrayCollection;
+	}
+
+	/**
+	 * Renvoie true si la demande correspond correspond
+	 * ex. : pour l'entité "baseL0_entity" -> "isBaseL0_entity" renvoie true
+	 * @return boolean
+	 */
+	public function __call($name, $arguments = null) {
+		switch ($name) {
+			case 'is'.ucfirst($this->getName()):
+				$reponse = true;
+				break;
+			default:
+				$reponse = false;
+				break;
+		}
+		return $reponse;
+	}
+
+	/**
+	 * Renvoie le nom de l'entité parent
+	 * @return string
+	 */
+	public function getParentName() {
+		return parent::getName();
+	}
+
+	/**
+	 * Renvoie le nom de l'entité
+	 * @return string
+	 */
+	public function getName() {
+		return 'version';
 	}
 
 	/**
 	 * @Assert\True(message = "Vous devez renseigner soit le numéro TVAintra, soit le SIREN.")
 	 */
 	public function isVersionValid() {
-		if($this->tvaIntra || $this->siren) return true;
-		else return false;
-	}
-
-
-	/**
-	 * Set slug
-	 *
-	 * @param integer $slug
-	 * @return baseEntity
-	 */
-	public function setSlug($slug) {
-		$this->slug = $slug;
-		return $this;
-	}    
-
-	/**
-	 * Get slug
-	 *
-	 * @return string
-	 */
-	public function getSlug() {
-		return $this->slug;
+		$valid = true;
+		$validMethod = 'is'.ucfirst($this->getParentName()).'Valid';
+		if(method_exists($this, $validMethod)) {
+			$valid = $this->$validMethod();
+		}
+		// autres vérifications, si le parent est valide…
+		if($valid === true) {
+			if($this->tvaIntra || $this->siren) $valid = true;
+				else $valid = false;
+		}
+		return $valid;
 	}
 
 	/**
-	 * Set nom
-	 *
-	 * @param string $nom
+	 * Complète les données avant enregistrement
+	 * @return boolean
+	 */
+	public function verifBase_entity() {
+		return true;
+	}
+
+
+
+
+	/**
+	 * Ajoute un réseau social
+	 * @param reseausocial $reseausocial
 	 * @return version
 	 */
-	public function setNom($nom) {
-		$this->nom = trim($nom);
-	
+	public function addReseausocial(reseausocial $reseausocial = null) {
+		if($reseausocial !== null) {
+			$this->reseausocial->add($reseausocial);
+		}	
 		return $this;
 	}
 
 	/**
-	 * Get nom
+	 * Renvoie les réseaux sociaux
 	 *
 	 * @return string 
 	 */
-	public function getNom() {
-		return $this->nom;
-	}
-
-	/**
-	 * Set resofacebook
-	 *
-	 * @param string $resofacebook
-	 * @return version
-	 */
-	public function setResofacebook($resofacebook) {
-		$this->resofacebook = $resofacebook;
-	
-		return $this;
-	}
-
-	/**
-	 * Get resofacebook
-	 *
-	 * @return string 
-	 */
-	public function getResofacebook() {
-		return $this->resofacebook;
-	}
-
-	/**
-	 * Set resotwitter
-	 *
-	 * @param string $resotwitter
-	 * @return version
-	 */
-	public function setResotwitter($resotwitter) {
-		$this->resotwitter = $resotwitter;
-	
-		return $this;
-	}
-
-	/**
-	 * Get resotwitter
-	 *
-	 * @return string 
-	 */
-	public function getResotwitter() {
-		return $this->resotwitter;
-	}
-
-	/**
-	 * Set resogoogleplus
-	 *
-	 * @param string $resogoogleplus
-	 * @return version
-	 */
-	public function setResogoogleplus($resogoogleplus) {
-		$this->resogoogleplus = $resogoogleplus;
-	
-		return $this;
-	}
-
-	/**
-	 * Get resogoogleplus
-	 *
-	 * @return string 
-	 */
-	public function getResogoogleplus() {
-		return $this->resogoogleplus;
+	public function getReseausocials() {
+		return $this->reseausocial;
 	}
 
 	/**
@@ -446,27 +397,6 @@ class version extends base_entity {
 	}
 
 	/**
-	 * Set descriptif
-	 *
-	 * @param string $descriptif
-	 * @return version
-	 */
-	public function setDescriptif($descriptif) {
-		$this->descriptif = $descriptif;
-	
-		return $this;
-	}
-
-	/**
-	 * Get descriptif
-	 *
-	 * @return string 
-	 */
-	public function getDescriptif() {
-		return $this->descriptif;
-	}
-
-	/**
 	 * Set nomDomaine
 	 *
 	 * @param string $nomDomaine
@@ -489,14 +419,14 @@ class version extends base_entity {
 	}
 
 	/**
-	 * Set hote
-	 *
+	 * Définit l'hôte sous forme de nom de domaine sans "http:". 
+	 * ATTENTION : utilisé pour changement de version du site !!!
 	 * @return version
 	 */
 	public function setHote() {
-		preg_match('#^[\w.]*\.(\w+\.[a-z]{2,6})[\w/._-]*$#',str_replace(array("http://", "https://"), "", $this->getNomDomaine()), $match);
+		preg_match('#^[\w.]*\.(\w+\.[a-z]{2,6})[\w/._-]*$#', str_replace(array("http://", "https://"), "", $this->getNomDomaine()), $match);
 		if(count($match) > 1) $this->hote = $match[1];
-	
+			else $this->hote = null;
 		return $this;
 	}
 
@@ -578,7 +508,7 @@ class version extends base_entity {
 	 * @param image $logo
 	 * @return version
 	 */
-	public function setLogo(\AcmeGroup\LaboBundle\Entity\image $logo = null) {
+	public function setLogo(image $logo = null) {
 		$this->logo = $logo;
 	
 		return $this;
@@ -599,7 +529,7 @@ class version extends base_entity {
 	 * @param image $favicon
 	 * @return version
 	 */
-	public function setFavicon(\AcmeGroup\LaboBundle\Entity\image $favicon = null) {
+	public function setFavicon(image $favicon = null) {
 		if($favicon !== null) $this->favicon = $favicon;
 	
 		return $this;
@@ -620,7 +550,7 @@ class version extends base_entity {
 	 * @param image $imageEntete
 	 * @return version
 	 */
-	public function setImageEntete(\AcmeGroup\LaboBundle\Entity\image $imageEntete = null) {
+	public function setImageEntete(image $imageEntete = null) {
 		$this->imageEntete = $imageEntete;
 	
 		return $this;
@@ -639,7 +569,7 @@ class version extends base_entity {
      * Set adresse
      *
      * @param adresse $adresse
-     * @return partenaire
+     * @return version
      */
     public function setAdresse(adresse $adresse = null)
     {
@@ -651,7 +581,7 @@ class version extends base_entity {
     /**
      * Get adresse
      *
-     * @return \AcmeGroup\LaboBundle\Entity\adresse 
+     * @return adresse 
      */
     public function getAdresse()
     {

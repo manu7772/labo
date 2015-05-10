@@ -9,12 +9,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
 // Base
-use labo\Bundle\TestmanuBundle\Entity\base_entity;
+use labo\Bundle\TestmanuBundle\Entity\baseL1_entity;
+// aeReponse
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 /**
  * @ORM\MappedSuperclass
  */
-abstract class base_unite extends base_entity {
+abstract class base_unite extends baseL1_entity {
 
 	/**
 	 * @var string
@@ -35,10 +37,16 @@ abstract class base_unite extends base_entity {
 
 
 	public function __construct() {
+		parent::__construct();
 		$this->lengthNomCourt = 3;
 		$this->nomcourt = null;
 	}
 
+	/**
+	 * Renvoie true si la demande correspond correspond
+	 * ex. : pour l'entité "baseL0_entity" -> "isBaseL0_entity" renvoie true
+	 * @return boolean
+	 */
 	public function __call($name, $arguments = null) {
 		switch ($name) {
 			case 'is'.ucfirst($this->getName()):
@@ -51,29 +59,45 @@ abstract class base_unite extends base_entity {
 		return $reponse;
 	}
 
+	/**
+	 * Renvoie le nom de l'entité parent
+	 * @return string
+	 */
 	public function getParentName() {
 		return parent::getName();
 	}
 
+	/**
+	 * Renvoie le nom de l'entité
+	 * @return string
+	 */
 	public function getName() {
 		return 'base_unite';
 	}
 
 	/**
+	 * Complète les données avant enregistrement
 	 * @ORM/PreUpdate
 	 * @ORM/PrePersist
+	 * @return boolean
 	 */
 	public function verifBase_unite() {
+		$verif = true;
 		$verifMethod = 'verif'.ucfirst($this->getParentName());
 		if(method_exists($this, $verifMethod)) {
-			$this->$verifMethod();
+			// opérations parents
+			$verif = $this->$verifMethod();
 		}
-		// autres vérifs
-		// …
+		if($verif === true) {
+			// opérations pour cette entité
+			// …
+		}
+		return $verif;
 	}
 
 	/**
 	 * @Assert/True(message = "Cette entité n'est pas valide.")
+	 * @return boolean
 	 */
 	public function isBase_uniteValid() {
 		$valid = true;

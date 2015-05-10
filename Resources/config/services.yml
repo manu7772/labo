@@ -7,22 +7,22 @@
 #     ### OUTILS GÉNÉRIQUES
 #     ###################################
 
-#     # Fonctions textes utiles et pratiques pour utilisation dans TWIG
-#     acmeGroup.textutilities:
-#         class: labo\Bundle\TestmanuBundle\services\aetools\twigAetools
-#         arguments: [@service_container]
-#         tags:
-#             - { name: twig.extension }
+    # Fonctions textes utiles et pratiques pour utilisation dans TWIG
+    acmeGroup.textutilities:
+        class: labo\Bundle\TestmanuBundle\services\aetools\twigAetools
+        arguments: [@service_container]
+        tags:
+            - { name: twig.extension }
 
-#     # Fonctionnalités sur les textes (notamment l'entité richtext)
-#     acmeGroup.texttools:
-#         class: labo\Bundle\TestmanuBundle\services\aetools\richtextsAetools
-#         arguments: [@service_container]
+    # Fonctionnalités sur les textes (notamment l'entité richtext)
+    acmeGroup.texttools:
+        class: labo\Bundle\TestmanuBundle\services\aetools\richtextsAetools
+        arguments: [@service_container]
 
-#     # Fonctionnalités de requêtes et dossiers/fichiers
-#     acmeGroup.aetools:
-#         class: labo\Bundle\TestmanuBundle\services\aetools\aetools
-#         arguments: [@service_container]
+    # Fonctionnalités de requêtes et dossiers/fichiers
+    acmeGroup.aetools:
+        class: labo\Bundle\TestmanuBundle\services\aetools\aetools
+        arguments: [@service_container]
 
 #     # Fonctionnalités de dates/heures
 #     acmeGroup.aedates:
@@ -34,10 +34,10 @@
 #         class: labo\Bundle\TestmanuBundle\services\aetools\parametre
 #         arguments: [@service_container]
 
-#     # Fonctionnalités de manipulations d'images
-#     acmeGroup.imagetools:
-#         class: labo\Bundle\TestmanuBundle\services\aetools\imageAetools
-#         arguments: [@service_container]
+    # Fonctionnalités de manipulations d'images
+    acmeGroup.imagetools:
+        class: labo\Bundle\TestmanuBundle\services\aetools\imageAetools
+        arguments: [@service_container]
 
 #     # Fonctionnalités de parsage XML
 #     acmeGroup.XMLparser:
@@ -48,15 +48,15 @@
 #     ### OUTILS ENTITÉS
 #     ###################################
 
-#     # Fonctionnalités de base pour les entités
-#     acmeGroup.entities:
-#         class: labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric
-#         arguments: [@service_container]
+    # Fonctionnalités de base pour les entités
+    acmeGroup.entities:
+        class: labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric
+        arguments: [@service_container]
 
-#     # Fonctionnalités de gestion des versions (sociétés)
-#     acmeGroup.version:
-#         class: labo\Bundle\TestmanuBundle\services\entitiesServices\version
-#         arguments: [@service_container]
+    # Fonctionnalités de gestion des versions (sociétés)
+    acmeGroup.version:
+        class: labo\Bundle\TestmanuBundle\services\entitiesServices\version
+        arguments: [@service_container]
 
 #     # Fonctionnalités de gestion des pages web
 #     acmeGroup.pageweb:
@@ -148,22 +148,22 @@
 #             - { name: kernel.event_listener, event: kernel.controller, method: load_session_items }
 
 
-#     ###################################
-#     ### EVENT LISTENER SUR DOCTRINE ENTITIES
-#     ###################################
+    ###################################
+    ### EVENT LISTENER SUR DOCTRINE ENTITIES
+    ###################################
 
-#     # Utilitaire de gestion sur les entités
-#     acmeGroup.entityUtils:
-#         class: labo\Bundle\TestmanuBundle\services\entitiesServices\entityListener
-#         arguments: [@service_container]
-#         tags:
-#             - { name: doctrine.event_listener, event: postLoad }
-#             - { name: doctrine.event_listener, event: prePersist }
-#             - { name: doctrine.event_listener, event: postPersist }
-#             - { name: doctrine.event_listener, event: preUpdate }
-#             - { name: doctrine.event_listener, event: postUpdate }
-#             - { name: doctrine.event_listener, event: preRemove }
-#             - { name: doctrine.event_listener, event: postRemove }
+    # Utilitaire de gestion sur les entités
+    acmeGroup.entityUtils:
+        class: labo\Bundle\TestmanuBundle\services\entitiesServices\entityListener
+        arguments: [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: preRemove }
+            - { name: doctrine.event_listener, event: postRemove }
 
 
 #     ###################################

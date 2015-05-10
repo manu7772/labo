@@ -12,14 +12,16 @@ use \Imagick;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
 // Base
-use labo\Bundle\TestmanuBundle\Entity\base_entity;
+use labo\Bundle\TestmanuBundle\Entity\baseL1_entity;
 // Entities
 use labo\Bundle\TestmanuBundle\Entity\typeImage;
+// aeReponse
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 /**
  * @ORM\MappedSuperclass
  */
-abstract class base_entity_image extends base_entity {
+abstract class base_entity_image extends baseL1_entity {
 
 	/**
 	 * @var string
@@ -94,6 +96,11 @@ abstract class base_entity_image extends base_entity {
 		$this->remove = false; // pour effacer l'image
 	}
 
+	/**
+	 * Renvoie true si la demande correspond correspond
+	 * ex. : pour l'entité "baseL0_entity" -> "isBaseL0_entity" renvoie true
+	 * @return boolean
+	 */
 	public function __call($name, $arguments = null) {
 		switch ($name) {
 			case 'is'.ucfirst($this->getName()):
@@ -106,28 +113,45 @@ abstract class base_entity_image extends base_entity {
 		return $reponse;
 	}
 
+	/**
+	 * Renvoie le nom de l'entité parent
+	 * @return string
+	 */
 	public function getParentName() {
 		return parent::getName();
 	}
 
+	/**
+	 * Renvoie le nom de l'entité
+	 * @return string
+	 */
 	public function getName() {
 		return 'base_entity_image';
 	}
 
 	/**
+	 * Complète les données avant enregistrement
 	 * @ORM/PreUpdate
 	 * @ORM/PrePersist
+	 * @return boolean
 	 */
 	public function verifBase_entity_image() {
+		$verif = true;
 		$verifMethod = 'verif'.ucfirst($this->getParentName());
 		if(method_exists($this, $verifMethod)) {
-			$this->$verifMethod();
+			// opérations parents
+			$verif = $this->$verifMethod();
 		}
-		$this->defineNomCourt();
+		if($verif === true) {
+			// opérations pour cette entité
+			// …
+		}
+		return $verif;
 	}
 
 	/**
 	 * @Assert/True(message = "Cette entité n'est pas valide.")
+	 * @return boolean
 	 */
 	public function isBase_entity_imageValid() {
 		$valid = true;
@@ -139,27 +163,23 @@ abstract class base_entity_image extends base_entity {
 		if($valid === true) {
 			//
 		}
-
 		return $valid;
 	}
 
 
 	/**
 	 * Set remove
-	 *
 	 * @param boolean $remove
-	 * @return baseEntity
+	 * @return base_entity_image
 	 */
-	public function setRemove($remove = true) {
+	public function setRemove($remove = false) {
 		if(!is_bool($remove)) $remove = false;
 		$this->remove = $remove;
-	
 		return $this;
 	}
 
 	/**
 	 * Get remove
-	 *
 	 * @return boolean 
 	 */
 	public function getRemove() {
@@ -167,20 +187,17 @@ abstract class base_entity_image extends base_entity {
 	}
 
 	/**
-	 * Set url
-	 *
+	 * Définit l'url
 	 * @param string $url
-	 * @return baseEntity
+	 * @return base_entity_image
 	 */
 	public function setUrl($url = null) {
 		$this->url = $url;
-	
 		return $this;
 	}
 
 	/**
-	 * Get url
-	 *
+	 * Renvoie l'url
 	 * @return string 
 	 */
 	public function getUrl() {
@@ -188,21 +205,18 @@ abstract class base_entity_image extends base_entity {
 	}
 
 	/**
-	 * Add typeImages
-	 *
+	 * Ajoute un type d'image
 	 * @param typeImage $typeImages
-	 * @return images
+	 * @return base_entity_image
 	 */
 	public function addTypeImage(typeImage $typeImage) {
 		$this->typeImages[] = $typeImage;
 		$typeImage->addImage($this);
-	
 		return $this;
 	}
 
 	/**
-	 * Remove typeImages
-	 *
+	 * Supprime un type d'image
 	 * @param typeImage $typeImage
 	 */
 	public function removeTypeImage(typeImage $typeImage) {
@@ -210,9 +224,8 @@ abstract class base_entity_image extends base_entity {
 	}
 
 	/**
-	 * Get typeImage
-	 *
-	 * @return \Doctrine\Common\Collections\Collection 
+	 * Renvoie les types de l'image
+	 * @return ArrayCollection 
 	 */
 	public function getTypeImages() {
 		return $this->typeImages;
@@ -220,19 +233,16 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Set fichierOrigine
-	 *
 	 * @param string $fichierOrigine
-	 * @return image
+	 * @return base_entity_image
 	 */
 	public function setFichierOrigine($fichierOrigine = null) {
 		$this->fichierOrigine = $fichierOrigine;
-	
 		return $this;
 	}
 
 	/**
 	 * Get fichierOrigine
-	 *
 	 * @return string 
 	 */
 	public function getFichierOrigine() {
@@ -241,19 +251,16 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Set fichierNom
-	 *
 	 * @param string $fichierNom
-	 * @return image
+	 * @return base_entity_image
 	 */
 	public function setFichierNom($fichierNom = null) {
 		$this->fichierNom = $fichierNom;
-	
 		return $this;
 	}
 
 	/**
 	 * Get fichierNom
-	 *
 	 * @return string 
 	 */
 	public function getFichierNom() {
@@ -262,19 +269,16 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Set tailleX
-	 *
 	 * @param integer $tailleX
-	 * @return image
+	 * @return base_entity_image
 	 */
 	public function setTailleX($tailleX) {
 		$this->tailleX = $tailleX;
-	
 		return $this;
 	}
 
 	/**
 	 * Get tailleX
-	 *
 	 * @return integer 
 	 */
 	public function getTailleX() {
@@ -283,9 +287,8 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Set tailleY
-	 *
 	 * @param integer $tailleY
-	 * @return image
+	 * @return base_entity_image
 	 */
 	public function setTailleY($tailleY) {
 		$this->tailleY = $tailleY;
@@ -295,7 +298,6 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Get tailleY
-	 *
 	 * @return integer 
 	 */
 	public function getTailleY() {
@@ -304,9 +306,8 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Set tailleMo
-	 *
 	 * @param integer $tailleMo
-	 * @return image
+	 * @return base_entity_image
 	 */
 	public function setTailleMo($tailleMo) {
 		$this->tailleMo = $tailleMo;
@@ -316,7 +317,6 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Get tailleMo
-	 *
 	 * @return integer 
 	 */
 	public function getTailleMo() {
@@ -325,9 +325,8 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Set file
-	 *
 	 * @param integer $file
-	 * @return image
+	 * @return base_entity_image
 	 */
 	public function setFile(UploadedFile $file = null) {
 		$this->file = $file;
@@ -335,13 +334,11 @@ abstract class base_entity_image extends base_entity {
 			$this->tempFileName = $this->fichierOrigine;
 			$this->fichierOrigine = null;
 		}
-	
 		return $this;
 	}
 
 	/**
 	 * Get file
-	 *
 	 * @return UploadedFile 
 	 */
 	public function getFile() {
@@ -350,7 +347,7 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Set tempFileName
-	 *
+	 * @return base_entity_image
 	 */
 	public function setTempFileName($tempFileName = null) {
 		$this->tempFileName = $tempFileName;
@@ -359,7 +356,6 @@ abstract class base_entity_image extends base_entity {
 
 	/**
 	 * Get tempFileName
-	 *
 	 * @return string 
 	 */
 	public function getTempFileName() {
@@ -367,8 +363,8 @@ abstract class base_entity_image extends base_entity {
 	}
 
 	/**
-	 * Set ext
-	 *
+	 * Définit l'extension du nom de fichier
+	 * @return base_entity_image
 	 */
 	public function setExt($ext) {
 		$this->ext = $ext;
@@ -376,8 +372,7 @@ abstract class base_entity_image extends base_entity {
 	}
 
 	/**
-	 * Get ext
-	 *
+	 * Renvoie l'extension du nom de fichier
 	 * @return string 
 	 */
 	public function getExt() {

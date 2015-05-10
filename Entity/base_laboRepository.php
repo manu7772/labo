@@ -6,109 +6,133 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
-
 use Doctrine\ORM\QueryBuilder;
+
+use \Exception;
+
+use labo\Bundle\TestmanuBundle\Entity\version;
+use labo\Bundle\TestmanuBundle\Entity\statut;
+// aeReponse
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 /**
  * base_laboRepository
  */
 class base_laboRepository extends EntityRepository {
 
-	const FIELD_DATE_EXPIRATION 	=	"dateExpiration";
-	const FIELD_DATE_CREATION		=	"dateCreation";
-	// Statut
-	const FIELD_STATUT			=	"statut";
-	const STATUT_ACTIF			=	"Actif";
-	const STATUT_INACTIF		=	"Inactif";
-	// Version
-	const FIELD_VERSION			=	"version";
+	const CHAMP_DATE 	= "dateCreation";
+	const REPO_NAME		= "base_laboRepository";
 
 	protected $em;
-	protected $version 			= null;
-	protected $fields 			= null;
-	protected $initCMD 			= false;
-	protected $ClassMetadata;
+	protected $version = null;
+	protected $fields = array();
+	private $initCMD = false;
+	private $ClassMetadata;
 
 	public function __construct(EntityManager $em, ClassMetadata $ClassMetadata) {
 		$this->ClassMetadata = $ClassMetadata;
 		$this->em = $em;
 		parent::__construct($this->em, $this->ClassMetadata);
-		$this->initCMData(true);
-	}
-
-	public function __call($name, $arguments = null) {
-		switch ($name) {
-			case 'is'.ucfirst($this->getName()):
-				$reponse = true;
-				break;
-			default:
-				$reponse = false;
-				break;
-		}
-		return $reponse;
-	}
-
-	public function getName() {
-		return 'base_laboRepository';
+		$this->defineClassMetaData();
+		// $this->setVersion();
 	}
 
 	/**
-	 * initCMData
+	 * Renvoie le nom de l'entité
+	 * @return string
 	 */
-	protected function initCMData($force = false) {
-		if($this->initCMD === false || $force === true) {
-			$this->fields = array();
+	public function getName() {
+		return self::REPO_NAME;
+	}
+
+	/**
+	 * defineClassMetaData
+	 */
+	private function defineClassMetaData() {
+		if($this->initCMD === false) {
 			$this->initCMD = true;
 			// ajout champs single
-			$singles = $this->ClassMetadata->getColumnNames();
-			foreach($singles as $nom) {
-				$this->fields[$nom]['nom'] = $nom;
-				$this->fields[$nom]['type'] = 'single';
+			$fields = $this->ClassMetadata->getColumnNames();
+			foreach($fields as $f) {
+				$this->fields[$f]['nom'] = $f;
+				$this->fields[$f]['type'] = 'single';
 			}
 			// ajout champs associated
-			$associations = $this->ClassMetadata->getAssociationMappings();
-			foreach($associations as $nom => $field) {
+			$assoc = $this->ClassMetadata->getAssociationMappings();
+			foreach($assoc as $nom => $field) {
 				$this->fields[$nom]['nom'] = $nom;
 				$this->fields[$nom]['type'] = 'association';
 			}
+			// affichage
+			// echo("<pre>");print_r($this->fields);echo("</pre>");
 		}
 	}
 
 	/**
-	 * getFields
+	 * Définit la version du site à utiliser pour le repository. 
+	 * si $version n'est pas précisé, recherche la version par défaut dans l'entité AcmeGroup\LaboBundle\Entity\version
+	 * @param version $version
+	 * @return base_laboRepository
+	 */
+	public function setVersion(version $version = null) {
+		// version par défaut
+		if($version === null) {
+			$version = $this->_em->getRepository("laboBundleTestmanuBundle:version")->defaultVersion();
+			if(is_array($version)) {
+				if(count($version) > 0) {
+					reset($version);
+					$this->version = current($version);
+				}
+			}
+		}
+		if($version instanceOf(version)) {
+			$this->version = $version;
+		} else {
+			throw new Exception("Repository : impossible de définir une version par défaut");
+		}
+		return $this;
+	}
+
+	/**
+	 * Renvoie la version utilisé par le repository
+	 * @return version
+	 */
+	public function getVersions() {
+		return $this->version;
+	}
+
+	/**
 	 * Liste les champs de l'entité
+	 * @return array
 	 */
 	public function getFields() {
-		if($this->fields === null) $this->initCMData(true);
 		return $this->fields;
 	}
 
 	/**
-	 * findActifs
-	 * Liste de tous les éléments dont 
-	 * - statut = actif
-	 * - version = version actuelle
-	 * - non expirés
-	 * @return array
+	 * Vérifie si un champ existe
+	 * @param string $field
+	 * @return boolean
 	 */
-	public function findAllActifs() {
-		$qb = $this->createQueryBuilder('element');
-		$qb = $this->genericFilter($qb);
-		// $qb->orderBy('element.id', 'DESC');
-		return $qb->getQuery()->getResult();
+	public function field_exist($field) {
+		return array_key_exists($field, $this->getFields());
 	}
 
 	/**
-	 * Renvoie les entités dont le $champ 'single' contient les valeurs $values
+	 * Renvoie les entités dont le $champ contient les valeurs $values
 	 * @param string $champ
 	 * @param array $values
 	 * @return array
 	 */
 	public function findByAttrib($champ, $values) {
-		if(is_string($values)) $values = array($values);
-		$qb = $this->createQueryBuilder('element');
-		$qb->where($qb->expr()->in('element.'.$champ, $values));
-		return $qb->getQuery()->getResult();
+		if($this->field_exist($champ)) {
+			if(is_string($values)) $values = array($values);
+			$qb = $this->createQueryBuilder('element');
+			$qb->where($qb->expr()->in('element.'.$champ, $values));
+			return $qb->getQuery()->getResult();
+		} else {
+			throw new Exception("Repository : ce champ n'existe pas.");
+		}
 	}
 
 	/**
@@ -117,20 +141,22 @@ class base_laboRepository extends EntityRepository {
 	 * @param integer $n
 	 * @return array
 	 */
-	public function findXrandomElements($n, $onlyValids = true) {
-		$n = intval($n);
-		if($n < 1) $n = 1;
+	public function findXrandomElements($X) {
+		$X = intval($X);
+		if($X < 1) $X = 1;
 		$qb = $this->createQueryBuilder('element');
-		if($onlyValids === true) $qb = $this->genericFilter($qb);
-		$qb->setMaxResults($n);
-		return $qb->getQuery()->getResult();
-		// if($n > count($r)) $n = count($r);
-		// shuffle($r);
-		// $rs = array();
-		// for ($i=0; $i < $n ; $i++) { 
-		// 	$rs[] = $r[$i];
-		// }
-		return $r;
+		$qb = $this->defaultStatut($qb);
+		// $qb = $this->excludeExpired($qb);
+		$qb = $this->withVersion($qb);
+		// $qb->setMaxResults($X);
+		$r = $qb->getQuery()->getResult();
+		if($X > count($r)) $X = count($r);
+		shuffle($r);
+		$rs = array();
+		for ($i=0; $i < $X ; $i++) { 
+			$rs[] = $r[$i];
+		}
+		return $rs;
 	}
 
 	/**
@@ -172,87 +198,32 @@ class base_laboRepository extends EntityRepository {
 		return new Paginator($qb);
 	}
 
-	/**
-	 * findImageByTypePagination
-	 * Recherche les images en fonction de la version et du type
-	 * tous types : 'all'
-	 * et pagination avec GET
-	 */
-	// public function findImageByTypePagination($type, $page = 1, $lignes = null, $ordre = 'id', $sens = 'ASC', $searchString = null, $searchField = "nom") {
-	// 	// vérifications pagination
-	// 	if($page < 1) $page = 1;
-	// 	if($lignes > 100) $lignes = 100;
-	// 	if($lignes < 10) $lignes = 10;
-	// 	// Requête…
-	// 	$qb = $this->createQueryBuilder('element');
-	// 	$qb = $this->rechercheStr($qb, $searchString, $searchField);
-	// 	if($type !== 'all') {
-	// 		$qb->join('element.typeImages', 'ti')
-	// 			->where('ti.nom = :tinom')
-	// 			->setParameter('tinom', $type);
-	// 	}
-	// 	// $qb->leftJoin('element.imagePpale', 'i')
-	// 	// 	->addSelect('i')
-	// 	// 	->leftJoin('element.images', 'ii')
-	// 	// 	->addSelect('ii')
-	// 	// 	->leftJoin('element.reseaus', 'r')
-	// 	// 	->addSelect('r');
-	// 	// exclusions
-	// 	// $qb = $this->excludeExpired($qb);
-	// 	$qb = $this->withVersion($qb);
-	// 	// $qb = $this->defaultStatut($qb);
-	// 	// Tri/ordre
-	// 	if(!in_array($ordre, $this->getFields())) $ordre = "id";
-	// 	if(!in_array($sens, array('ASC', 'DESC'))) $sens = "ASC";
-	// 	$qb->orderBy('element.'.$ordre, $sens);
-	// 	// Pagination
-	// 	$qb->setFirstResult(($page - 1) * $lignes)
-	// 		->setMaxResults($lignes);
-	// 	return new Paginator($qb);
-	// }
 
 	/**
-	 * findList by tags slugs
-	 * Sélectionne les éléments comportant les $tags
-	 * @param mixed $tagslugs (string/array)
+	 * Sélectionne les éléments comportant le(s) $tag(s) en paramètre
+	 * @param mixed $tags
 	 */
-	public function findListByTagSlug($tagslugs) {
-		return $this->findListByTag($tagslugs, 'slug');
-	}
-
-	/**
-	 * findList by tags noms
-	 * Sélectionne les éléments comportant les $tags
-	 * @param mixed $tagnoms (string/array)
-	 */
-	public function findListByTagNom($tagnoms) {
-		return $this->findListByTag($tagnoms, 'nom');
-	}
-
-	/**
-	 * findList by tags
-	 * Sélectionne les éléments comportant les $tags
-	 * @param mixed $tags (string/array)
-	 * @param string $champ
-	 */
-	public function findListByTag($tags, $champ = 'slug') {
+	public function findListByTags($tags, pagine $pagine = null) {
 		if(is_string($tags)) $tags = array($tags);
 		if(is_array($tags)) {
 			$qb = $this->createQueryBuilder('element');
 			$qb->join('element.tags', 'tag')
-				->where($qb->expr()->in('tag.'.$champ, $tags))
-				->orderBy("element.id", "ASC");
+				->where($qb->expr()->in('tag.slug', $tags))
+				// ->orderBy("element.id", "ASC")
+			;
+		} else {
+			throw new Exception("Repository : tags incorrects. Type <i>".gettype($tags)."</i> inattendu.");
 		}
 		return $qb->getQuery()->getResult();
 	}
 
+
 	/***************************************************************/
-	/*** Méthodes conditionnelles
+	/*** Méthodes conditionnelles / manipulation du QueryBuilder
 	/***************************************************************/
 
 	/**
-	 * genericFilter
-	 * Sélect element de statut/expirés/version/non-publié
+	 * Sélect element de statut/expirés/version
 	 * @param Doctrine\ORM\QueryBuilder $qb
 	 * @return QueryBuilder
 	 */
@@ -272,8 +243,8 @@ class base_laboRepository extends EntityRepository {
 	 * @return QueryBuilder
 	 */
 	protected function defaultStatut(QueryBuilder $qb, $statut = null) {
-		if(array_key_exists(self::FIELD_STATUT, $this->getFields())) {
-			if($statut === null) $statut = array(self::STATUT_ACTIF);
+		if($this->field_exist("statut")) {
+			if($statut === null) $statut = array("Actif");
 			if(is_string($statut)) $statut = array($statut);
 			$qb->join('element.statut', 'stat')
 				->andWhere($qb->expr()->in('stat.nom', $statut));
@@ -282,14 +253,13 @@ class base_laboRepository extends EntityRepository {
 	}
 
 	/**
-	 * withVersion
-	 * Sélect element de version = $version uniquement (slug)
+	 * Sélect element de $version uniquement
 	 * @param Doctrine\ORM\QueryBuilder $qb
 	 * @param mixed $version
 	 * @return QueryBuilder
 	 */
 	protected function withVersion(QueryBuilder $qb, $version = null) {
-		if(array_key_exists("version", $this->getFields())) {
+		if($this->field_exist("versions")) {
 			if($this->version !== false || $version !== null) {
 				if($version !== null) $this->setVersion($version);
 				$version = $this->version;
@@ -307,7 +277,7 @@ class base_laboRepository extends EntityRepository {
 	 * @return QueryBuilder
 	 */
 	protected function excludeExpired(QueryBuilder $qb) {
-		if(array_key_exists(self::FIELD_DATE_EXPIRATION, $this->getFields())) {
+		if($this->field_exist("dateExpiration")) {
 			$qb->andWhere('element.dateExpiration > :date OR element.dateExpiration is null')
 				->setParameter('date', new \Datetime());
 		}
@@ -321,7 +291,7 @@ class base_laboRepository extends EntityRepository {
 	 * @return QueryBuilder
 	 */
 	protected function excludeNotPublished(QueryBuilder $qb) {
-		if(array_key_exists("datePublication", $this->getFields())) {
+		if($this->field_exist("datePublication")) {
 			$qb->andWhere('element.datePublication < :date OR element.datePublication is null')
 				->setParameter('date', new \Datetime());
 		}
@@ -337,7 +307,7 @@ class base_laboRepository extends EntityRepository {
 	 */
 	protected function betweenDates(QueryBuilder $qb, $debut, $fin, $champ = null) {
 		// champ par défaut
-		if($champ === null) $champ = self::FIELD_DATE_CREATION;
+		if($champ === null) $champ = self::CHAMP_DATE;
 		// préparations dates
 		$tempDates['debut'] = $debut;
 		$tempDates['fin'] = $fin;
@@ -361,7 +331,7 @@ class base_laboRepository extends EntityRepository {
 	 */
 	protected function rechercheStr(QueryBuilder $qb, $searchString, $searchField = null, $mode = null) {
 		if($searchField === null) {
-			$priori = array("nom", "nomunique", "fichierNom");
+			$priori = array("nom", "nommagasin", "nomunique", "fichierNom");
 			$firstField = $this->getFields();
 			foreach($priori as $field) if(array_key_exists($field, $firstField)) $searchField = $field;
 			if ($searchField === null) $searchField = $firstField[1]['nom'];

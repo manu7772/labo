@@ -11,6 +11,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use labo\Bundle\TestmanuBundle\Entity\base_type;
 // Repositories
 use labo\Bundle\TestmanuBundle\Entity\typeImageRepository;
+// aeReponse
+use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 
 /**
  * typeImage
@@ -26,6 +28,11 @@ class typeImage extends base_type {
 		parent::__construct();
 	}
 
+	/**
+	 * Renvoie true si la demande correspond correspond
+	 * ex. : pour l'entité "baseL0_entity" -> "isBaseL0_entity" renvoie true
+	 * @return boolean
+	 */
 	public function __call($name, $arguments = null) {
 		switch ($name) {
 			case 'is'.ucfirst($this->getName()):
@@ -38,10 +45,18 @@ class typeImage extends base_type {
 		return $reponse;
 	}
 
+	/**
+	 * Renvoie le nom de l'entité parent
+	 * @return string
+	 */
 	public function getParentName() {
 		return parent::getName();
 	}
 
+	/**
+	 * Renvoie le nom de l'entité
+	 * @return string
+	 */
 	public function getName() {
 		return 'typeImage';
 	}
