@@ -1,8 +1,8 @@
 {
-    "name": "labo/testmanu-bundle",
+    "name": "labo/labo-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony TestmanuBundle",
-    "keywords": ["testmanu", "labo"],
+    "description": "Symfony laboBundle",
+    "keywords": ["bundle", "labo", "symfony"],
     "license": "GPL-3.0+",
     "authors": [
         {
@@ -11,17 +11,14 @@
         }
     ],
     "require": {
-        "php":                                  ">=5.3.3",
-        "symfony/symfony" :                     "2.*",
-        "twig/twig":                            "*",
-        "doctrine/doctrine-bundle":             "*",
-        "friendsofsymfony/user-bundle" :        "dev-master",
-        "doctrine/doctrine-fixtures-bundle" :   "dev-master",
-        "doctrine/data-fixtures" :              "@dev"
+        "php":                              ">=5.3.3",
+        "symfony/symfony" :                 "2.*",
+        "twig/twig":                        "*",
+        "doctrine/doctrine-bundle":         "*"
     },
     "autoload": {
-        "psr-0": { "labo\\Bundle\\TestmanuBundle": "" }
+        "psr-0": { "laboBundle": "" }
     },
-    "target-dir": "labo/Bundle/TestmanuBundle",
+    "target-dir": "laboBundle",
     "minimum-stability": "dev"
 }
