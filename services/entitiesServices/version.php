@@ -129,6 +129,9 @@ class version extends entitiesGeneric {
 					$this->service['resosociaux']['twitter'] = $this->serviceData->getResotwitter();
 				if($this->serviceData->getResogoogleplus() !== null)
 					$this->service['resosociaux']['google+'] = $this->serviceData->getResogoogleplus();
+				// google analytics référence
+				if($this->serviceData->googleRef() !== null)
+					$this->service['googleRef'] = $this->serviceData->googleRef();
 				// $this->service['fax'] = $this->serviceData->getFax();
 				if($this->serviceData->getAdresse() !== null) {
 					$this->service['adresse']['nom'] = $this->serviceData->getAdresse()->getNom();

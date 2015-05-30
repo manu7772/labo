@@ -206,6 +206,13 @@ abstract class version {
      */
     protected $adresse;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="googleRef", type="string", length=30, nullable=true, unique=true)
+	 */
+	protected $googleRef;
+
 
 	public function __construct() {
 		$this->dateCreation = new \Datetime();
@@ -214,6 +221,7 @@ abstract class version {
 		$this->fichierCSS = null;
 		$this->defaut = false;
 		$this->templateIndex = "Site";
+		$this->googleRef = "";
 		$this->resofacebook = null;
 		$this->resotwitter = null;
 		$this->resogoogleplus = null;
@@ -641,6 +649,27 @@ abstract class version {
 	 */
 	public function getTemplateIndex() {
 		return $this->templateIndex;
+	}
+
+	/**
+	 * Set googleRef
+	 *
+	 * @param string $googleRef
+	 * @return version
+	 */
+	public function setGoogleRef($googleRef = null) {
+		$this->googleRef = $googleRef;
+	
+		return $this;
+	}
+
+	/**
+	 * Get googleRef
+	 *
+	 * @return string 
+	 */
+	public function getGoogleRef() {
+		return $this->googleRef;
 	}
 
 	/**
