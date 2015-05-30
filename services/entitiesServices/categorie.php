@@ -151,14 +151,17 @@ class categorie extends entitiesGeneric {
 		// echo("-> ".$objet->getSlug()."<br />");
 		if($menuspecifique === null) $menuspecifique = $objet->getNommenu();
 		$classObj = "AcmeGroup\\SiteBundle\\Classes\\".$menuspecifique;
-		$menuOptions = new $classObj($this->container);
-		return
-			$this->getRepo()->childrenHierarchy(
-				$this->getRepo()->findOneBySlug($objet->getSlug()),
-				false,
-				$menuOptions->getOptions(),
-				true
-			);
+		if(class_exists($classObj)) {
+			$menuOptions = new $classObj($this->container);
+			return
+				$this->getRepo()->childrenHierarchy(
+					$this->getRepo()->findOneBySlug($objet->getSlug()),
+					false,
+					$menuOptions->getOptions(),
+					true
+				);
+			}
+		return null;
 	}
 
 	/**
