@@ -12,6 +12,7 @@ use \DateTime;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks()
  */
 abstract class magasin {
 
