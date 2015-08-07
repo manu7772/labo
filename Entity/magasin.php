@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
+use \DateTime;
 
 /**
  * @ORM\MappedSuperclass
@@ -185,6 +186,20 @@ abstract class magasin {
 	protected $item;
 
 	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
+	 */
+	protected $dateCreation;
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="dateMaj", type="datetime", nullable=true)
+	 */
+	protected $dateMaj;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\statut")
 	 * @ORM\JoinColumn(nullable=false, unique=false)
 	 */
@@ -212,6 +227,9 @@ abstract class magasin {
         );
 
 	public function __construct() {
+		$this->dateCreation = new DateTime();
+		$this->dateMaj = null;
+
 		$this->versions = new ArrayCollection();
 		$this->plusVisible = false;
 	}
@@ -223,6 +241,55 @@ abstract class magasin {
 	 */
 	public function getId() {
 		return $this->id;
+	}
+
+	/**
+	 * Set dateCreation
+	 *
+	 * @param \DateTime $dateCreation
+	 * @return article
+	 */
+	public function setDateCreation($dateCreation) {
+		$this->dateCreation = $dateCreation;
+	
+		return $this;
+	}
+
+	/**
+	 * Get dateCreation
+	 *
+	 * @return \DateTime 
+	 */
+	public function getDateCreation() {
+		return $this->dateCreation;
+	}
+
+	/**
+	 * @ORM\PreUpdate
+	 */
+	public function updateDateMaj() {
+		$this->setDateMaj(new DateTime());
+	}
+
+	/**
+	 * Set dateMaj
+	 *
+	 * @param \DateTime $dateMaj
+	 * @return article
+	 */
+	public function setDateMaj($dateMaj) {
+		$this->dateMaj = $dateMaj;
+	
+		return $this;
+	}
+
+	/**
+	 * Get dateMaj
+	 *
+	 * @return \DateTime 
+	 */
+	public function getDateMaj() {
+		return $this->dateMaj;
 	}
 
 	/**

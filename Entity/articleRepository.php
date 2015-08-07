@@ -121,7 +121,7 @@ class articleRepository extends laboBaseRepository {
 	*
 	* @param string $reseauNom
 	*/
-	public function findArtByReseau($reseauNom) {
+	public function findArtByReseau($reseauNom, $tri = null) {
 		$qb = $this->createQueryBuilder('element');
 		$qb->join('element.categories', 'c')
 			->join('element.reseaus', 'rr')
@@ -134,8 +134,17 @@ class articleRepository extends laboBaseRepository {
 			->addSelect('ip')
 			->leftJoin('element.images', 'ii')
 			->addSelect('ii');
-		$qb->orderBy('c.id', 'DESC')
-			->addOrderBy('element.prix', 'ASC');
+		if(is_array($tri)) {
+			$meth = 'orderBy';
+			foreach ($tri as $key => $value) {
+				if($value !== 'ASC') $value == 'DESC';
+				$qb->$meth('element.'.$key, $value);
+				$meth = 'addOrderBy';
+			}
+		} else {
+			$qb->orderBy('c.id', 'DESC')
+				->addOrderBy('element.prix', 'ASC');
+		}
 		return $qb->getQuery()->getResult();
 	}
 

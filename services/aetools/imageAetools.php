@@ -452,6 +452,8 @@ class imageAetools {
 		if(!in_array($mode, $this->modes)) $mode = $this->modes[0];
 		$x = $this->getXimage();
 		$y = $this->getYimage();
+		$ratio = $x / $y;
+
 		if($Xsize == null && $Ysize == null) {
 			$Xsize = $x;
 			$Ysize = $y;
@@ -459,7 +461,6 @@ class imageAetools {
 		if($Xsize == null) $Xsize = $Ysize * $ratio;
 		if($Ysize == null) $Ysize = $Xsize / $ratio;
 
-		$ratio = $x / $y;
 		$Dratio = $Xsize / $Ysize;
 
 		if(($x != $Xsize) || ($y != $Ysize)) {

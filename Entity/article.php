@@ -292,6 +292,7 @@ abstract class article {
 
 
 	protected $exclureseau;
+	protected $exclu2reseau;
 
 
 	public function __construct() {
@@ -304,6 +305,7 @@ abstract class article {
 		// $this->occasion = false;
 		// $this->fraisBancaires = 0;
 		$this->exclureseau = null;
+		$this->exclu2reseau = null;
 		$this->styleAccroche = "normal";
 		$this->ventes = 0;
 		$this->rank = 0;
@@ -347,6 +349,22 @@ abstract class article {
 		// par défaut : professionnels
 		if($this->exclureseau === null) $this->exclureseau = "professionnels";
 		return $this->exclureseau;
+	}
+
+	/**
+	 * Get exclureseau
+	 *
+	 * @return string 
+	 */
+	public function getExclu2reseau() {
+		$rr = array();
+		foreach($this->getReseaus() as $r) $rr[] = $r->getNom();
+		if(in_array("grande distribution", $rr)) $this->exclu2reseau = "GRANDE DISTRIBUTION";
+		if(in_array("spécialistes", $rr)) $this->exclu2reseau = "RÉSEAU PROFRESSIONNEL";
+		if(in_array("e-commerce", $rr)) $this->exclu2reseau = "EXCLUSIVITÉ E-BOUTIQUE";
+		// par défaut : professionnels
+		if($this->exclu2reseau === null) $this->exclu2reseau = "RÉSEAU PROFRESSIONNEL";
+		return $this->exclu2reseau;
 	}
 
 	/**

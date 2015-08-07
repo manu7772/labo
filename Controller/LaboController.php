@@ -211,7 +211,7 @@ class LaboController extends Controller {
 		switch($action) {
 			case 'edit':
 				$formType = $data['entite']->getFormNameEntite();
-				$form = $this->createForm(new RegistrationFormType(), $obj);
+				$form = $this->createForm(new RegistrationFormType('AcmeGroup\UserBundle\Entity\User'), $obj);
 				$request = $this->get('request');
 				if($request->getMethod() == "POST") {
 					$form->bind($request);
