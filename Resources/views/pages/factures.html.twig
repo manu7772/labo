@@ -45,7 +45,7 @@
 				</div>
 			</td>
 			<td title="{{ facture.dateCreation|date('d/m/Y \\- H:i:s') }}">{{ facture.dateCreation|date('d/m/Y') }}</td>
-			<td>{{ facture.nom }}</td>
+			<td><strong>{{ facture.nom }}</strong><small>{% if facture.tel != null %}<br>Tél.{{ facture.tel }}{% endif %}<br><a href="mailto:{{ facture.email }}">{{ facture.email }}</a></small></td>
 			<td class="center">{{ facture.nbArticles }}</td>
 			<td class="right">{{ facture.prixtotal|number_format(2, ",", "") }}&nbsp;€</td>
 			<td>{{ facture.livraisonTxt }}</td>

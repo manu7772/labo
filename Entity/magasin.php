@@ -303,6 +303,15 @@ abstract class magasin {
 	}
 
 	/**
+	 * Get keysListTypesMagasins
+	 *
+	 * @return string 
+	 */
+	public function getKeysListTypesMagasins() {
+		return array_keys($this->listTypesMagasins);
+	}
+
+	/**
 	 * Set code
 	 *
 	 * @param string $code
@@ -771,6 +780,15 @@ abstract class magasin {
 	 */
 	public function getTypemagasin() {
 		return $this->typemagasin;
+	}
+
+	/**
+	 * Get typemagasin
+	 *
+	 * @return string 
+	 */
+	public function getNomTypemagasin() {
+		return isset($this->listTypesMagasins[$this->typemagasin]) ? $this->listTypesMagasins[$this->typemagasin] : null;
 	}
 
 	/**
