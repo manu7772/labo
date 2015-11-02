@@ -522,9 +522,25 @@ abstract class article {
 	 * @return article
 	 */
 	public function setNotation($notation) {
+		$notation = intval($notation);
+		if($notation > 5) $notation = 5;
+		if($notation < 0) $notation = 0;
 		$this->notation = $notation;
-	
 		return $this;
+	}
+
+	/**
+	 * 
+	 */
+	public function calculeNotation() {
+		$nbnotes = 0;
+		$totnotes = 0;
+		foreach ($this->getVoteUsers() as $vote) {
+			$nbnotes++;
+			$totnotes += $vote->getNote();
+		}
+		if($nbnotes > 0) $this->setNotation(round($totnotes / $nbnotes, 0, PHP_ROUND_HALF_UP));
+			else $this->setNotation(0);
 	}
 
 	/**
@@ -558,10 +574,12 @@ abstract class article {
 	}
 
 	/**
-	 * @ORM\PreUpdate
+	 * @ORM\prePersist
+	 * @ORM\preUpdate
 	 */
 	public function updateDateMaj() {
 		$this->setDateMaj(new \Datetime());
+		$this->calculeNotation();
 	}
 
 	/**
