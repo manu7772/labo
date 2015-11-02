@@ -574,8 +574,8 @@ abstract class article {
 	}
 
 	/**
-	 * @ORM\prePersist
-	 * @ORM\preUpdate
+	 * @ORM\PrePersist
+	 * @ORM\PreUpdate
 	 */
 	public function updateDateMaj() {
 		$this->setDateMaj(new \Datetime());
