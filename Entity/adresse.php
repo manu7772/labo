@@ -255,7 +255,7 @@ abstract class adresse {
 	 * Set slug
 	 *
 	 * @param integer $slug
-	 * @return baseEntity
+	 * @return adresse
 	 */
 	public function setSlug($slug) {
 		$this->slug = $slug;

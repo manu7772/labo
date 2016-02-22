@@ -76,6 +76,7 @@ abstract class categorie {
 
 	/**
 	 * @Gedmo\TreeParent
+	 * @Gedmo\SortableGroup
 	 * @ORM\ManyToOne(targetEntity="categorie", inversedBy="children", cascade={"persist"})
 	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
