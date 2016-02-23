@@ -170,6 +170,10 @@ abstract class categorie {
 		return $this->id;
 	}
 
+	public function getLvl() {
+		return $this->lvl;
+	}
+
 	public function setNom($nom) {
 		$this->nom = $nom;
 	}
