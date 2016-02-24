@@ -36,7 +36,7 @@ class fichierPdf {
 	/**
 	 * @var DateTime
 	 *
-	 * @ORM\Column(name="dateCreation", type="DateTime")
+	 * @ORM\Column(name="dateCreation", type="datetime")
 	 */
 	protected $dateCreation;
 
