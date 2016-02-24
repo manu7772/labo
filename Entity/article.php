@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
+use \DateTime;
 
 /**
  * @ORM\MappedSuperclass
@@ -90,21 +91,21 @@ abstract class article {
 	protected $notation;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
 	 */
 	protected $dateCreation;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateMaj", type="datetime", nullable=true)
 	 */
 	protected $dateMaj;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateExpiration", type="datetime", nullable=true)
 	 */
@@ -296,7 +297,7 @@ abstract class article {
 
 
 	public function __construct() {
-		$this->dateCreation = new \Datetime();
+		$this->dateCreation = new Datetime();
 		$this->dateMaj = null;
 
 		$this->voteUsers = new ArrayCollection();
@@ -555,7 +556,7 @@ abstract class article {
 	/**
 	 * Set dateCreation
 	 *
-	 * @param \DateTime $dateCreation
+	 * @param DateTime $dateCreation
 	 * @return article
 	 */
 	public function setDateCreation($dateCreation) {
@@ -567,7 +568,7 @@ abstract class article {
 	/**
 	 * Get dateCreation
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateCreation() {
 		return $this->dateCreation;
@@ -578,14 +579,14 @@ abstract class article {
 	 * @ORM\PreUpdate
 	 */
 	public function updateDateMaj() {
-		$this->setDateMaj(new \Datetime());
+		$this->setDateMaj(new Datetime());
 		$this->calculeNotation();
 	}
 
 	/**
 	 * Set dateMaj
 	 *
-	 * @param \DateTime $dateMaj
+	 * @param DateTime $dateMaj
 	 * @return article
 	 */
 	public function setDateMaj($dateMaj) {
@@ -597,7 +598,7 @@ abstract class article {
 	/**
 	 * Get dateMaj
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateMaj() {
 		return $this->dateMaj;
@@ -606,7 +607,7 @@ abstract class article {
 	/**
 	 * Set dateExpiration
 	 *
-	 * @param \DateTime $dateExpiration
+	 * @param DateTime $dateExpiration
 	 * @return article
 	 */
 	public function setDateExpiration($dateExpiration) {
@@ -618,7 +619,7 @@ abstract class article {
 	/**
 	 * Get dateExpiration
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateExpiration() {
 		return $this->dateExpiration;
