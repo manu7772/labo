@@ -30,6 +30,7 @@ class articleType extends AbstractType {
 	 * @param array $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
+		$idArticle = $builder->getData()->getId();
 		$builder
 			->add('nom', 'text', array(
 				"label"     => 'Nom de l\'article'
@@ -160,6 +161,19 @@ class articleType extends AbstractType {
 				"required"  => false,
 				"label"     => 'Fiches créatives associées'
 				))
+			// ->add('serialnumbers', 'entity', array(
+			// 	'class'     => 'AcmeGroupLaboBundle:serialnumber',
+			// 	'property'  => 'name',
+			// 	'multiple'  => true,
+			// 	'expanded'  => false,
+			// 	"required"  => false,
+			// 	"label"     => 'Numéros de série',
+			// 	'query_builder' => function(\AcmeGroup\LaboBundle\Entity\serialnumberRepository $i) use ($idArticle) {
+			// 		$sansUser = false;
+			// 		return $i->selectArticle($idArticle, $sansUser);
+			// 		},
+			// 	'empty_value' => 'Aucun numéro de série',
+			// 	))
 			->add('versions', 'entity', array(
 				'class'     => 'AcmeGroupLaboBundle:version',
 				'property'  => 'nom',

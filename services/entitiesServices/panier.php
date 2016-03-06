@@ -9,6 +9,7 @@ use labo\Bundle\TestmanuBundle\services\entitiesServices\entitiesGeneric;
 // use labo\Bundle\TestmanuBundle\Entity\article;
 use labo\Bundle\TestmanuBundle\services\aetools\aeReponse;
 // use Symfony\Component\Form\FormFactoryInterface;
+use AcmeGroup\UserBundle\Entity\User;
 
 class panier extends entitiesGeneric {
 	protected $service = array();
@@ -35,6 +36,25 @@ class panier extends entitiesGeneric {
 		$login = '<a href="'.$this->router->generate('fos_user_security_login').'"><button type="button" class="btn btn-warning">LOGIN</button></a>';
 		$regis = '<a href="'.$this->router->generate('fos_user_registration_register').'"><button type="button" class="btn btn-danger">Créer mon compte</button></a>';
 		return "Vous devez vous connecter à votre compte pour acheter en ligne.<br />Si vous n'en avez pas, vous pouvez créer un compte facilement.<br /><br />".$login."&nbsp;".$regis;
+	}
+
+	public function checkPanier(User $user = null) {
+		if($user === null) $user = $this->user;
+		$art = $this->getRepo()->getUserArticles($user->getId());
+		if(count($art) < 1) {
+			// Le panier est déjà vide
+			$r = new aeReponse(true, null, "Le panier est vide.");
+		} else {
+			// Le panier contient au moins 1 article
+			foreach($art as $test) {
+				if($test->getArticle()->getStatut()->getNom() != "Actif") 
+					// echo('Un article est inactif ! = '.$test->getArticle()->getNom());
+					$this->getEm()->remove($test);
+			}
+			$this->getEm()->flush();
+			$r = new aeReponse(true, $art, "Le panier a été checké.");
+		}
+		return $this;
 	}
 
 	/**
