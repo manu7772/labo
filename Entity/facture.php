@@ -450,7 +450,7 @@ abstract class facture {
 			// prix HT de la quantité d'un article
 			$detail[$nom]["prixTHt"] = intval($art["quantite"]) * floatval($art["prix"]) / (1 + ($art["TVA"] / 100));
 			// prix TTC de la quantité d'un article
-			$detail[$nom]["prixTTTC"] = intval($art["quantite"]) * floatval($art["prix"]);
+			$detail[$nom]["prixTTC"] = intval($art["quantite"]) * floatval($art["prix"]);
 		}
 		return $detail;
 	}

@@ -113,10 +113,15 @@
 			<p>{{ pan.dateCreation|date('d-m-Y H:i') }} : Réf. {{ facture.reference }} <small>{{ facture.stadeTxt }}</small></p>
 			{% for nom,ligne in facture.detailbyarticle %}
 			<p>
-				{{ nom }}
+				Article id : {{ nom }}
 				<ul>
 					{% for lib,lig in ligne %}
+					{% if lib in ['prixUHt','prixTHt','prixTTC'] %}
 					<li>{{ lib }} : {{ lig|number_format(2, ',', '') }} €</li>
+					{% else if lib in ['TVA'] %}
+					<li>{{ lib }} : {{ lig|number_format(2, ',', '') }} %</li>
+					{% else %}
+					<li>{{ lib }} : {{ lig }}</li>
 					{% endfor %}
 				</ul>
 			</p>
