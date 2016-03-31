@@ -1,7 +1,15 @@
 {% extends "LaboTestmanuBundle::sitePage.html.twig" %}
-{% block title %}{{ parent() }} - {{ action|capitalize }} {{ entiteName }}{% endblock %}
+
+{% block title %}
+{% if oneUser is not defined %}
+{{ parent() }} - {{ action|capitalize }} {{ entiteName }}
+{% else %}
+{{ parent() }} - {{ action|capitalize }} {{ oneUser.username }}
+{% endif %}
+{% endblock %}
 
 {% block main_contain %}
+{% if oneUser is not defined %}
 {% set ROUTE = 'labo_page_User' %}
 <div class="row">
 	{% if action != 'liste' %}{% set action2 = 'annule' %}{% else %}{% set action2 = action %}{% endif %}
@@ -60,4 +68,67 @@
 	<!-- FIN : Corps complet -->
 
 </div>
+{% else %}
+	<h2>Profil utilisateur {{ oneUser.username }}</h2>
+	<hr>
+	<p>Nom : {{ oneUser.nom|default('<i>non renseigné</i>')|raw }}</p>
+	<p>Prénom : {{ oneUser.prenom|default('<i>non renseigné</i>')|raw }}</p>
+	<p>Courriel : {{ oneUser.email|default('<i>non renseigné</i>')|raw }}</p>
+	<h3>Numéro de série</h3>
+	{% if oneUser.serie != null %}
+	<p>Machine : {{ oneUser.serie.article.nom|default('<i>Aucun</i>')|raw }}</p>
+	{% endif %}
+	<p>Numéro : {{ oneUser.serieTexte|default('<i>Aucun</i>')|raw }}</p>
+	<h3>Adresse</h3>
+	<p>Adresse : {{ oneUser.adresse|default('<i>non renseignée</i>')|raw }}</p>
+	<p>Code postal : {{ oneUser.cp|default('<i>non renseigné</i>')|raw }}</p>
+	<p>Ville : {{ oneUser.ville|default('<i>non renseignée</i>')|raw }}</p>
+	{% if oneUser.commentaire != null %}
+	<p>Commentaire : {{ oneUser.commentaire|default('<i>non renseignée</i>')|raw }}</p>
+	{% endif %}
+	<hr>
+	<h3>E-commerce</h3>
+	<p>Livraison : {{ oneUser.livraisonTxt|default('<i>non renseigné</i>')|raw }}</p>
+	{% if infopanier.total == 0 %}
+	<h3>Panier <small>: vide</small></h3>
+	{% else %}
+	<h3>Panier <small>: {{ infopanier.total }} article(s) / {{ infopanier.bytype }} article(s) différent(s) / Valeur totale : {{ infopanier.prixtotal|number_format(2, ',', '') }} €<sup>TTC</sup></small></h3>
+	<ul>
+		{% for pan in paniers %}
+		<li>
+			<p><strong>{{ pan.quantite }} x {{ pan.article.nom }}</strong> <small>{{ pan.dateCreation|date('d-m-Y H:i') }}</small></p>
+			<p>Prix unitaire : {{ pan.article.prix|number_format(2, ',', '') }} €<sup>TTC</sup></p>
+			<p>Prix total : {{ (pan.article.prix * pan.quantite)|number_format(2, ',', '') }} €<sup>TTC</sup></p>
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	<h3>Achats/factures <small>({{ factures|length }})</small></h3>
+	{% if factures|length == 0 %}
+	<p>Aucun achat effectué</p>
+	{% else %}
+	<ul>
+		{% for facture in factures %}
+		<li>
+			<p>{{ pan.dateCreation|date('d-m-Y H:i') }} : Réf. {{ facture.reference }} <small>{{ facture.stadeTxt }}</small></p>
+			{% for nom,ligne in facture.detailbyarticle %}
+			<p>
+				{{ nom }}
+				<ul>
+					{% for lib,lig in ligne %}
+					<li>{{ lib }} : {{ lig|number_format(2, ',', '') }} €</li>
+					{% endfor %}
+				</ul>
+			</p>
+			{% endfor %}
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+{% endif %}
 {% endblock %}
+
+
+
+

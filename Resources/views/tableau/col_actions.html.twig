@@ -30,9 +30,9 @@
 		<a href="{{ url(ROUTE, {action: 'edit', role: role, element: ligne.id}) }}" title="Éditer" class="btn btn-default">
 			<span class="glyphicon glyphicon-pencil"></span>
 		</a>
-<!--	 	<a href="#" title="détails">
+	 	<a href="{{ url(ROUTE, {action: 'show', role: role, element: ligne.id}) }}" title="détails" class="btn btn-primary">
 			<span class="glyphicon glyphicon-eye-open"></span>
-		</a> -->	
+		</a> 	
  		{% if (ligne.protectedOnRemove is defined) %}
 		{% if ligne.protectedOnRemove != true %}
 		<a href="{{ url(ROUTE, {action: 'supprime', role: role, element: ligne.id}) }}" title="Supprimer" class="JSconfirm btn btn-default">
