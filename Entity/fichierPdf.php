@@ -154,18 +154,18 @@ class fichierPdf {
 	 * Génération et enregistrement du thumb, au format PNG
 	 * @return boolean
 	 */
-	public function createThumb() {
-		$newPDF = $this->getUploadRootDir().$this->getFichierNom();
-		if(file_exists($newPDF) && (class_exists('\Imagick'))) {
-			// si le fichier PDF existe, bien sûr…
-			$image = new \Imagick($newPDF);
-			$count = $image->getNumberImages();
-			$image->thumbnailImage(400);
-			$image->setCompression(\Imagick::COMPRESSION_LZW);
-			$image->setCompressionQuality(90);
-			$image->writeImage($this->getUploadRootDir().$this->getThumbFichierNom());
-		}
-	}
+	// public function createThumb() {
+	// 	$newPDF = $this->getUploadRootDir().$this->getFichierNom();
+	// 	if(file_exists($newPDF) && (class_exists('\Imagick'))) {
+	// 		// si le fichier PDF existe, bien sûr…
+	// 		$image = new \Imagick($newPDF);
+	// 		$count = $image->getNumberImages();
+	// 		$image->thumbnailImage(400);
+	// 		$image->setCompression(\Imagick::COMPRESSION_LZW);
+	// 		$image->setCompressionQuality(90);
+	// 		$image->writeImage($this->getUploadRootDir().$this->getThumbFichierNom());
+	// 	}
+	// }
 
 	/**
 	 * Vérifie si un thumb existe (PNG)
@@ -211,7 +211,7 @@ class fichierPdf {
 			$this->fichierNom
 		);
 		// création du thumb
-		$this->createThumb();
+		// $this->createThumb();
 	}
 
 	/**

@@ -283,6 +283,10 @@ class LaboController extends Controller {
 
 	// Page de gestion entite
 	public function entiteAction($action = "liste", $classEntite, $element = null) {
+		set_time_limit(600);
+		ini_set('memory_limit', '4096M');
+		ini_set("post_max_size", "512M");
+		ini_set("upload_max_filesize", "256M");
 		$data = array();
 		$types = null;
 		$classEntite = urldecode($classEntite);
