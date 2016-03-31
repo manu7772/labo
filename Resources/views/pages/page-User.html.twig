@@ -118,7 +118,7 @@
 					{% for lib,lig in ligne %}
 					{% if lib in ['prixUHt','prixTHt','prixTTC'] %}
 					<li>{{ lib }} : {{ lig|number_format(2, ',', '') }} €</li>
-					{% else if lib in ['TVA'] %}
+					{% elseif lib in ['TVA'] %}
 					<li>{{ lib }} : {{ lig|number_format(2, ',', '') }} %</li>
 					{% else %}
 					<li>{{ lib }} : {{ lig }}</li>
