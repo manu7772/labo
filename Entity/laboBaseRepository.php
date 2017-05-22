@@ -2,6 +2,7 @@
 
 namespace labo\Bundle\TestmanuBundle\Entity;
 
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\ORM\EntityManager;
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping\ClassMetadata;
  */
 class laboBaseRepository extends EntityRepository {
 
+	const ELEMENT = 'element';
+
 	protected $em;
 	protected $version = null;
 	protected $isBaseRepo;
@@ -20,18 +23,98 @@ class laboBaseRepository extends EntityRepository {
 	private $ClassMetadata;
 	protected $defChampDate = "dateCreation";
 
+	protected $entity_shortName;
+	protected $entity_className;
+
 	public function __construct(EntityManager $em, ClassMetadata $ClassMetadata) {
 		$this->ClassMetadata = $ClassMetadata;
 		parent::__construct($em, $this->ClassMetadata);
 		$this->em = $em;
 		$this->initCMData();
 		// $this->setVersion();
-		// $qb = $this->createQueryBuilder('element');
+		// $qb = $this->createQueryBuilder(self::ELEMENT);
 		$this->isBaseRepo = true;
 	}
 
 	public function isBaseRepo() {
 		return $this->isBaseRepo;
+	}
+
+	public function findByField($types, $self = '_self', $asArray = false) {
+		$asArray == true ? $getMethod = 'getArrayResult' : $getMethod = 'getResult';
+		$qb = $this->createQueryBuilder(self::ELEMENT);
+		if(count($types) == 2 || ((count($types) == 3) && ($types['type_related'] == $self))) {
+			// champ interne
+			$qb = $this->createQueryBuilder(self::ELEMENT)
+				->where($qb->expr()->in(self::ELEMENT.'.'.$types['type_field'], $types['type_values']));
+			$qb = $this->addJoins($qb, $this->getAdds());
+			return $qb->getQuery()->$getMethod();
+		} else if(count($types) == 3) {
+			// champ externe
+			$qb->join(self::ELEMENT.'.'.$types['type_related'], 'entity')
+				->where($qb->expr()->in('entity.'.$types['type_field'], $types['type_values']));
+			$qb = $this->addJoins($qb, $this->getAdds());
+			return $qb->getQuery()->$getMethod();
+		}
+		return array();
+	}
+
+	// public function find($id) {
+	// 	$qb = $this->createQueryBuilder(self::ELEMENT);
+	// 	// $qb = $this->addJoins($qb, $this->getAdds());
+	// 	return $qb->getQuery()->getResult();
+	// }
+
+	/**
+	 * Entités jointes à ajouter au résultat --> pour addJoins()
+	 * @return array
+	 */
+	protected function getAdds() {
+		switch ($this->entity_shortName) {
+			case 'article':
+				return array(
+					"imagePpale" => array(
+						"typeImages" => null,
+						),
+					"images" => array(
+						"typeImages" => null,
+						),
+					"tauxTVA" => null,
+					"reseaus" => null,
+					"statut" => null,
+					);
+				break;
+
+			case 'magasin':
+				return array(
+					"image" => null,
+					"statut" => null,
+					);
+			
+			default:
+				return array();
+				break;
+		}
+	}
+
+	/**
+	 * jointures leftJoin d'après un array
+	 * @param QueryBuilder $qb
+	 * @param array $adds
+	 * @param string $joined = null
+	 * @return QueryBuilder
+	 */
+	protected function addJoins(QueryBuilder $qb, $adds, $joined = null) {
+		if($joined === null || !is_string($joined)) $joined = self::ELEMENT;
+		if(is_array($adds)) foreach($adds as $field => $childs) {
+			$itemField = $joined.'.'.$field;
+			if(!is_array($childs)) $childs = array();
+			$qb->leftJoin($itemField, $joined.$field)
+				->addSelect($joined.$field);
+			// echo('$qb->leftJoin('.$itemField.', '.$joined.$field.')<br>->addSelect('.$joined.$field.')'.'<br>');
+			if(count($childs) > 0) $qb = $this->addJoins($qb, $childs, $joined.$field);
+		}
+		return $qb;
 	}
 
 	/**
@@ -54,6 +137,9 @@ class laboBaseRepository extends EntityRepository {
 			}
 			// affichage
 			// echo("<pre>");print_r($this->fields);echo("</pre>");
+			// echo("CDMdata : ".$this->ClassMetadata->getReflectionClass()->getShortName());
+			$this->entity_shortName = $this->ClassMetadata->getReflectionClass()->getShortName();
+			$this->entity_className = $this->ClassMetadata->getReflectionClass()->getNamespaceName();
 		}
 	}
 
@@ -113,7 +199,7 @@ class laboBaseRepository extends EntityRepository {
 	 * @return array
 	 */
 	public function findActifs() {
-		$qb = $this->createQueryBuilder('element');
+		$qb = $this->createQueryBuilder(self::ELEMENT);
 		$qb = $this->defaultStatut($qb);
 		$qb = $this->excludeExpired($qb);
 		$qb = $this->withVersion($qb);
@@ -129,8 +215,8 @@ class laboBaseRepository extends EntityRepository {
 	 */
 	public function findByAttrib($champ, $values) {
 		if(is_string($values)) $values = array($values);
-		$qb = $this->createQueryBuilder('element');
-		$qb->where($qb->expr()->in('element.'.$champ, $values));
+		$qb = $this->createQueryBuilder(self::ELEMENT);
+		$qb->where($qb->expr()->in(self::ELEMENT.'.'.$champ, $values));
 		return $qb->getQuery()->getResult();
 	}
 
@@ -143,7 +229,7 @@ class laboBaseRepository extends EntityRepository {
 	public function findXrandomElements($n) {
 		$n = intval($n);
 		if($n < 1) $n = 1;
-		$qb = $this->createQueryBuilder('element');
+		$qb = $this->createQueryBuilder(self::ELEMENT);
 		$qb = $this->defaultStatut($qb);
 		// $qb = $this->excludeExpired($qb);
 		$qb = $this->withVersion($qb);
@@ -170,11 +256,11 @@ class laboBaseRepository extends EntityRepository {
 		if($pag['lignes'] > 100) $pag['linges'] = 100;
 		if($pag['lignes'] < 10) $pag['lignes'] = 10;
 		// Requête…
-		$qb = $this->createQueryBuilder('element');
+		$qb = $this->createQueryBuilder(self::ELEMENT);
 		$qb = $this->rechercheStr($qb, $pag['searchString'], $pag['searchField']);
 		// sous-catégories de tri
 		if($souscat !== null) {
-			$qb->join('element.'.$souscat['attrib'], 'link')
+			$qb->join(self::ELEMENT.'.'.$souscat['attrib'], 'link')
 				->andWhere($qb->expr()->in('link.'.$souscat['column'], explode(":", $souscat['values'])));
 		}
 		// $qb->leftJoin('element.imagePpale', 'i')
@@ -190,7 +276,7 @@ class laboBaseRepository extends EntityRepository {
 		// Tri/ordre
 		if(!in_array($pag['ordre'], $this->getFields())) $pag['ordre'] = "id";
 		if(!in_array($pag['sens'], array('ASC', 'DESC'))) $pag['sens'] = "ASC";
-		$qb->orderBy('element.'.$pag['ordre'], $pag['sens']);
+		$qb->orderBy(self::ELEMENT.'.'.$pag['ordre'], $pag['sens']);
 		// Pagination
 		$qb->setFirstResult(($pag['page'] - 1) * $pag['lignes'])
 			->setMaxResults($pag['lignes']);
@@ -209,7 +295,7 @@ class laboBaseRepository extends EntityRepository {
 	// 	if($lignes > 100) $lignes = 100;
 	// 	if($lignes < 10) $lignes = 10;
 	// 	// Requête…
-	// 	$qb = $this->createQueryBuilder('element');
+	// 	$qb = $this->createQueryBuilder(self::ELEMENT);
 	// 	$qb = $this->rechercheStr($qb, $searchString, $searchField);
 	// 	if($type !== 'all') {
 	// 		$qb->join('element.typeImages', 'ti')
@@ -229,7 +315,7 @@ class laboBaseRepository extends EntityRepository {
 	// 	// Tri/ordre
 	// 	if(!in_array($ordre, $this->getFields())) $ordre = "id";
 	// 	if(!in_array($sens, array('ASC', 'DESC'))) $sens = "ASC";
-	// 	$qb->orderBy('element.'.$ordre, $sens);
+	// 	$qb->orderBy(self::ELEMENT.'.'.$ordre, $sens);
 	// 	// Pagination
 	// 	$qb->setFirstResult(($page - 1) * $lignes)
 	// 		->setMaxResults($lignes);
@@ -244,7 +330,7 @@ class laboBaseRepository extends EntityRepository {
 	public function findListByTag($tags) {
 		if(is_string($tags)) $tags = array($tags);
 		if(is_array($tags)) {
-			$qb = $this->createQueryBuilder('element');
+			$qb = $this->createQueryBuilder(self::ELEMENT);
 			$qb->join('element.tags', 'tag')
 				->where($qb->expr()->in('tag.slug', $tags))
 				->orderBy("element.id", "ASC");
@@ -353,7 +439,7 @@ class laboBaseRepository extends EntityRepository {
 			if(is_object($date)) $dates[$nom] = $date;
 		}
 		if(array_key_exists($champ, $this->getFields()) && is_object($dates['debut']) && is_object($dates['fin'])) {
-			$qb->andWhere('element.'.$champ.' BETWEEN :debut AND :fin')
+			$qb->andWhere(self::ELEMENT.'.'.$champ.' BETWEEN :debut AND :fin')
 				->setParameter('debut', $dates['debut'])
 				->setParameter('fin', $dates['fin'])
 				;
@@ -390,7 +476,7 @@ class laboBaseRepository extends EntityRepository {
 				break;
 		}
 		if(is_string($searchString) && $searchString !== "") {
-			$qb->where($qb->expr()->like('element.'.$searchField, $qb->expr()->literal($bef.$searchString.$aft)));
+			$qb->where($qb->expr()->like(self::ELEMENT.'.'.$searchField, $qb->expr()->literal($bef.$searchString.$aft)));
 		}
 		return $qb;
 	}

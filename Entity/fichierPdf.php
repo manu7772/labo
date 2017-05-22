@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Tree
 use Gedmo\Mapping\Annotation as Gedmo;
+use \DateTime;
 
 /**
  * @ORM\MappedSuperclass
@@ -33,7 +34,7 @@ class fichierPdf {
 	protected $descriptif;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateCreation", type="datetime")
 	 */
@@ -75,7 +76,7 @@ class fichierPdf {
 	protected $nbpages;
 
 	/**
-	 * @Assert\File(maxSize="6000000")
+	 * @Assert\File(maxSize="12000000")
 	 */
 	protected $file;
 
@@ -108,7 +109,7 @@ class fichierPdf {
 
 
 	public function __construct() {
-		$this->dateCreation = new \Datetime();
+		$this->dateCreation = new DateTime();
 		$this->fichierNom = null;
 		$this->dateMaj = null;
 		$this->versions = new ArrayCollection();
@@ -129,7 +130,7 @@ class fichierPdf {
 	 */
 	private function getAFileName($ext = "pdf", $force = false) {
 		if(($this->aFileName === null) || ($force === true)) {
-			$date = new \Datetime();
+			$date = new DateTime();
 			$this->aFileName = md5(rand(100000, 999999))."-".$date->getTimestamp();
 		}
 		return $this->aFileName.".".$ext;
@@ -153,18 +154,18 @@ class fichierPdf {
 	 * Génération et enregistrement du thumb, au format PNG
 	 * @return boolean
 	 */
-	public function createThumb() {
-		$newPDF = $this->getUploadRootDir().$this->getFichierNom();
-		if(file_exists($newPDF) && (class_exists('\Imagick'))) {
-			// si le fichier PDF existe, bien sûr…
-			$image = new \Imagick($newPDF);
-			$count = $image->getNumberImages();
-			$image->thumbnailImage(400);
-			$image->setCompression(\Imagick::COMPRESSION_LZW);
-			$image->setCompressionQuality(90);
-			$image->writeImage($this->getUploadRootDir().$this->getThumbFichierNom());
-		}
-	}
+	// public function createThumb() {
+	// 	$newPDF = $this->getUploadRootDir().$this->getFichierNom();
+	// 	if(file_exists($newPDF) && (class_exists('\Imagick'))) {
+	// 		// si le fichier PDF existe, bien sûr…
+	// 		$image = new \Imagick($newPDF);
+	// 		$count = $image->getNumberImages();
+	// 		$image->thumbnailImage(400);
+	// 		$image->setCompression(\Imagick::COMPRESSION_LZW);
+	// 		$image->setCompressionQuality(90);
+	// 		$image->writeImage($this->getUploadRootDir().$this->getThumbFichierNom());
+	// 	}
+	// }
 
 	/**
 	 * Vérifie si un thumb existe (PNG)
@@ -210,7 +211,7 @@ class fichierPdf {
 			$this->fichierNom
 		);
 		// création du thumb
-		$this->createThumb();
+		// $this->createThumb();
 	}
 
 	/**
@@ -315,7 +316,7 @@ class fichierPdf {
 	/**
 	 * Set dateCreation
 	 *
-	 * @param \DateTime $dateCreation
+	 * @param DateTime $dateCreation
 	 * @return fichierPdf
 	 */
 	public function setDateCreation($dateCreation) {
@@ -327,7 +328,7 @@ class fichierPdf {
 	/**
 	 * Get dateCreation
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateCreation() {
 		return $this->dateCreation;

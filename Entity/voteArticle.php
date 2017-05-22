@@ -51,10 +51,10 @@ abstract class voteArticle {
 	 * @param \AcmeGroup\UserBundle\Entity\User $user
 	 * @return voteArticle
 	 */
-	public function setUser(\AcmeGroup\UserBundle\Entity\User $user) {
+	public function setUser(\AcmeGroup\UserBundle\Entity\User $user = null) {
+		if($user == null) $this->user->removeVoteArticle($this);
+			else $user->addVoteArticle($this);
 		$this->user = $user;
-		$user->addVoteArticle($this);
-	
 		return $this;
 	}
 
@@ -73,10 +73,10 @@ abstract class voteArticle {
 	 * @param \AcmeGroup\LaboBundle\Entity\article $article
 	 * @return voteArticle
 	 */
-	public function setArticle(\AcmeGroup\LaboBundle\Entity\article $article) {
+	public function setArticle(\AcmeGroup\LaboBundle\Entity\article $article = null) {
+		if($article == null) $this->article->removeVoteUser($this);
+			else $article->addVoteUser($this);
 		$this->article = $article;
-		$article->addVoteUser($this);
-	
 		return $this;
 	}
 

@@ -111,6 +111,10 @@ class versionType extends AbstractType {
                 'label'     => "Page Google+ (url)",
                 'required'  => false
                 ))
+            ->add('googleRef', 'text', array(
+                'label'     => "Réf. Google Analytics",
+                'required'  => true
+                ))
         ;
         // $builder = $this->addHiddenValues($builder);
 

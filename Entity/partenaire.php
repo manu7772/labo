@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
 
+
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks()
@@ -16,7 +17,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class partenaire {
 
-    protected $id;
+    /**
+     * @var integer
+     *
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+   protected $id;
 
     /**
      * @var string
@@ -31,6 +39,12 @@ abstract class partenaire {
      * @ORM\Column(name="accroche", type="string", length=255, nullable=true)
      */
     protected $accroche;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\evenement", inversedBy="partenaires")
+     * @ORM\JoinColumn(nullable=true, unique=false)
+     */
+    protected $evenements;
 
     /**
      * @var string
@@ -162,8 +176,25 @@ abstract class partenaire {
         $this->dateMaj = null;
         $this->versions = new ArrayCollection();
         $this->niveau = 2; // 1 à 3
+        $this->evenements = new ArrayCollection();
     }
 
+    public function getEvenements() {
+        return $this->evenements;
+    }
+
+    public function setEvenmeents(ArrayCollection $evenements) {
+        $this->evenements = $evenements;
+    }
+
+    public function addEvenement(AcmeGroup\LaboBundle\Entity\evenement $evenement) {
+        $this->evenements->add($evenement);
+        return $this;
+    }
+
+    public function removeEvenement(AcmeGroup\LaboBundle\Entity\evenement $evenement) {
+        return $this->evenements->removeElement($evenement);
+    }
 
     /**
      * Get id

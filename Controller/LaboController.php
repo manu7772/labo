@@ -209,9 +209,15 @@ class LaboController extends Controller {
 		$repo = $this->getDoctrine()->getManager()->getRepository('AcmeGroupUserBundle:User');
 
 		switch($action) {
+			case 'show':
+				$data['oneUser'] = $obj;
+				$data['infopanier'] = $this->get('acmeGroup.panier')->getInfosPanier($obj);
+				$data['paniers'] = $this->get('acmeGroup.panier')->getArticlesOfUser($obj);
+				$data['factures'] = $this->get('acmeGroup.facture')->getFacturesOfUser($obj);
+				break;
 			case 'edit':
 				$formType = $data['entite']->getFormNameEntite();
-				$form = $this->createForm(new RegistrationFormType(), $obj);
+				$form = $this->createForm(new RegistrationFormType('AcmeGroup\UserBundle\Entity\User'), $obj);
 				$request = $this->get('request');
 				if($request->getMethod() == "POST") {
 					$form->bind($request);
@@ -277,6 +283,10 @@ class LaboController extends Controller {
 
 	// Page de gestion entite
 	public function entiteAction($action = "liste", $classEntite, $element = null) {
+		set_time_limit(600);
+		ini_set('memory_limit', '4096M');
+		ini_set("post_max_size", "512M");
+		ini_set("upload_max_filesize", "256M");
 		$data = array();
 		$types = null;
 		$classEntite = urldecode($classEntite);

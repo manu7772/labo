@@ -13,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks()
  * @Gedmo\Tree(type="nested")
- * @UniqueEntity(fields={"nom"}, message="Cette catégorie existe déjà")
  */
 abstract class categorie {
 
@@ -77,6 +76,7 @@ abstract class categorie {
 
 	/**
 	 * @Gedmo\TreeParent
+	 * @Gedmo\SortableGroup
 	 * @ORM\ManyToOne(targetEntity="categorie", inversedBy="children", cascade={"persist"})
 	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
@@ -168,6 +168,10 @@ abstract class categorie {
 
 	public function getId() {
 		return $this->id;
+	}
+
+	public function getLvl() {
+		return $this->lvl;
 	}
 
 	public function setNom($nom) {

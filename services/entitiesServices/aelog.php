@@ -97,6 +97,42 @@ class aelog extends entitiesGeneric {
 		return $r;
 	}
 
+	public function videLogs($userID) {
+		if(is_object($userID)) $userID = $userID->getId();
+		$logs = $this->findByUser($userID);
+		if(is_array($logs)) {
+			$nblogs = 0;
+			if(count($logs) > 0) {
+				// effacement des logs
+				foreach ($logs as $key => $log) {
+					$log->setUser(null);
+					$log->setCommentaire("Log détaché : user ID ".$userID);
+					$this->getEm()->persist($log);
+					$nblogs++;
+				}
+				$r = new aeReponse(true, $logs, $nblogs." logs supprimés.");
+			} else {
+				$r = new aeReponse(true, null, "Aucun log à effacer.");
+			}
+		} else {
+			$r = new aeReponse(false, null, "Problème à la récupération des logs utilisateur.");
+		}
+		return $r;
+	}
+
+	/**
+	 * findByUser
+	 * Renvoie les statistiques sur un ou plusieurs articles
+	 * @param string $userID - user ID à traiter
+	 * @param dateDebut - date de début de recherche
+	 * @param dateDebut - date de fin de recherche (aujourd'hui par défaut)
+	 * @return array
+	 */
+	public function findByUser($userID, $dateDebut = null, $dateFin = null) {
+		if(is_object($userID)) $userID = $userID->getId();
+		return $this->getRepo()->findByUser($userID, $dateDebut, $dateFin);
+	}
+
 	/**
 	 * findByIp
 	 * Renvoie les statistiques sur un ou plusieurs articles

@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use \DateTime;
+
 /**
  * @ORM\MappedSuperclass
  */
@@ -26,14 +28,14 @@ abstract class panier {
 	protected $quantite;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
 	 */
 	protected $dateCreation;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateMaj", type="datetime", nullable=true)
 	 */
@@ -42,7 +44,7 @@ abstract class panier {
 
 
 	public function __construct() {
-		$this->dateCreation = new \Datetime();
+		$this->dateCreation = new DateTime();
 		$this->dateMaj = null;
 		$this->quantite = 0;
 	}
@@ -157,7 +159,7 @@ abstract class panier {
 	/**
 	 * Set dateCreation
 	 *
-	 * @param \DateTime $dateCreation
+	 * @param DateTime $dateCreation
 	 * @return article
 	 */
 	public function setDateCreation($dateCreation) {
@@ -169,7 +171,7 @@ abstract class panier {
 	/**
 	 * Get dateCreation
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateCreation() {
 		return $this->dateCreation;
@@ -178,7 +180,7 @@ abstract class panier {
 	/**
 	 * Set dateMaj
 	 *
-	 * @param \DateTime $dateMaj
+	 * @param DateTime $dateMaj
 	 * @return article
 	 */
 	public function setDateMaj($dateMaj) {
@@ -190,7 +192,7 @@ abstract class panier {
 	/**
 	 * Get dateMaj
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateMaj() {
 		return $this->dateMaj;

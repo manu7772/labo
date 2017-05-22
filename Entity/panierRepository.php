@@ -3,6 +3,7 @@
 namespace labo\Bundle\TestmanuBundle\Entity;
 
 use labo\Bundle\TestmanuBundle\Entity\laboBaseRepository;
+use \Exception;
 
 /**
  * panierRepository
@@ -25,7 +26,13 @@ class panierRepository extends laboBaseRepository {
 			->setParameter('u', $userId)
 			// ->addSelect('user')
 			->leftJoin('element.article', 'art')
-			->addSelect('art');
+			->addSelect('art')
+			// articles actifs only
+			// ->join('art.statut', 'statut')
+			// ->andWhere('statut.nom = :actif')
+			// ->setParameter('actif', 'Actif')
+			;
+		$qb = $this->defaultStatut($qb);
 		return $qb->getQuery()->getResult();
 	}
 
@@ -33,7 +40,14 @@ class panierRepository extends laboBaseRepository {
 		$qb = $this->createQueryBuilder('element');
 		$qb->leftJoin('element.propUser', 'user')
 			->where('user.id = :u')
-			->setParameter('u', $userId);
+			->setParameter('u', $userId)
+			// articles actifs only
+			->join('element.article', 'art')
+			// ->addSelect('art')
+			->join('art.statut', 'statut')
+			->andWhere('statut.nom = :actif')
+			->setParameter('actif', 'Actif')
+			;
 		return $qb->getQuery()->getResult();
 	}
 
@@ -41,9 +55,20 @@ class panierRepository extends laboBaseRepository {
 		$qb = $this->createQueryBuilder('element');
 		$qb->where('element.propUser = :u')
 			->setParameter('u', $userId)
-			->andWhere('element.article = :art')
-			->setParameter('art', $articleId);
-		return $qb->getQuery()->getOneOrNullResult();
+			->join('element.article', 'art')
+			->andWhere('art.id = :id')
+			->setParameter('id', $articleId)
+			// articles actifs only
+			// ->join('art.statut', 'statut')
+			// ->andWhere('statut.nom = :actif')
+			// ->setParameter('actif', 'Actif')
+			;
+		try {
+			$r = $qb->getQuery()->getSingleResult();
+		} catch (Exception $e) {
+			$r = null;
+		}
+		return $r;
 	}
 
 

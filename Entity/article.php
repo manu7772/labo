@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
+use \DateTime;
 
 /**
  * @ORM\MappedSuperclass
@@ -90,21 +91,21 @@ abstract class article {
 	protected $notation;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateCreation", type="datetime", nullable=false)
 	 */
 	protected $dateCreation;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateMaj", type="datetime", nullable=true)
 	 */
 	protected $dateMaj;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="dateExpiration", type="datetime", nullable=true)
 	 */
@@ -292,10 +293,11 @@ abstract class article {
 
 
 	protected $exclureseau;
+	protected $exclu2reseau;
 
 
 	public function __construct() {
-		$this->dateCreation = new \Datetime();
+		$this->dateCreation = new Datetime();
 		$this->dateMaj = null;
 
 		$this->voteUsers = new ArrayCollection();
@@ -304,6 +306,7 @@ abstract class article {
 		// $this->occasion = false;
 		// $this->fraisBancaires = 0;
 		$this->exclureseau = null;
+		$this->exclu2reseau = null;
 		$this->styleAccroche = "normal";
 		$this->ventes = 0;
 		$this->rank = 0;
@@ -347,6 +350,22 @@ abstract class article {
 		// par défaut : professionnels
 		if($this->exclureseau === null) $this->exclureseau = "professionnels";
 		return $this->exclureseau;
+	}
+
+	/**
+	 * Get exclureseau
+	 *
+	 * @return string 
+	 */
+	public function getExclu2reseau() {
+		$rr = array();
+		foreach($this->getReseaus() as $r) $rr[] = $r->getNom();
+		if(in_array("grande distribution", $rr)) $this->exclu2reseau = "GRANDE DISTRIBUTION";
+		if(in_array("spécialistes", $rr)) $this->exclu2reseau = "RÉSEAU PROFRESSIONNEL";
+		if(in_array("e-commerce", $rr)) $this->exclu2reseau = "EXCLUSIVITÉ E-BOUTIQUE";
+		// par défaut : professionnels
+		if($this->exclu2reseau === null) $this->exclu2reseau = "RÉSEAU PROFRESSIONNEL";
+		return $this->exclu2reseau;
 	}
 
 	/**
@@ -504,9 +523,25 @@ abstract class article {
 	 * @return article
 	 */
 	public function setNotation($notation) {
+		$notation = intval($notation);
+		if($notation > 5) $notation = 5;
+		if($notation < 0) $notation = 0;
 		$this->notation = $notation;
-	
 		return $this;
+	}
+
+	/**
+	 * 
+	 */
+	public function calculeNotation() {
+		$nbnotes = 0;
+		$totnotes = 0;
+		foreach ($this->getVoteUsers() as $vote) {
+			$nbnotes++;
+			$totnotes += $vote->getNote();
+		}
+		if($nbnotes > 0) $this->setNotation(round($totnotes / $nbnotes, 0, PHP_ROUND_HALF_UP));
+			else $this->setNotation(0);
 	}
 
 	/**
@@ -521,7 +556,7 @@ abstract class article {
 	/**
 	 * Set dateCreation
 	 *
-	 * @param \DateTime $dateCreation
+	 * @param DateTime $dateCreation
 	 * @return article
 	 */
 	public function setDateCreation($dateCreation) {
@@ -533,23 +568,25 @@ abstract class article {
 	/**
 	 * Get dateCreation
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateCreation() {
 		return $this->dateCreation;
 	}
 
 	/**
+	 * @ORM\PrePersist
 	 * @ORM\PreUpdate
 	 */
 	public function updateDateMaj() {
-		$this->setDateMaj(new \Datetime());
+		$this->setDateMaj(new Datetime());
+		$this->calculeNotation();
 	}
 
 	/**
 	 * Set dateMaj
 	 *
-	 * @param \DateTime $dateMaj
+	 * @param DateTime $dateMaj
 	 * @return article
 	 */
 	public function setDateMaj($dateMaj) {
@@ -561,7 +598,7 @@ abstract class article {
 	/**
 	 * Get dateMaj
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateMaj() {
 		return $this->dateMaj;
@@ -570,7 +607,7 @@ abstract class article {
 	/**
 	 * Set dateExpiration
 	 *
-	 * @param \DateTime $dateExpiration
+	 * @param DateTime $dateExpiration
 	 * @return article
 	 */
 	public function setDateExpiration($dateExpiration) {
@@ -582,7 +619,7 @@ abstract class article {
 	/**
 	 * Get dateExpiration
 	 *
-	 * @return \DateTime 
+	 * @return DateTime 
 	 */
 	public function getDateExpiration() {
 		return $this->dateExpiration;

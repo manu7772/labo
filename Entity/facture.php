@@ -152,7 +152,7 @@ abstract class facture {
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(nullable=false, unique=false)
+	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
 	protected $propUser;
 
@@ -450,7 +450,7 @@ abstract class facture {
 			// prix HT de la quantité d'un article
 			$detail[$nom]["prixTHt"] = intval($art["quantite"]) * floatval($art["prix"]) / (1 + ($art["TVA"] / 100));
 			// prix TTC de la quantité d'un article
-			$detail[$nom]["prixTTTC"] = intval($art["quantite"]) * floatval($art["prix"]);
+			$detail[$nom]["prixTTC"] = intval($art["quantite"]) * floatval($art["prix"]);
 		}
 		return $detail;
 	}
@@ -723,7 +723,7 @@ abstract class facture {
 	 * @param \AcmeGroup\UserBundle\Entity\User $propUser
 	 * @return facture
 	 */
-	public function setPropUser(\AcmeGroup\UserBundle\Entity\User $propUser) {
+	public function setPropUser(\AcmeGroup\UserBundle\Entity\User $propUser = null) {
 		$this->propUser = $propUser;
 		return $this;
 	}

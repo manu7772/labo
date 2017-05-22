@@ -9,12 +9,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 // Slug
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use AcmeGroup\LaboBundle\Entity\partenaire;
+
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks()
  */
 abstract class evenement {
 	
+    /**
+     * @var integer
+     *
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
 	protected $id;
 
 	/**
@@ -31,10 +40,10 @@ abstract class evenement {
 	protected $statut;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\partenaire")
+	 * @ORM\ManyToMany(targetEntity="AcmeGroup\LaboBundle\Entity\partenaire", mappedBy="evenements")
 	 * @ORM\JoinColumn(nullable=true, unique=false)
 	 */
-	private $partenaires;
+	protected $partenaires;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="AcmeGroup\LaboBundle\Entity\typeEvenement")
@@ -143,7 +152,6 @@ abstract class evenement {
 		$this->dateMaj = null;
 		$this->dateExpiration = null;
 		$this->imageurl = null;
-		$this->partenaire = null;
 		$this->partenaires = new ArrayCollection();
 		$this->versions = new ArrayCollection();
 	}
@@ -203,22 +211,31 @@ abstract class evenement {
 	/**
 	 * Add partenaire
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\partenaire $partenaire
+	 * @param partenaire $partenaire
 	 * @return evenement
 	 */
-	public function addPartenaire(\AcmeGroup\LaboBundle\Entity\partenaire $partenaire = null) {
-		$this->partenaires[] = $partenaire;
-	
+	public function addPartenaire(partenaire $partenaire = null) {
+		$this->partenaires->add($partenaire);
+		if($partenaire instanceOf partenaire) $partenaire->addEvenement($this);
 		return $this;
+	}
+
+	public function setPartenaires(ArrayCollection $partenaires) {
+		$this->partenaires->clear();
+		foreach ($partenaires as $partenaire) {
+			$this->addPartenaire($partenaire);
+		}
 	}
 
 	/**
 	 * Remove partenaire
 	 *
-	 * @param \AcmeGroup\LaboBundle\Entity\partenaire $partenaire
+	 * @param partenaire $partenaire
 	 */
-	public function removePartenaire(\AcmeGroup\LaboBundle\Entity\partenaire $partenaire) {
-		$this->partenaires->removeElement($partenaire);
+	public function removePartenaire(partenaire $partenaire) {
+		$r = $this->partenaires->removeElement($partenaire);
+		$partenaire->removeEvenement($this);
+		return $r;
 	}
 
 	/**
@@ -474,7 +491,7 @@ abstract class evenement {
 	 * @return evenement
 	 */
 	public function addVersion(\AcmeGroup\LaboBundle\Entity\version $versions) {
-		$this->versions[] = $versions;
+		$this->versions->add($versions);
 	
 		return $this;
 	}

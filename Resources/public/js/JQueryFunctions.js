@@ -228,16 +228,33 @@ jQuery(document).ready(function($) {
 	/* **************************************************** */
 	/* Liens externes -> dans une nouvelle fenêtre
 	/* **************************************************** */
-	$(".URLext").on("click", function(event) {
+	$('body').on("click", ".URLext", function(event) {
 		URL = $(this).attr("href");
-		if(URL == undefined) URL = $(">a", this).first().attr("href");
+		if(URL == undefined) URL = $("a", this).first().attr("href");
 		// alert(URL);
 		window.open(URL);
 		event.preventDefault();
 		return false;
 	});
 
-	$(".JSconfirm").on("click", function(event) {
+	$('body').on('click', '.needConfirm', function(event) {
+		event.preventDefault();
+		// title
+		title = $(this).attr('data-title');
+		if(title == undefined) title = 'Confirmation :';
+		// URL
+		URL = $(this).attr("href");
+		if(URL == undefined) URL = $("a", this).first().attr("href");
+		// Choix
+		reponse = confirm(title);
+		if(reponse == 1) {
+			document.location = URL;
+		} else {
+			return false;
+		}
+	});
+
+	$('body').on("click", ".JSconfirm", function(event) {
 		event.preventDefault();
 		URL = $(this).attr("href");
 		if(URL == undefined) URL = $(">a", this).first().attr("href");

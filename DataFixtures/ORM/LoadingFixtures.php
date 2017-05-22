@@ -8,11 +8,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-define("BASEFOLDER", __DIR__."/../../../../../../../..");
 /*
  * Les fixtures sont des objets qui doivent obligatoireemnt implémenter l'interface FixtureInterface
  */
 class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
+
+	const BASEFOLDER = "/../../../../../../../..";
 
 	private $manager;
 	private $connection;
@@ -28,6 +29,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	private $listOfEnties;
 	private $aetools;
 	private $imagetools;
+	private $baseFolder;
 
 	/**
 	 * {@inheritDoc}
@@ -37,6 +39,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	}
 
 	public function load(ObjectManager $manager) {
+		$this->baseFolder = __DIR__.self::BASEFOLDER;
 		$this->manager = $manager;
 		$this->connection = $this->manager->getConnection();
 		// service text utilities
@@ -132,7 +135,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 	}
 
 	private function loadXML() {
-		$XMLfile = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/xml/".$this->EntityService->getNameFixturesFile();
+		$XMLfile = $this->baseFolder."/src/AcmeGroup/SiteBundle/Resources/public/xml/".$this->EntityService->getNameFixturesFile();
 		if(file_exists($XMLfile)) {
 			printf("XML trouvé : ".$this->EntityService->getNameFixturesFile()."\n");
 			$r = $this->parseX(@simplexml_load_file($XMLfile));
@@ -273,7 +276,7 @@ class LoadingFixtures implements FixtureInterface, ContainerAwareInterface {
 				$file[1] = $file[0];
 				$file[0] = $dossier;
 			} else $dossier = $file[0];
-			$importFile = BASEFOLDER."/src/AcmeGroup/SiteBundle/Resources/public/".$file[0]."/".$file[1];
+			$importFile = $this->baseFolder."/src/AcmeGroup/SiteBundle/Resources/public/".$file[0]."/".$file[1];
 			printf("Import : ".$importFile."\n");
 			if(file_exists($importFile)) {
 				$txt = @file_get_contents($importFile);
